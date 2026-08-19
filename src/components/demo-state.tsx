@@ -1,8 +1,13 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-
-export type Dashboard = "advertiser" | "platform";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 
 export type PlacementStyle = "above" | "below" | "inline" | "loading";
 
@@ -21,11 +26,26 @@ function generateKeyValue() {
   return `kili_live_${Math.random().toString(36).slice(2, 18)}`;
 }
 
+const noopSubscribe = () => () => {};
+const noStoredValue = () => null;
+
+/**
+ * Reads a raw localStorage string, defaulting to `null` during SSR (and on
+ * the client's first render, to match) so hydration never sees a mismatch —
+ * the swap to the real client value happens as part of React's own
+ * useSyncExternalStore machinery instead of a setState-in-effect.
+ */
+function useStoredRaw(key: string) {
+  return useSyncExternalStore(
+    noopSubscribe,
+    () => window.localStorage.getItem(key),
+    noStoredValue
+  );
+}
+
 type DemoState = {
   isNewUser: boolean;
   setIsNewUser: (value: boolean) => void;
-  dashboard: Dashboard;
-  setDashboard: (value: Dashboard) => void;
   forceEmptyStates: boolean;
   setForceEmptyStates: (value: boolean) => void;
   sidebarCollapsed: boolean;
@@ -41,34 +61,40 @@ const DemoStateContext = createContext<DemoState | null>(null);
 
 export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [isNewUser, setIsNewUserState] = useState(false);
-  const [dashboard, setDashboard] = useState<Dashboard>("advertiser");
   const [forceEmptyStates, setForceEmptyStates] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [balance, setBalance] = useState(DEFAULT_BALANCE);
-  const [apiKeys, setApiKeys] = useState<ApiKeyEntry[]>([]);
 
-  // localStorage isn't available during SSR — hydrate from it once mounted.
-  useEffect(() => {
-    const storedBalance = window.localStorage.getItem(BALANCE_STORAGE_KEY);
-    if (storedBalance !== null) setBalance(Number(storedBalance));
+  // Overrides win once set (i.e. after any write this session); until then,
+  // the value read from localStorage on the client is used.
+  const [balanceOverride, setBalanceOverride] = useState<number | null>(null);
+  const [apiKeysOverride, setApiKeysOverride] = useState<ApiKeyEntry[] | null>(null);
 
-    const storedKeys = window.localStorage.getItem(API_KEYS_STORAGE_KEY);
-    if (storedKeys !== null) {
-      try {
-        setApiKeys(JSON.parse(storedKeys));
-      } catch {
-        // ignore malformed storage
-      }
+  const storedBalanceRaw = useStoredRaw(BALANCE_STORAGE_KEY);
+  const storedApiKeysRaw = useStoredRaw(API_KEYS_STORAGE_KEY);
+
+  const storedBalance = useMemo(
+    () => (storedBalanceRaw !== null ? Number(storedBalanceRaw) : DEFAULT_BALANCE),
+    [storedBalanceRaw]
+  );
+  const storedApiKeys = useMemo(() => {
+    if (storedApiKeysRaw === null) return [];
+    try {
+      return JSON.parse(storedApiKeysRaw) as ApiKeyEntry[];
+    } catch {
+      return [];
     }
-  }, []);
+  }, [storedApiKeysRaw]);
+
+  const balance = balanceOverride ?? storedBalance;
+  const apiKeys = apiKeysOverride ?? storedApiKeys;
 
   const persistBalance = (value: number) => {
-    setBalance(value);
+    setBalanceOverride(value);
     window.localStorage.setItem(BALANCE_STORAGE_KEY, String(value));
   };
 
   const persistApiKeys = (keys: ApiKeyEntry[]) => {
-    setApiKeys(keys);
+    setApiKeysOverride(keys);
     window.localStorage.setItem(API_KEYS_STORAGE_KEY, JSON.stringify(keys));
   };
 
@@ -105,8 +131,6 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
       value={{
         isNewUser,
         setIsNewUser,
-        dashboard,
-        setDashboard,
         forceEmptyStates,
         setForceEmptyStates,
         sidebarCollapsed,

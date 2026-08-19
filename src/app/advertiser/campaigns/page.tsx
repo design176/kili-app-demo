@@ -26,10 +26,10 @@ export default function CampaignsPage() {
 
   const handleRowClick = (campaign: Campaign) => {
     if (campaign.status === "Draft") {
-      router.push("/campaigns/new");
+      router.push("/advertiser/campaigns/new");
       return;
     }
-    router.push(`/campaigns/${campaign.id}`);
+    router.push(`/advertiser/campaigns/${campaign.id}`);
   };
 
   return (
@@ -38,7 +38,7 @@ export default function CampaignsPage() {
       pageTitle="Campaigns"
       pageDescription="Every campaign you've created, with live spend and performance."
       pageActions={
-        <Button variant="accent" onClick={() => router.push("/campaigns/new")}>
+        <Button variant="accent" onClick={() => router.push("/advertiser/campaigns/new")}>
           <Plus size={14} weight="bold" />
           Create Campaign
         </Button>
@@ -57,7 +57,7 @@ export default function CampaignsPage() {
         <CampaignTable
           campaigns={campaigns}
           onRowClick={handleRowClick}
-          onCreateNew={() => router.push("/campaigns/new")}
+          onCreateNew={() => router.push("/advertiser/campaigns/new")}
         />
       </div>
 
@@ -65,7 +65,7 @@ export default function CampaignsPage() {
         <CampaignCardGrid
           campaigns={campaigns}
           onManage={handleRowClick}
-          onCreateNew={() => router.push("/campaigns/new")}
+          onCreateNew={() => router.push("/advertiser/campaigns/new")}
         />
       </div>
     </DashboardShell>

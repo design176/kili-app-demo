@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   House,
   Megaphone,
@@ -68,18 +68,18 @@ const platformSections: SidebarNavSection[] = [
 ];
 
 const advertiserRoutes: Record<string, string> = {
-  overview: "/overview",
-  campaigns: "/campaigns",
-  pixel: "/pixel-tracking",
-  billing: "/billing",
-  settings: "/settings",
+  overview: "/advertiser/overview",
+  campaigns: "/advertiser/campaigns",
+  pixel: "/advertiser/pixel-tracking",
+  billing: "/advertiser/billing",
+  settings: "/advertiser/settings",
 };
 
 const platformRoutes: Record<string, string> = {
-  overview: "/overview",
-  integration: "/integration",
-  earnings: "/earnings",
-  settings: "/settings",
+  overview: "/platform/overview",
+  integration: "/platform/integration",
+  earnings: "/platform/earnings",
+  settings: "/platform/settings",
 };
 
 const MOBILE_QUERY = "(max-width: 800px)";
@@ -103,10 +103,11 @@ export function DashboardShell({
   pageActions,
   children,
 }: DashboardShellProps) {
-  const { dashboard, sidebarCollapsed, setSidebarCollapsed, balance, addBalance } = useDemoState();
+  const { sidebarCollapsed, setSidebarCollapsed, balance, addBalance } = useDemoState();
   const router = useRouter();
+  const pathname = usePathname();
   const contentRef = useRef<HTMLDivElement>(null);
-  const isAdvertiser = dashboard === "advertiser";
+  const isAdvertiser = pathname.startsWith("/advertiser");
   const routes = isAdvertiser ? advertiserRoutes : platformRoutes;
 
   // On small screens the sidebar starts collapsed to a rail; expanding it
@@ -162,7 +163,7 @@ export function DashboardShell({
         onLogout={() => router.push("/login")}
         primaryAction={
           isAdvertiser
-            ? { label: "New Campaign", onClick: () => router.push("/campaigns/new") }
+            ? { label: "New Campaign", onClick: () => router.push("/advertiser/campaigns/new") }
             : undefined
         }
         balance={
@@ -171,7 +172,7 @@ export function DashboardShell({
                 label: "Balance",
                 value: formatCurrency(balance),
                 zero: balance === 0,
-                onClick: () => router.push("/billing"),
+                onClick: () => router.push("/advertiser/billing"),
                 onAdd: addBalance,
               }
             : undefined

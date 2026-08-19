@@ -6,28 +6,27 @@ import { Logo } from "@/components/ui/Logo";
 import { Input } from "@/components/ui/Input";
 import { OTPInput } from "@/components/ui/OTPInput";
 import { Button } from "@/components/ui/Button";
-import { useDemoState, type Dashboard } from "@/components/demo-state";
+import { useDemoState } from "@/components/demo-state";
 import styles from "./login.module.css";
 
 type Step = "email" | "otp" | "workspace";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { isNewUser, setDashboard } = useDemoState();
+  const { isNewUser } = useDemoState();
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
 
-  const goToOverview = (dashboard?: Dashboard) => {
-    if (dashboard) setDashboard(dashboard);
-    router.push("/overview");
+  const goToOverview = (workspace: "advertiser" | "platform") => {
+    router.push(`/${workspace}/overview`);
   };
 
   const handleVerified = () => {
     if (isNewUser) {
       setStep("workspace");
     } else {
-      goToOverview();
+      goToOverview("advertiser");
     }
   };
 

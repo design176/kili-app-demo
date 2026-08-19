@@ -102,7 +102,7 @@ export default function CampaignDetailPage() {
       pageTitle={campaign.name}
       pageDescription="Edit ad content, budget, and schedule for this campaign."
       breadcrumb="Campaigns"
-      onBack={() => router.push("/campaigns")}
+      onBack={() => router.push("/advertiser/campaigns")}
     >
       <div className={styles.header}>
         <div className={styles.headerLeft}>

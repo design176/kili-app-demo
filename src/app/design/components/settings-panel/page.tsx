@@ -15,7 +15,7 @@ export default function SettingsPanelPage() {
         <ul style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 2, paddingLeft: 18 }}>
           <li><strong>Dark mode</strong> — same theme toggle as everywhere else.</li>
           <li><strong>New user</strong> — since auth is dummy (any 6-digit code works), this decides whether going through Login/Signup ends in the empty-onboarding path or a populated dashboard. Toggling it navigates straight to /login.</li>
-          <li><strong>Dashboard</strong> — Advertiser/Platform. This is the only workspace switcher in the prototype — Sidebar Nav and Top Bar don&apos;t have their own.</li>
+          <li><strong>Dashboard</strong> — Advertiser/Platform. Advertiser and Platform live under separate route prefixes (<code>/advertiser/*</code>, <code>/platform/*</code>); this switcher jumps to the other workspace&apos;s Overview page.</li>
           <li><strong>Empty states</strong> — forces every page/component&apos;s empty state, independent of New user.</li>
         </ul>
       </div>
@@ -24,8 +24,9 @@ export default function SettingsPanelPage() {
         <div className={styles.sectionTitle}>Try it</div>
         <p className={styles.sectionDesc}>
           Look at the bottom-right corner of your screen right now. Visit{" "}
-          <code>/overview</code> to see the Dashboard and Empty states
-          toggles actually change what renders.
+          <code>/advertiser/overview</code> to see the Empty states toggle
+          actually change what renders, or use the Dashboard switch to jump
+          to <code>/platform/overview</code>.
         </p>
       </div>
     </div>

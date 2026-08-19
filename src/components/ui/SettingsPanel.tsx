@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Gear } from "@phosphor-icons/react";
 import { createPortal } from "react-dom";
 import { Switch } from "./Switch";
 import { Tabs } from "./Tabs";
 import { useDemoState } from "@/components/demo-state";
+import { useMounted } from "@/lib/use-mounted";
 import styles from "./SettingsPanel.module.css";
 
 const dashboardItems = [
@@ -17,19 +18,12 @@ const dashboardItems = [
 
 export function SettingsPanel() {
   const router = useRouter();
+  const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-  const {
-    isNewUser,
-    setIsNewUser,
-    dashboard,
-    setDashboard,
-    forceEmptyStates,
-    setForceEmptyStates,
-  } = useDemoState();
-  const [mounted, setMounted] = useState(false);
+  const { isNewUser, setIsNewUser, forceEmptyStates, setForceEmptyStates } = useDemoState();
+  const mounted = useMounted();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  const dashboard = pathname.startsWith("/platform") ? "platform" : "advertiser";
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -93,7 +87,10 @@ export function SettingsPanel() {
                 <Tabs
                   items={dashboardItems}
                   value={dashboard}
-                  onChange={(v) => setDashboard(v as "advertiser" | "platform")}
+                  onChange={(v) => {
+                    setOpen(false);
+                    router.push(`/${v}/overview`);
+                  }}
                   size="sm"
                 />
               </div>

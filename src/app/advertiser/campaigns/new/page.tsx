@@ -11,12 +11,12 @@ export default function NewCampaignPage() {
 
   const handleLaunch = (draft: CampaignDraft) => {
     console.log("Campaign launched", draft);
-    router.push("/campaigns/camp_6");
+    router.push("/advertiser/campaigns/camp_6");
   };
 
   const handleAddBalance = (draft: CampaignDraft) => {
     console.log("Draft saved, redirecting to billing", draft);
-    router.push("/billing");
+    router.push("/advertiser/billing");
   };
 
   return (
@@ -25,13 +25,13 @@ export default function NewCampaignPage() {
       pageTitle="Create Campaign"
       pageDescription="Set up your ad content, budget, and schedule."
       breadcrumb="Campaigns"
-      onBack={() => router.push("/campaigns")}
+      onBack={() => router.push("/advertiser/campaigns")}
     >
       <div style={{ maxWidth: 480, width: "100%", margin: "0 auto" }}>
         <CreateCampaignWizard
           balance={balance}
           onLaunch={handleLaunch}
-          onCancel={() => router.push("/campaigns")}
+          onCancel={() => router.push("/advertiser/campaigns")}
           onAddBalance={handleAddBalance}
         />
       </div>

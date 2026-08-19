@@ -1,10 +1,16 @@
-import { Fragment } from "react";
-import { Button } from "@/components/ui/Button";
-import styles from "./button-demo.module.css";
-import { ButtonPreview } from "./button-preview";
+import { Fragment } from 'react';
+import { Button } from '@/components/ui/Button';
+import styles from './button-demo.module.css';
+import { ButtonPreview } from './button-preview';
 
-const variants = ["primary", "secondary", "ghost", "destructive", "accent"] as const;
-const sizes = ["sm", "md", "lg", "xl"] as const;
+const variants = [
+  'primary',
+  'secondary',
+  'ghost',
+  'destructive',
+  'accent',
+] as const;
+const sizes = ['sm', 'md', 'lg', 'xl'] as const;
 
 export default function ButtonPage() {
   return (
@@ -13,11 +19,11 @@ export default function ButtonPage() {
       <p className={styles.subtitle}>
         5 variants × 4 sizes, plus a disabled state. Accent/Destructive are a
         glossy colored fill. Primary/Secondary are monochrome and invert with
-        the theme — whichever is black gets the same glossy treatment,
-        whichever is white gets its own gradient/border recipe so it doesn't
-        wash out. Ghost has no background until interacted with. Each preview
-        has its own Default/Hover/Active toggle since real `:hover`/`:active`
-        can't be held on demand.
+        the theme — whichever is black gets the same glossy treatment, whichever
+        is white gets its own gradient/border recipe so it doesn&apos;t wash
+        out. Ghost has no background until interacted with. Each preview has its
+        own Default/Hover/Active toggle since real `:hover`/`:active` can&apos;t
+        be held on demand.
       </p>
 
       <div className={styles.section}>
@@ -43,8 +49,8 @@ export default function ButtonPage() {
       <div className={styles.section}>
         <div className={styles.sectionTitle}>Disabled</div>
         <div className={styles.sectionDesc}>
-          Overrides the variant's color entirely — always the same muted
-          look, regardless of which variant it's disabling.
+          Overrides the variant&apos;s color entirely — always the same muted
+          look, regardless of which variant it&apos;s disabling.
         </div>
         <div className={styles.disabledRow}>
           {variants.map((v) => (

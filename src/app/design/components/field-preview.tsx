@@ -10,11 +10,12 @@ export function FieldPreview<T extends string>({
   center,
 }: {
   states: readonly T[];
-  render: (forceState: T | undefined) => ReactNode;
+  /** First entry in `states` (the unforced baseline, e.g. "default") never reaches `render` — it comes through as `undefined`. */
+  render: (forceState: Exclude<T, T[0]> | undefined) => ReactNode;
   center?: boolean;
 }) {
   const [state, setState] = useState<T>(states[0]);
-  const forced = state === states[0] ? undefined : state;
+  const forced = state === states[0] ? undefined : (state as Exclude<T, T[0]>);
 
   return (
     <div className={`${styles.cell} ${center ? styles.cellCenter : ""}`}>
