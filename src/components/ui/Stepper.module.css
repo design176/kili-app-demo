@@ -1,0 +1,15 @@
+.stepper {
+  display: flex;
+  gap: 6px;
+}
+
+.segment {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-surface-4);
+}
+
+.segmentFilled {
+  background: var(--color-brand);
+}

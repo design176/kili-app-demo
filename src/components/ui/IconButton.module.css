@@ -1,0 +1,32 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sm {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.md {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+
+.lg {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.dangerHover:hover,
+.dangerHover[data-force="hover"] {
+  color: var(--color-danger) !important;
+  background: var(--color-danger-soft) !important;
+}

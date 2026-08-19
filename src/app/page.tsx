@@ -1,69 +1,50 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
+import { Button } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div
+      style={{
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        gap: "24px",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        padding: "80px",
+      }}
+    >
+      <Logo height={28} />
+      <h1
+        style={{
+          fontFamily: "var(--font-heading)",
+          fontSize: "40px",
+          fontWeight: 700,
+          color: "var(--color-text-primary)",
+        }}
+      >
+        App shell is set up
+      </h1>
+      <p
+        style={{
+          fontFamily: "var(--font-body)",
+          fontSize: "16px",
+          color: "var(--color-text-secondary)",
+          maxWidth: "480px",
+        }}
+      >
+        Colors, typography, and light/dark theming are wired up via CSS
+        variables and next-themes. The IA and full component library live
+        under Design.
+      </p>
+      <div style={{ display: "flex", gap: "12px" }}>
+        <Link href="/design">
+          <Button variant="primary">Open Design</Button>
+        </Link>
+        <ThemeToggle />
+      </div>
     </div>
   );
 }

@@ -1,0 +1,88 @@
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.cornerTooltip {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-3);
+  color: var(--color-icon-secondary);
+  flex-shrink: 0;
+}
+
+.divider {
+  border: none;
+  border-top: 1px dashed var(--color-border);
+  margin: 0;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.value {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.trendUp {
+  color: var(--color-chart-positive);
+}
+
+.trendDown {
+  color: var(--color-chart-negative);
+}
+
+.trendPercent {
+  font-weight: 500;
+}
+
+.comparisonLabel {
+  color: var(--color-text-subtle);
+  font-weight: 400;
+}
+
+.sparkline {
+  flex-shrink: 0;
+}

@@ -1,0 +1,52 @@
+.track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 34px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 999px;
+  border: none;
+  background: var(--color-control-border);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.track:hover,
+.track[data-force="hover"] {
+  background: var(--color-control-border-hover);
+}
+
+.track:focus-visible,
+.track[data-force="focus"] {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.track:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.15s ease;
+}
+
+.on {
+  background: var(--color-brand);
+}
+
+.on:hover,
+.on[data-force="hover"] {
+  background: var(--color-brand-hover);
+}
+
+.on .thumb {
+  transform: translateX(14px);
+}

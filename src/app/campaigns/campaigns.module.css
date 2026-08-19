@@ -1,0 +1,23 @@
+.viewToggle {
+  display: inline-flex;
+  margin-bottom: -16px;
+}
+
+.tableView[data-active="false"],
+.cardsView[data-active="false"] {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .viewToggle {
+    display: none;
+  }
+
+  .tableView {
+    display: none !important;
+  }
+
+  .cardsView {
+    display: block !important;
+  }
+}

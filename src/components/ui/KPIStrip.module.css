@@ -1,0 +1,23 @@
+.strip {
+  display: grid;
+  grid-template-columns: repeat(var(--kpi-columns, 3), 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1380px) {
+  .strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .strip {
+    grid-template-columns: 1fr;
+  }
+}

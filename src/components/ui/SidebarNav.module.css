@@ -1,0 +1,326 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  max-width: 200px;
+  height: 100%;
+  transition: width 0.15s ease;
+}
+
+.collapsed {
+  width: 48px;
+}
+
+@media (max-width: 800px) {
+  /* Always fixed at this width, collapsed or not, so the sidebar never
+     participates in .shell's flex layout — only its own width animates
+     (48px rail <-> 200px drawer), instead of .main jumping when the rail's
+     flow-width would otherwise change. */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    border-right: 1px solid var(--color-border);
+    background: var(--color-page);
+  }
+
+  .sidebar:not(.collapsed) {
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+
+.collapsed .header {
+  justify-content: center;
+  padding: 0;
+}
+
+.nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.collapsed .nav {
+  padding: 8px;
+  align-items: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sectionLabel {
+  padding: 8px 10px 4px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-subtle);
+}
+
+.divider {
+  margin: 8px 4px;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.collapsed .item {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  justify-content: center;
+}
+
+.item:hover {
+  background: var(--color-hover);
+  color: var(--color-text-primary);
+}
+
+.itemActive {
+  background: var(--color-surface-3);
+  color: var(--color-brand-text);
+}
+
+.itemActive:hover {
+  background: var(--color-surface-4);
+  color: var(--color-brand-text);
+}
+
+.itemActive::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--color-brand);
+}
+
+.collapsed .itemActive::before {
+  left: -8px;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 0 6px 12px;
+}
+
+.collapsed .footer {
+  padding: 0 8px 12px;
+  align-items: center;
+}
+
+.primaryAction {
+  width: 100%;
+}
+
+.balanceCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  font-family: var(--font-body);
+  text-align: left;
+}
+
+.balanceCardClickable {
+  cursor: pointer;
+}
+
+.balanceCardClickable:hover {
+  background: var(--color-hover);
+}
+
+.balanceCardDanger {
+  border-color: var(--color-danger-border);
+  background: var(--color-danger-soft);
+}
+
+.balanceCardDanger .balanceLabel,
+.balanceCardDanger .balanceValue {
+  color: var(--color-danger-text);
+}
+
+.balanceCardDanger .balanceIconBadge {
+  border-color: var(--color-danger-border);
+  background: var(--color-danger-border);
+  color: var(--color-danger-text);
+}
+
+.balanceCardDanger.balanceCardClickable:hover {
+  background: var(--color-danger-soft);
+  border-color: var(--color-danger-border);
+  filter: brightness(1.08);
+}
+
+.balanceIconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-3);
+  color: var(--color-icon-secondary);
+}
+
+button.balanceIconBadge {
+  cursor: pointer;
+}
+
+button.balanceIconBadge:hover {
+  background: var(--color-hover);
+}
+
+.balanceText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.balanceLabel {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--color-text-subtle);
+}
+
+.balanceValue {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accountTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 8px 4px 4px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+}
+
+.collapsed .accountTrigger {
+  width: auto;
+  padding: 4px;
+}
+
+.accountTrigger:hover {
+  background: var(--color-hover);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-brand);
+  color: var(--color-on-brand);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.accountName {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  color: var(--color-icon-muted);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.menu {
+  min-width: 160px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-overlay);
+  box-shadow: var(--shadow-md);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 8px;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background: var(--color-hover);
+}

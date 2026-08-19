@@ -1,0 +1,65 @@
+.topRow {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 1200px) {
+  .topRow {
+    flex-direction: column;
+  }
+}
+
+.summaryCard,
+.payoutCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.summaryLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.summaryValue {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.summarySub {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.payoutRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-text-primary);
+}
+
+.editForm {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.editForm > *:first-child {
+  flex: 1;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}

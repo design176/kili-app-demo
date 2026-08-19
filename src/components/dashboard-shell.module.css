@@ -1,0 +1,57 @@
+.shell {
+  display: flex;
+  height: 100vh;
+  padding: 12px;
+  background: var(--color-canvas);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-left: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-page);
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.backdrop {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .shell {
+    padding: 0;
+  }
+
+  .main {
+    /* The sidebar is always fixed-positioned at this width (see
+       SidebarNav.module.css), so it no longer reserves its own flex space —
+       reserve the collapsed rail's 48px here instead, permanently, so
+       opening/closing the sidebar (which only changes its own width) never
+       shifts .main. */
+    margin-left: 48px;
+    border: none;
+    border-radius: 0;
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: var(--color-overlay);
+    z-index: 49;
+  }
+}

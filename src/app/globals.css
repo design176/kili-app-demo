@@ -1,13 +1,478 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Typography */
+  --font-heading: "Satoshi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Work Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* -------------------------------------------------
+     BACKGROUNDS
+  ------------------------------------------------- */
+
+  --color-bg: #FFFFFF;
+  --color-bg-subtle: #FAFAFA;
+  --color-bg-muted: #F7F7F8;
+
+  --color-surface-1: #FCFCFD;
+  --color-surface-2: #F9FAFB;
+  --color-surface-3: #F2F4F7;
+  --color-surface-4: #EAECF0;
+
+  --color-surface-raised: #FFFFFF;
+  --color-surface-overlay: #FFFFFF;
+
+  --color-hover: #F2F4F7;
+  --color-active: #EAECF0;
+  --color-selected: #ECFDF3;
+  --color-disabled-bg: #F2F4F7;
+
+  /* Dashboard shell only: canvas is the muted surround, page is the
+     elevated card floating on it. Dedicated tokens (not reused generic
+     surface tokens) so dark mode can invert which one is darker without
+     a component-level theme override. */
+  --color-canvas: #FAFAFA;
+  --color-page: #FCFCFD;
+
+  /* -------------------------------------------------
+     BORDERS / DIVIDERS
+  ------------------------------------------------- */
+
+  --color-border-subtle: #F0F1F2;
+  --color-border: #E4E7EC;
+  --color-border-strong: #D0D5DD;
+  --color-border-emphasis: #98A2B3;
+
+  /* -------------------------------------------------
+     TEXT
+  ------------------------------------------------- */
+
+  --color-text-primary: #101828;
+  --color-text-secondary: #344054;
+  --color-text-tertiary: #475467;
+  --color-text-muted: #667085;
+  --color-text-subtle: #98A2B3;
+  --color-text-disabled: #B2B8C2;
+  --color-text-inverse: #FFFFFF;
+
+  /* -------------------------------------------------
+     ICONS
+  ------------------------------------------------- */
+
+  --color-icon-primary: #344054;
+  --color-icon-secondary: #667085;
+  --color-icon-muted: #98A2B3;
+  --color-icon-disabled: #B2B8C2;
+  --color-icon-inverse: #FFFFFF;
+
+  /* -------------------------------------------------
+     BRAND / PRIMARY INTERACTION
+  ------------------------------------------------- */
+
+  --color-brand: #16A34A;
+  --color-brand-hover: #15803D;
+  --color-brand-active: #166534;
+  --color-brand-disabled: #86D9A2;
+
+  --color-brand-soft: #ECFDF3;
+  --color-brand-soft-hover: #D1FADF;
+  --color-brand-soft-active: #ABEFC6;
+
+  --color-brand-border: #ABEFC6;
+  --color-brand-text: #067647;
+  --color-on-brand: #FFFFFF;
+
+  --color-focus: #16A34A;
+  --color-focus-ring: rgba(22, 163, 74, 0.28);
+
+  /* -------------------------------------------------
+     SUCCESS
+  ------------------------------------------------- */
+
+  --color-success: #15803D;
+  --color-success-hover: #166534;
+  --color-success-soft: #ECFDF3;
+  --color-success-border: #ABEFC6;
+  --color-success-text: #067647;
+
+  /* -------------------------------------------------
+     WARNING
+  ------------------------------------------------- */
+
+  --color-warning: #DF7700;
+  --color-warning-hover: #BD5200;
+  --color-warning-soft: #FFFAEB;
+  --color-warning-border: #FFDF88;
+  --color-warning-text: #C2660A;
+
+  /* -------------------------------------------------
+     DANGER / ERROR
+  ------------------------------------------------- */
+
+  --color-danger: #EA1818;
+  --color-danger-hover: #C51010;
+  --color-danger-soft: #FEF3F2;
+  --color-danger-border: #FFCCC9;
+  --color-danger-text: #E23F3F;
+
+  /* -------------------------------------------------
+     INFO
+  ------------------------------------------------- */
+
+  --color-info: #165DFA;
+  --color-info-hover: #0F47E6;
+  --color-info-soft: #EFF6FF;
+  --color-info-border: #BEDBFF;
+  --color-info-text: #2F86EB;
+
+  /* -------------------------------------------------
+     PURPLE
+  ------------------------------------------------- */
+
+  --color-purple: #6D5CE0;
+  --color-purple-hover: #5A48D6;
+  --color-purple-soft: #EDEAFB;
+  --color-purple-border: #D9D2F7;
+  --color-purple-text: #5A48D6;
+
+  /* -------------------------------------------------
+     AMBER
+  ------------------------------------------------- */
+
+  --color-amber: #C9930B;
+  --color-amber-hover: #A87A08;
+  --color-amber-soft: #FBF3D9;
+  --color-amber-border: #F0DFA0;
+  --color-amber-text: #A87A08;
+
+  /* -------------------------------------------------
+     CHART / DATA VISUALIZATION
+  ------------------------------------------------- */
+
+  --color-chart-green: #16A34A;
+  --color-chart-blue: #165DFA;
+  --color-chart-purple: #6D5CE0;
+  --color-chart-amber: #C9930B;
+  --color-chart-orange: #DF7700;
+  --color-chart-cyan: #0096BA;
+  --color-chart-pink: #E81975;
+
+  --color-chart-neutral-1: #D0D5DD;
+  --color-chart-neutral-2: #98A2B3;
+  --color-chart-neutral-3: #667085;
+
+  --color-chart-grid: #EAECF0;
+  --color-chart-axis: #98A2B3;
+  --color-chart-label: #667085;
+
+  --color-chart-positive: #16A34A;
+  --color-chart-negative: #EA1818;
+  --color-chart-warning: #DF7700;
+
+  /* -------------------------------------------------
+     TABLE / LIST STATE COLORS
+  ------------------------------------------------- */
+
+  --color-row-hover: #F9FAFB;
+  --color-row-selected: #ECFDF3;
+  --color-row-divider: #EAECF0;
+
+  /* -------------------------------------------------
+     FORM / CONTROL STATE COLORS
+  ------------------------------------------------- */
+
+  --color-control-bg: #FFFFFF;
+  --color-control-bg-hover: #FCFCFD;
+  --color-control-bg-disabled: #F2F4F7;
+
+  --color-control-border: #D0D5DD;
+  --color-control-border-hover: #98A2B3;
+  --color-control-border-focus: #16A34A;
+  --color-control-border-error: #DC2626;
+
+  --color-control-text: #101828;
+  --color-control-placeholder: #98A2B3;
+
+  /* -------------------------------------------------
+     TOOLTIP / MENU / POPOVER
+  ------------------------------------------------- */
+
+  --color-floating-bg: #18181B;
+  --color-floating-text: #FAFAFA;
+  --color-floating-muted: #D4D4D8;
+  --color-floating-border: #27272A;
+
+  /* -------------------------------------------------
+     OVERLAYS
+  ------------------------------------------------- */
+
+  --color-overlay: rgba(24, 24, 27, 0.44);
+  --color-overlay-heavy: rgba(24, 24, 27, 0.62);
+
+  /* -------------------------------------------------
+     SCROLLBARS
+  ------------------------------------------------- */
+
+  --color-scrollbar-track: transparent;
+  --color-scrollbar-thumb: #D0D5DD;
+  --color-scrollbar-thumb-hover: #98A2B3;
+
+  /* -------------------------------------------------
+     SHADOWS
+  ------------------------------------------------- */
+
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-sm:
+    0 1px 3px rgba(16, 24, 40, 0.08),
+    0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md:
+    0 4px 8px -2px rgba(16, 24, 40, 0.10),
+    0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg:
+    0 12px 24px -8px rgba(16, 24, 40, 0.14);
+
+  /* -------------------------------------------------
+     BUTTON MONOCHROME
+     Two fixed recipes, not theme-specific — Button.module.css decides which
+     of Primary/Secondary points to which one, per theme.
+  ------------------------------------------------- */
+
+  --btn-mono-dark-fill: #18181b;
+  --btn-mono-dark-fill-hover: #262626;
+  --btn-mono-dark-fill-active: #000000;
+  --btn-mono-dark-text: #ffffff;
+
+  --btn-mono-light-top: #ffffff;
+  --btn-mono-light-bottom: #f6f6f6;
+  --btn-mono-light-hover-bottom: #efefef;
+  --btn-mono-light-active-top: #f6f6f6;
+  --btn-mono-light-active-bottom: #ededed;
+  --btn-mono-light-border: #ffffff;
+  --btn-mono-light-ring: #ededed;
+  --btn-mono-light-text: #18181b;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* -------------------------------------------------
+     BACKGROUNDS
+  ------------------------------------------------- */
+
+  --color-bg: #000000;
+  --color-bg-subtle: #050506;
+  --color-bg-muted: #08080A;
+
+  --color-surface-1: #0A0A0C;
+  --color-surface-2: #0F0F11;
+  --color-surface-3: #151517;
+  --color-surface-4: #1E1E21;
+
+  --color-surface-raised: #151517;
+  --color-surface-overlay: #1A1A1D;
+
+  --color-hover: #151517;
+  --color-active: #1E1E21;
+  --color-selected: #0F2818;
+  --color-disabled-bg: #151517;
+
+  /* Inverted vs. light: the page card is the darkest surface, the canvas
+     around it is a step lighter. */
+  --color-canvas: #0F0F11;
+  --color-page: #000000;
+
+  /* -------------------------------------------------
+     BORDERS / DIVIDERS
+  ------------------------------------------------- */
+
+  --color-border-subtle: #202023;
+  --color-border: #27272A;
+  --color-border-strong: #3F3F46;
+  --color-border-emphasis: #71717A;
+
+  /* -------------------------------------------------
+     TEXT
+  ------------------------------------------------- */
+
+  --color-text-primary: #FAFAFA;
+  --color-text-secondary: #E4E4E7;
+  --color-text-tertiary: #D4D4D8;
+  --color-text-muted: #A1A1AA;
+  --color-text-subtle: #71717A;
+  --color-text-disabled: #52525B;
+  --color-text-inverse: #09090B;
+
+  /* -------------------------------------------------
+     ICONS
+  ------------------------------------------------- */
+
+  --color-icon-primary: #E4E4E7;
+  --color-icon-secondary: #A1A1AA;
+  --color-icon-muted: #71717A;
+  --color-icon-disabled: #52525B;
+  --color-icon-inverse: #09090B;
+
+  /* -------------------------------------------------
+     BRAND / PRIMARY INTERACTION
+  ------------------------------------------------- */
+
+  --color-brand: #16A34A;
+  --color-brand-hover: #22C55E;
+  --color-brand-active: #15803D;
+  --color-brand-disabled: #166534;
+
+  --color-brand-soft: #143821;
+  --color-brand-soft-hover: #14532D;
+  --color-brand-soft-active: #166534;
+
+  --color-brand-border: #166534;
+  --color-brand-text: #86EFAC;
+  --color-on-brand: #FFFFFF;
+
+  --color-focus: #22C55E;
+  --color-focus-ring: rgba(34, 197, 94, 0.40);
+
+  /* -------------------------------------------------
+     SUCCESS
+  ------------------------------------------------- */
+
+  --color-success: #22C55E;
+  --color-success-hover: #4ADE80;
+  --color-success-soft: #123D26;
+  --color-success-border: #166534;
+  --color-success-text: #86EFAC;
+
+  /* -------------------------------------------------
+     WARNING
+  ------------------------------------------------- */
+
+  --color-warning: #FFC120;
+  --color-warning-hover: #FFD54A;
+  --color-warning-soft: #3B2909;
+  --color-warning-border: #783F0B;
+  --color-warning-text: #FFB454;
+
+  /* -------------------------------------------------
+     DANGER / ERROR
+  ------------------------------------------------- */
+
+  --color-danger: #FF3333;
+  --color-danger-hover: #FF4D4D;
+  --color-danger-soft: #441A1A;
+  --color-danger-border: #861616;
+  --color-danger-text: #FF8080;
+
+  /* -------------------------------------------------
+     INFO
+  ------------------------------------------------- */
+
+  --color-info: #5BA4FF;
+  --color-info-hover: #91C5FF;
+  --color-info-soft: #172554;
+  --color-info-border: #133ABA;
+  --color-info-text: #7CB8FF;
+
+  /* -------------------------------------------------
+     PURPLE
+  ------------------------------------------------- */
+
+  --color-purple: #A79CF0;
+  --color-purple-hover: #BFB6F5;
+  --color-purple-soft: #211B3D;
+  --color-purple-border: #4A3F80;
+  --color-purple-text: #BFB6F5;
+
+  /* -------------------------------------------------
+     AMBER
+  ------------------------------------------------- */
+
+  --color-amber: #E0C355;
+  --color-amber-hover: #EDD98A;
+  --color-amber-soft: #332C13;
+  --color-amber-border: #6B5A1F;
+  --color-amber-text: #EDD98A;
+
+  /* -------------------------------------------------
+     CHART / DATA VISUALIZATION
+  ------------------------------------------------- */
+
+  --color-chart-green: #16A34A;
+  --color-chart-blue: #5BA4FF;
+  --color-chart-purple: #A79CF0;
+  --color-chart-amber: #E0C355;
+  --color-chart-orange: #FFC120;
+  --color-chart-cyan: #13DEFD;
+  --color-chart-pink: #FE68B6;
+
+  --color-chart-neutral-1: #52525B;
+  --color-chart-neutral-2: #71717A;
+  --color-chart-neutral-3: #A1A1AA;
+
+  --color-chart-grid: #27272A;
+  --color-chart-axis: #52525B;
+  --color-chart-label: #A1A1AA;
+
+  --color-chart-positive: #22C55E;
+  --color-chart-negative: #FF3333;
+  --color-chart-warning: #FFC120;
+
+  /* -------------------------------------------------
+     TABLE / LIST STATE COLORS
+  ------------------------------------------------- */
+
+  --color-row-hover: #171719;
+  --color-row-selected: #143821;
+  --color-row-divider: #202023;
+
+  /* -------------------------------------------------
+     FORM / CONTROL STATE COLORS
+  ------------------------------------------------- */
+
+  --color-control-bg: #111214;
+  --color-control-bg-hover: #171719;
+  --color-control-bg-disabled: #1D1D20;
+
+  --color-control-border: #3F3F46;
+  --color-control-border-hover: #52525B;
+  --color-control-border-focus: #16A34A;
+  --color-control-border-error: #F87171;
+
+  --color-control-text: #FAFAFA;
+  --color-control-placeholder: #71717A;
+
+  /* -------------------------------------------------
+     TOOLTIP / MENU / POPOVER
+  ------------------------------------------------- */
+
+  --color-floating-bg: #FAFAFA;
+  --color-floating-text: #18181B;
+  --color-floating-muted: #52525B;
+  --color-floating-border: #E4E4E7;
+
+  /* -------------------------------------------------
+     OVERLAYS
+  ------------------------------------------------- */
+
+  --color-overlay: rgba(0, 0, 0, 0.64);
+  --color-overlay-heavy: rgba(0, 0, 0, 0.78);
+
+  /* -------------------------------------------------
+     SCROLLBARS
+  ------------------------------------------------- */
+
+  --color-scrollbar-track: transparent;
+  --color-scrollbar-thumb: #3F3F46;
+  --color-scrollbar-thumb-hover: #52525B;
+
+  /* -------------------------------------------------
+     SHADOWS
+  ------------------------------------------------- */
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.30);
+  --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.42);
 }
 
 html {
@@ -24,11 +489,20 @@ body {
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
 }
 
 * {
@@ -40,10 +514,4 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }

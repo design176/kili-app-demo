@@ -1,0 +1,98 @@
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.neutral {
+  background: var(--color-surface-3);
+  color: var(--color-icon-secondary);
+}
+
+.info {
+  background: var(--color-info-border);
+  color: var(--color-info-text);
+}
+
+.warning {
+  background: var(--color-warning-border);
+  color: var(--color-warning-text);
+}
+
+.success {
+  background: var(--color-success-border);
+  color: var(--color-success-text);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rowTitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.description {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.time {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  margin-top: 6px;
+  white-space: nowrap;
+}
+
+.empty {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  border: 1px dashed var(--color-border);
+  border-radius: 14px;
+}
