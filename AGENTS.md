@@ -21,7 +21,7 @@ Every UI element (atom, molecule, or organism) lives in `src/components/ui/` and
 
 # What this project is
 
-A UI/UX-only prototype (no real backend) for **Kili**, a direct competitor to Gravity (trygravity.ai — "the ad network for AI"). There are two dashboards, **Advertiser** and **Platform**, each under its own route prefix but sharing the same `DashboardShell`/`SidebarNav` component. The pink gear FAB bottom-right (`SettingsPanel`) switches between them (navigates to the other workspace's Overview) and also has New user / Empty states toggles for exercising other states. `Option/Alt+D` toggles light/dark theme.
+A UI/UX-only prototype (no real backend) for **Kili** , There are two dashboards, **Advertiser** and **Platform**, each under its own route prefix but sharing the same `DashboardShell`/`SidebarNav` component. The pink gear FAB bottom-right (`SettingsPanel`) switches between them (navigates to the other workspace's Overview) and also has New user / Empty states toggles for exercising other states. `Option/Alt+D` toggles light/dark theme.
 
 Real app screens live under `src/app/advertiser/*` (`overview`, `campaigns` + `[id]` detail + `new` wizard, `billing`, `pixel-tracking`, `settings`) and `src/app/platform/*` (`overview`, `integration`, `earnings`, `settings`), plus `src/app/login`. `DashboardShell` derives which workspace it's rendering from the URL (`usePathname().startsWith("/advertiser")`) rather than from any global state — so a page's route, not a toggle, decides which sidebar sections and nav routes it gets. There is **no standalone `/placement` route** — ad placement config was folded into Integration's "Create API key" modal (`CreateApiKeyModal`), shown per-key, not as a global setting.
 
@@ -34,7 +34,8 @@ Mock fixtures live in `src/lib/mock-data.ts` (single source so values agree acro
 # Responsive convention
 
 Two breakpoints used consistently app-wide — match these rather than inventing new ones:
-- **≤1200px ("tablet")**: page *content* reflows (multi-column rows stack to `flex-direction: column`, remember `align-items: stretch` when doing so or children shrink-to-content instead of filling width) — the shell/sidebar are untouched.
+
+- **≤1200px ("tablet")**: page _content_ reflows (multi-column rows stack to `flex-direction: column`, remember `align-items: stretch` when doing so or children shrink-to-content instead of filling width) — the shell/sidebar are untouched.
 - **≤800px ("mobile")**: shell changes. `DashboardShell`'s `.shell` loses its padding and `.main` loses its border/radius (the page becomes edge-to-edge). The sidebar (`SidebarNav`) is **always `position: fixed`** at this width (collapsed 48px rail or expanded 200px overlay drawer, both fixed — never in-flow) so it never participates in the flex layout; `.main` gets a permanent `margin-left: 48px` gutter instead. Don't let a "collapsed" and "expanded" state differ in flow-participation (one fixed, one static) — that's what causes layout-jump bugs.
 
 # Chart components
