@@ -16,18 +16,6 @@ const pages = [
     desc: "Every UI atom/molecule/organism needed to build the screens above.",
     available: true,
   },
-  {
-    href: "/design/flows",
-    label: "Flows",
-    desc: "Step-by-step user flows through the screens above.",
-    available: false,
-  },
-  {
-    href: "/design/wireframes",
-    label: "Wireframes",
-    desc: "Low-fidelity layouts for each screen.",
-    available: false,
-  },
 ];
 
 export default function DesignPage() {
