@@ -182,6 +182,14 @@ export const catalog: ComponentEntry[] = [
     status: "built",
   },
   {
+    slug: "code-block",
+    name: "Code Block",
+    category: "Molecule",
+    desc: "Small label above a Copy Field — stacks multiple labeled snippets in sequence.",
+    usedIn: ["Pixel Tracking — install snippet", "Platform Integration — install snippet"],
+    status: "built",
+  },
+  {
     slug: "trend-chart",
     name: "Trend Chart",
     category: "Molecule",

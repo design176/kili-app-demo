@@ -69,10 +69,21 @@
   gap: 4px;
 }
 
+.chartRow {
+  display: flex;
+  margin-top: 12px;
+}
+
+.axisCol {
+  position: relative;
+  width: 44px;
+  flex-shrink: 0;
+}
+
 .chartArea {
   position: relative;
-  width: 100%;
-  margin-top: 12px;
+  flex: 1;
+  min-width: 0;
   cursor: crosshair;
 }
 
@@ -88,20 +99,15 @@
   stroke-width: 1;
 }
 
-.axisLabels {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
 .axisLabel {
   position: absolute;
-  left: 0;
+  right: 8px;
   transform: translateY(-50%);
   font-size: 12px;
   font-family: var(--font-body);
   color: var(--color-chart-label);
   white-space: nowrap;
+  pointer-events: none;
 }
 
 .line {

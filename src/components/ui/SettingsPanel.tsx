@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Gear } from "@phosphor-icons/react";
 import { createPortal } from "react-dom";
@@ -11,14 +11,36 @@ import { useDemoState } from "@/components/demo-state";
 import { useMounted } from "@/lib/use-mounted";
 import styles from "./SettingsPanel.module.css";
 
-const dashboardItems = [
-  { value: "advertiser", label: "Advertiser" },
-  { value: "platform", label: "Platform" },
+const panelTabs = [
+  { value: "settings", label: "Settings" },
+  { value: "routes", label: "Routes" },
+];
+
+const routeGroups = [
+  {
+    label: "Dashboards",
+    routes: [
+      { href: "/advertiser/overview", label: "Advertiser" },
+      { href: "/platform/overview", label: "Platform" },
+    ],
+  },
+  {
+    label: "Auth",
+    routes: [{ href: "/login", label: "Login" }],
+  },
+  {
+    label: "Design",
+    routes: [
+      { href: "/design", label: "Design home" },
+      { href: "/design/ia", label: "IA" },
+      { href: "/design/components", label: "Components" },
+      { href: "/design/changelog", label: "Changelog" },
+    ],
+  },
 ];
 
 export function SettingsPanel() {
   const router = useRouter();
-  const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const {
     isNewUser,
@@ -27,10 +49,12 @@ export function SettingsPanel() {
     setForceEmptyStates,
     forceLoadingStates,
     setForceLoadingStates,
+    resetBalance,
+    clearApiKeys,
   } = useDemoState();
   const mounted = useMounted();
   const [open, setOpen] = useState(false);
-  const dashboard = pathname.startsWith("/platform") ? "platform" : "advertiser";
+  const [panelTab, setPanelTab] = useState("settings");
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -60,65 +84,93 @@ export function SettingsPanel() {
         createPortal(
           <div className={styles.backdrop} onClick={() => setOpen(false)}>
             <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
-              <div className={styles.title}>Settings</div>
+              <Tabs
+                items={panelTabs}
+                value={panelTab}
+                onChange={setPanelTab}
+                size="sm"
+                className={styles.panelTabs}
+              />
 
-              <div className={styles.row}>
-                <span className={styles.rowLabel}>Dark mode</span>
-                <Switch
-                  checked={theme === "dark"}
-                  onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-                />
-              </div>
+              {panelTab === "settings" ? (
+                <>
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Dark mode</span>
+                    <Switch
+                      checked={theme === "dark"}
+                      onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+                    />
+                  </div>
 
-              <div className={styles.divider} />
+                  <div className={styles.divider} />
 
-              <div className={styles.row}>
-                <span className={styles.rowLabel}>New user</span>
-                <Switch
-                  checked={isNewUser}
-                  onCheckedChange={(checked) => {
-                    setIsNewUser(checked);
-                    setOpen(false);
-                    router.push("/login");
-                  }}
-                />
-              </div>
-              <p className={styles.rowHint}>
-                Dummy auth — any 6-digit code works. This just decides
-                whether the login/signup screen ends in the empty-onboarding
-                path or a populated dashboard.
-              </p>
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>New user</span>
+                    <Switch checked={isNewUser} onCheckedChange={setIsNewUser} />
+                  </div>
+                  <p className={styles.rowHint}>
+                    Simulates a fresh signup — resets balance and API keys to
+                    zero/empty. Doesn&apos;t navigate anywhere; visit Login
+                    yourself (Routes tab) to see the empty-onboarding path.
+                  </p>
 
-              <div className={styles.row}>
-                <span className={styles.rowLabel}>Dashboard</span>
-                <Tabs
-                  items={dashboardItems}
-                  value={dashboard}
-                  onChange={(v) => {
-                    setOpen(false);
-                    router.push(`/${v}/overview`);
-                  }}
-                  size="sm"
-                />
-              </div>
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Empty states</span>
+                    <Switch checked={forceEmptyStates} onCheckedChange={setForceEmptyStates} />
+                  </div>
+                  <p className={styles.rowHint}>
+                    Forces every page/component&apos;s empty state, independent
+                    of the New user toggle.
+                  </p>
 
-              <div className={styles.row}>
-                <span className={styles.rowLabel}>Empty states</span>
-                <Switch checked={forceEmptyStates} onCheckedChange={setForceEmptyStates} />
-              </div>
-              <p className={styles.rowHint}>
-                Forces every page/component&apos;s empty state, independent
-                of the New user toggle.
-              </p>
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Loading states</span>
+                    <Switch checked={forceLoadingStates} onCheckedChange={setForceLoadingStates} />
+                  </div>
+                  <p className={styles.rowHint}>
+                    Forces every page&apos;s loading skeleton, independent of the
+                    other toggles above.
+                  </p>
 
-              <div className={styles.row}>
-                <span className={styles.rowLabel}>Loading states</span>
-                <Switch checked={forceLoadingStates} onCheckedChange={setForceLoadingStates} />
-              </div>
-              <p className={styles.rowHint}>
-                Forces every page&apos;s loading skeleton, independent of the
-                other toggles above.
-              </p>
+                  <div className={styles.divider} />
+
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Balance</span>
+                    <button type="button" className={styles.resetButton} onClick={resetBalance}>
+                      Reset to $0
+                    </button>
+                  </div>
+
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>API keys</span>
+                    <button type="button" className={styles.resetButton} onClick={clearApiKeys}>
+                      Clear all
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className={styles.routeList}>
+                  {routeGroups.map((group, i) => (
+                    <div key={group.label}>
+                      {i > 0 && <div className={styles.divider} />}
+                      <span className={styles.routeGroupLabel}>{group.label}</span>
+                      {group.routes.map((route) => (
+                        <button
+                          key={route.href}
+                          type="button"
+                          className={styles.routeLink}
+                          onClick={() => {
+                            setOpen(false);
+                            router.push(route.href);
+                          }}
+                        >
+                          {route.label}
+                        </button>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>,
           document.body

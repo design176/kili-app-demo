@@ -45,13 +45,6 @@ export function HistoryTable(props: HistoryTableProps) {
     [entries]
   );
 
-  const nextScheduledId =
-    type === "payout"
-      ? entries
-          .filter((e) => e.status === "Scheduled")
-          .sort((a, b) => a.date.getTime() - b.date.getTime())[0]?.id
-      : undefined;
-
   const tone = type === "payout" ? payoutTone : invoiceTone;
 
   const columns: TableColumn<HistoryEntry<string>>[] = [
@@ -60,12 +53,7 @@ export function HistoryTable(props: HistoryTableProps) {
       header: "Date",
       sortable: true,
       sortValue: (row) => row.date.getTime(),
-      render: (row) => (
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-          {formatDate(row.date)}
-          {row.id === nextScheduledId && <Badge tone="brand">Next</Badge>}
-        </span>
-      ),
+      render: (row) => formatDate(row.date),
     },
     {
       key: "amount",

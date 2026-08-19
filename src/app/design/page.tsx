@@ -16,6 +16,12 @@ const pages = [
     desc: "Every UI atom/molecule/organism needed to build the screens above.",
     available: true,
   },
+  {
+    href: "/design/changelog",
+    label: "Changelog",
+    desc: "What changed since the last push, newest first — updated on request.",
+    available: true,
+  },
 ];
 
 export default function DesignPage() {

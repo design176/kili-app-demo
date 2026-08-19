@@ -9,13 +9,9 @@ import {
   type ReactNode,
 } from "react";
 
-export type PlacementStyle = "above" | "below" | "inline" | "loading";
-
 export type ApiKeyEntry = {
   id: string;
   value: string;
-  placement: PlacementStyle;
-  frequency: string;
 };
 
 const BALANCE_STORAGE_KEY = "kili-demo-balance";
@@ -54,9 +50,11 @@ type DemoState = {
   setSidebarCollapsed: (value: boolean) => void;
   balance: number;
   addBalance: (amount: number) => void;
+  resetBalance: () => void;
   apiKeys: ApiKeyEntry[];
-  addApiKey: (placement: PlacementStyle, frequency: string) => void;
+  addApiKey: () => void;
   removeApiKey: (id: string) => void;
+  clearApiKeys: () => void;
 };
 
 const DemoStateContext = createContext<DemoState | null>(null);
@@ -115,12 +113,12 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     persistBalance(Math.max(0, balance + amount));
   };
 
-  const addApiKey = (placement: PlacementStyle, frequency: string) => {
+  const resetBalance = () => persistBalance(0);
+
+  const addApiKey = () => {
     const entry: ApiKeyEntry = {
       id: `key_${Date.now()}`,
       value: generateKeyValue(),
-      placement,
-      frequency,
     };
     persistApiKeys([...apiKeys, entry]);
   };
@@ -128,6 +126,8 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const removeApiKey = (id: string) => {
     persistApiKeys(apiKeys.filter((k) => k.id !== id));
   };
+
+  const clearApiKeys = () => persistApiKeys([]);
 
   return (
     <DemoStateContext.Provider
@@ -142,9 +142,11 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         setSidebarCollapsed,
         balance,
         addBalance,
+        resetBalance,
         apiKeys,
         addApiKey,
         removeApiKey,
+        clearApiKeys,
       }}
     >
       {children}

@@ -38,7 +38,6 @@ export type TrendChartProps = {
 
 const WIDTH = 640;
 const HEIGHT = 200;
-const PADDING_LEFT_DEFAULT = 36;
 
 function buildSmoothPath(points: { x: number; y: number }[]) {
   if (points.length < 2) return "";
@@ -160,10 +159,12 @@ export function TrendChart({
     setHoverIndex(null);
   };
 
-  const paddingLeft = chartStyle === "default" ? PADDING_LEFT_DEFAULT : 0;
-  const plotWidth = WIDTH - paddingLeft;
+  const plotWidth = WIDTH;
 
-  const allValues = visibleSeries.flatMap((s) => s.values);
+  // Derived from the animated display values (not the raw target window) so
+  // the y-axis scale eases along with the line instead of snapping to the
+  // new window's domain the instant offset/granularity changes.
+  const allValues = renderSeries.flatMap((s) => s.values);
   const maxValue = allValues.length ? Math.max(...allValues) : 1;
   const rawMax = maxValue === 0 ? 4 : Math.ceil(maxValue / 4) * 4;
   const step = rawMax / 4;
@@ -174,7 +175,7 @@ export function TrendChart({
 
   const toPoints = (values: number[]) =>
     values.map((v, i) => ({
-      x: paddingLeft + (i / (values.length - 1 || 1)) * plotWidth,
+      x: (i / (values.length - 1 || 1)) * plotWidth,
       y: HEIGHT - (v / niceMax) * HEIGHT,
     }));
 
@@ -191,7 +192,7 @@ export function TrendChart({
     const scale = rect.width / WIDTH;
     const svgX = (e.clientX - rect.left) / scale;
     const pxStep = plotWidth / (windowXLabels.length - 1 || 1);
-    const idx = Math.round((svgX - paddingLeft) / pxStep);
+    const idx = Math.round(svgX / pxStep);
     setHoverIndex(Math.min(windowXLabels.length - 1, Math.max(0, idx)));
   };
 
@@ -268,113 +269,9 @@ export function TrendChart({
         </div>
       </div>
 
-      <div
-        ref={chartAreaRef}
-        className={styles.chartArea}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setHoverIndex(null)}
-      >
-        <svg
-          className={styles.svg}
-          viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-          preserveAspectRatio="none"
-        >
-          <defs>
-            {visibleSeries.map((s) => (
-              <pattern
-                key={s.key}
-                id={`hatch-${s.key}`}
-                patternUnits="userSpaceOnUse"
-                width="7"
-                height="7"
-                patternTransform="rotate(45)"
-              >
-                <line x1="0" y1="0" x2="0" y2="7" stroke={s.color} strokeWidth="1.2" strokeOpacity="0.55" />
-              </pattern>
-            ))}
-          </defs>
-
-          {chartStyle === "default" && (
-            <>
-              {ticks.map((tick, i) => {
-                const y = HEIGHT - (tick / niceMax) * HEIGHT;
-                return (
-                  <line
-                    key={i}
-                    className={styles.gridLine}
-                    x1={paddingLeft}
-                    x2={WIDTH}
-                    y1={y}
-                    y2={y}
-                  />
-                );
-              })}
-            </>
-          )}
-
-          {hoverIndex !== null && (
-            <line
-              className={styles.hoverLine}
-              x1={paddingLeft + (hoverIndex / (windowXLabels.length - 1 || 1)) * plotWidth}
-              x2={paddingLeft + (hoverIndex / (windowXLabels.length - 1 || 1)) * plotWidth}
-              y1={0}
-              y2={HEIGHT}
-            />
-          )}
-
-          {renderSeries.map((s) => {
-            const points = toPoints(s.values);
-            const linePath = buildSmoothPath(points);
-            const areaPath = buildAreaPath(points, HEIGHT);
-
-            return (
-              <g key={s.key}>
-                {chartStyle === "default" && (
-                  <>
-                    <motion.path
-                      d={areaPath}
-                      fill={s.color}
-                      stroke="none"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 0.1 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    />
-                    <motion.path
-                      d={areaPath}
-                      fill={`url(#hatch-${s.key})`}
-                      stroke="none"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    />
-                  </>
-                )}
-                <motion.path
-                  className={styles.line}
-                  d={linePath}
-                  stroke={s.color}
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                />
-              </g>
-            );
-          })}
-
-          {hoverPoints.map(({ series: s, point }) => (
-            <circle
-              key={s.key}
-              className={styles.hoverDot}
-              cx={point.x}
-              cy={point.y}
-              r="4"
-              fill={s.color}
-            />
-          ))}
-        </svg>
-
+      <div className={styles.chartRow}>
         {chartStyle === "default" && (
-          <div className={styles.axisLabels}>
+          <div className={styles.axisCol}>
             {ticks.map((tick, i) => {
               const y = HEIGHT - (tick / niceMax) * HEIGHT;
               return (
@@ -390,29 +287,112 @@ export function TrendChart({
           </div>
         )}
 
-        {hoverIndex !== null && hoverPoints.length > 0 && (
-          <div
-            className={styles.hoverBubble}
-            style={{
-              left: `${(hoverPoints[0].point.x / WIDTH) * 100}%`,
-              top: `${(Math.min(...hoverPoints.map((h) => h.point.y)) / HEIGHT) * 100}%`,
-            }}
-          >
-            <div className={styles.hoverBubbleLabel}>{windowXLabels[hoverIndex]}</div>
+        <div
+          ref={chartAreaRef}
+          className={styles.chartArea}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => setHoverIndex(null)}
+        >
+          <svg className={styles.svg} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none">
+            <defs>
+              {visibleSeries.map((s) => (
+                <pattern
+                  key={s.key}
+                  id={`hatch-${s.key}`}
+                  patternUnits="userSpaceOnUse"
+                  width="7"
+                  height="7"
+                  patternTransform="rotate(45)"
+                >
+                  <line x1="0" y1="0" x2="0" y2="7" stroke={s.color} strokeWidth="1.2" strokeOpacity="0.55" />
+                </pattern>
+              ))}
+            </defs>
+
+            {chartStyle === "default" &&
+              ticks.map((tick, i) => {
+                const y = HEIGHT - (tick / niceMax) * HEIGHT;
+                return <line key={i} className={styles.gridLine} x1={0} x2={WIDTH} y1={y} y2={y} />;
+              })}
+
+            {hoverIndex !== null && (
+              <line
+                className={styles.hoverLine}
+                x1={(hoverIndex / (windowXLabels.length - 1 || 1)) * plotWidth}
+                x2={(hoverIndex / (windowXLabels.length - 1 || 1)) * plotWidth}
+                y1={0}
+                y2={HEIGHT}
+              />
+            )}
+
+            {renderSeries.map((s) => {
+              const points = toPoints(s.values);
+              const linePath = buildSmoothPath(points);
+              const areaPath = buildAreaPath(points, HEIGHT);
+
+              return (
+                <g key={s.key}>
+                  {chartStyle === "default" && (
+                    <>
+                      <motion.path
+                        d={areaPath}
+                        fill={s.color}
+                        stroke="none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 0.1 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                      />
+                      <motion.path
+                        d={areaPath}
+                        fill={`url(#hatch-${s.key})`}
+                        stroke="none"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                      />
+                    </>
+                  )}
+                  <motion.path
+                    className={styles.line}
+                    d={linePath}
+                    stroke={s.color}
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.7, ease: "easeInOut" }}
+                  />
+                </g>
+              );
+            })}
+
             {hoverPoints.map(({ series: s, point }) => (
-              <div key={s.key} className={styles.hoverBubbleRow}>
-                <span className={styles.hoverBubbleDot} style={{ background: s.color }} />
-                <span>{s.label}</span>
-                <span className={styles.hoverBubbleValue}>
-                  {formatTick(s.values[hoverIndex] ?? 0)}
-                </span>
-              </div>
+              <circle key={s.key} className={styles.hoverDot} cx={point.x} cy={point.y} r="4" fill={s.color} />
             ))}
-          </div>
-        )}
+          </svg>
+
+          {hoverIndex !== null && hoverPoints.length > 0 && (
+            <div
+              className={styles.hoverBubble}
+              style={{
+                left: `${(hoverPoints[0].point.x / WIDTH) * 100}%`,
+                top: `${(Math.min(...hoverPoints.map((h) => h.point.y)) / HEIGHT) * 100}%`,
+              }}
+            >
+              <div className={styles.hoverBubbleLabel}>{windowXLabels[hoverIndex]}</div>
+              {hoverPoints.map(({ series: s, point }) => (
+                <div key={s.key} className={styles.hoverBubbleRow}>
+                  <span className={styles.hoverBubbleDot} style={{ background: s.color }} />
+                  <span>{s.label}</span>
+                  <span className={styles.hoverBubbleValue}>
+                    {formatTick(s.values[hoverIndex] ?? 0)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className={styles.xLabels} style={{ paddingLeft }}>
+      <div className={styles.xLabels} style={{ marginLeft: chartStyle === "default" ? 44 : 0 }}>
         {windowXLabels.map((label, i) => (
           <span key={i} className={styles.xLabel}>
             {label}

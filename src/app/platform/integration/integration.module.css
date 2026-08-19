@@ -18,6 +18,47 @@
   margin: 4px 0 16px;
 }
 
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.docsButton {
+  max-width: 200px;
+}
+
+@media (max-width: 800px) {
+  .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.apiKeysTable {
+  height: 300px !important;
+  overflow-y: auto !important;
+}
+
+.snippetStack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+  max-width: 640px;
+}
+
+.platformLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.frameworkTabs {
+  align-self: flex-start;
+}
+
 .keyOptionsCell {
   display: flex;
   align-items: center;
