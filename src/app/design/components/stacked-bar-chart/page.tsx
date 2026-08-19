@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { StackedBarChart } from '@/components/ui/StackedBarChart';
 import type { TrendGranularity } from '@/components/ui/RangeFilter';
 import { Card } from '@/components/ui/Card';
+import { Switch } from '@/components/ui/Switch';
 import { impressionsByGranularity } from '@/lib/mock-data';
 import styles from '../demo.module.css';
 
 export default function StackedBarChartPage() {
   const [granularity, setGranularity] = useState<TrendGranularity>('monthly');
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -23,6 +25,13 @@ export default function StackedBarChartPage() {
       </p>
 
       <div className={styles.section}>
+        <div className={styles.sectionTitle}>Loading</div>
+        <div className={styles.row} style={{ alignItems: "center", gap: 8 }}>
+          <Switch checked={loading} onCheckedChange={setLoading} />
+        </div>
+      </div>
+
+      <div className={styles.section}>
         <div className={styles.sectionTitle}>Impressions</div>
         <Card>
           <StackedBarChart
@@ -31,6 +40,7 @@ export default function StackedBarChartPage() {
             windowSize={6}
             granularity={granularity}
             onGranularityChange={setGranularity}
+            loading={loading}
           />
         </Card>
       </div>

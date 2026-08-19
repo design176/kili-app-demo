@@ -3,10 +3,11 @@ import styles from "./KPIStrip.module.css";
 
 export type KPIStripProps = {
   tiles: KPITileProps[];
+  loading?: boolean;
   className?: string;
 };
 
-export function KPIStrip({ tiles, className }: KPIStripProps) {
+export function KPIStrip({ tiles, loading, className }: KPIStripProps) {
   const columns = Math.min(tiles.length, 6) || 1;
 
   return (
@@ -15,7 +16,7 @@ export function KPIStrip({ tiles, className }: KPIStripProps) {
       style={{ "--kpi-columns": columns } as React.CSSProperties}
     >
       {tiles.map((tile) => (
-        <KPITile key={tile.label} {...tile} />
+        <KPITile key={tile.label} {...tile} loading={loading} />
       ))}
     </div>
   );

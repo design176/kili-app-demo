@@ -7,13 +7,14 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { AddBalanceModal } from "@/components/ui/AddBalanceModal";
 import { HistoryTable } from "@/components/ui/HistoryTable";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { useDemoState } from "@/components/demo-state";
 import { mockInvoices } from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/format";
 import styles from "./billing.module.css";
 
 export default function BillingPage() {
-  const { balance, addBalance } = useDemoState();
+  const { balance, addBalance, forceLoadingStates } = useDemoState();
   const [addFundsOpen, setAddFundsOpen] = useState(false);
 
   return (
@@ -25,7 +26,11 @@ export default function BillingPage() {
       <div className={styles.topRow}>
         <Card className={styles.balanceCard}>
           <div className={styles.balanceLabel}>Current balance</div>
-          <div className={styles.balanceValue}>{formatCurrency(balance)}</div>
+          {forceLoadingStates ? (
+            <Skeleton variant="text" width={120} height={28} />
+          ) : (
+            <div className={styles.balanceValue}>{formatCurrency(balance)}</div>
+          )}
           <Button variant="accent" onClick={() => setAddFundsOpen(true)}>
             Add balance
           </Button>
@@ -45,7 +50,7 @@ export default function BillingPage() {
 
       <div>
         <div className={styles.sectionTitle}>Invoices</div>
-        <HistoryTable type="invoice" entries={mockInvoices} />
+        <HistoryTable type="invoice" entries={mockInvoices} loading={forceLoadingStates} />
       </div>
 
       <AddBalanceModal

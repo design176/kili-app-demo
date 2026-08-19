@@ -26,7 +26,7 @@ const platforms = [
 ];
 
 export default function PixelTrackingPage() {
-  const { isNewUser, forceEmptyStates } = useDemoState();
+  const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
   const isEmpty = forceEmptyStates || isNewUser;
   const [platform, setPlatform] = useState("html");
   const [verifyUrl, setVerifyUrl] = useState("");
@@ -39,6 +39,7 @@ export default function PixelTrackingPage() {
       pageDescription="Install and verify the tracking snippet on your site."
     >
       <KPIStrip
+        loading={forceLoadingStates}
         tiles={[
           {
             icon: <Eye size={16} weight="bold" />,

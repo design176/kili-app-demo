@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { IconButton } from "@/components/ui/IconButton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { Switch } from "@/components/ui/Switch";
 import styles from "../demo.module.css";
 
 type Campaign = {
@@ -64,6 +65,7 @@ const columns: TableColumn<Campaign>[] = [
 export default function TablePage() {
   const [rows, setRows] = useState(initialRows);
   const [pendingDelete, setPendingDelete] = useState<Campaign | null>(null);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -76,11 +78,19 @@ export default function TablePage() {
       </p>
 
       <div className={styles.section}>
+        <div className={styles.sectionTitle}>Loading</div>
+        <div className={styles.row} style={{ alignItems: "center", gap: 8 }}>
+          <Switch checked={loading} onCheckedChange={setLoading} />
+        </div>
+      </div>
+
+      <div className={styles.section}>
         <div className={styles.sectionTitle}>Campaign List</div>
         <Table
           columns={columns}
           rows={rows}
           rowKey={(row) => row.id}
+          loading={loading}
           emptyState={
             <EmptyState
               icon={<Copy size={20} weight="bold" />}

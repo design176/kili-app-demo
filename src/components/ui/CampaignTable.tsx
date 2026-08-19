@@ -31,12 +31,14 @@ export type CampaignTableProps = {
   campaigns: Campaign[];
   onCreateNew?: () => void;
   onRowClick?: (campaign: Campaign) => void;
+  loading?: boolean;
 };
 
 export function CampaignTable({
   campaigns,
   onCreateNew,
   onRowClick,
+  loading,
 }: CampaignTableProps) {
   const columns: TableColumn<Campaign>[] = [
     { key: "name", header: "Name", sortable: true },
@@ -110,6 +112,7 @@ export function CampaignTable({
       rows={campaigns}
       rowKey={(row) => row.id}
       onRowClick={onRowClick}
+      loading={loading}
       emptyState={
         <EmptyState
           icon={<Megaphone size={20} weight="bold" />}

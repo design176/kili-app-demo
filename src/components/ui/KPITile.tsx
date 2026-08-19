@@ -3,6 +3,7 @@ import { ArrowUp, ArrowDown } from "@phosphor-icons/react/dist/ssr";
 import { Card } from "./Card";
 import { Sparkline } from "./Sparkline";
 import { Tooltip } from "./Tooltip";
+import { Skeleton } from "./Skeleton";
 import styles from "./KPITile.module.css";
 
 export type ComparisonPeriod = "yesterday" | "last_week" | "last_month" | "last_period";
@@ -29,6 +30,7 @@ export type KPITileProps = {
   description?: string;
   trend?: KPITileTrend;
   sparklineData?: number[];
+  loading?: boolean;
   className?: string;
 };
 
@@ -39,10 +41,27 @@ export function KPITile({
   description,
   trend,
   sparklineData,
+  loading,
   className,
 }: KPITileProps) {
   const trendColor =
     trend?.direction === "down" ? "var(--color-chart-negative)" : "var(--color-chart-positive)";
+
+  if (loading) {
+    return (
+      <Card className={`${styles.tile} ${className ?? ""}`}>
+        <div className={styles.head}>
+          <span className={styles.iconBadge}>{icon}</span>
+          <Skeleton variant="text" width={60} />
+        </div>
+        <hr className={styles.divider} />
+        <Skeleton variant="text" width="50%" height={22} />
+        <div className={styles.footer}>
+          <Skeleton variant="text" width={90} />
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card className={`${styles.tile} ${className ?? ""}`}>

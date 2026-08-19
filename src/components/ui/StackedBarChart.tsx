@@ -5,7 +5,10 @@ import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { IconButton } from "./IconButton";
 import { Tooltip } from "./Tooltip";
 import { RangeFilter, type TrendGranularity } from "./RangeFilter";
+import { Skeleton } from "./Skeleton";
 import styles from "./StackedBarChart.module.css";
+
+const CHART_HEIGHT = 200;
 
 export type StackedBarSeries = {
   key: string;
@@ -29,6 +32,7 @@ export type StackedBarChartProps = {
   onGranularityChange: (granularity: TrendGranularity) => void;
   /** Formats y-axis tick values (e.g. as currency). Defaults to a compact K/M abbreviation. */
   valueFormatter?: (value: number) => string;
+  loading?: boolean;
   className?: string;
 };
 
@@ -46,6 +50,7 @@ export function StackedBarChart({
   granularity,
   onGranularityChange,
   valueFormatter,
+  loading,
   className,
 }: StackedBarChartProps) {
   const [hidden, setHidden] = useState<Set<string>>(new Set());
@@ -87,6 +92,19 @@ export function StackedBarChart({
   const niceMax = Math.ceil(maxTotal / TICK_COUNT) * TICK_COUNT || 1;
   const ticks = Array.from({ length: TICK_COUNT + 1 }, (_, i) => niceMax - (niceMax / TICK_COUNT) * i);
   const formatTick = valueFormatter ?? defaultFormatTick;
+
+  if (loading) {
+    return (
+      <div className={`${styles.wrap} ${className ?? ""}`}>
+        <div className={styles.header}>
+          <div className={styles.headerLeft}>
+            <span className={styles.title}>{title}</span>
+          </div>
+        </div>
+        <Skeleton variant="rect" height={CHART_HEIGHT} />
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles.wrap} ${className ?? ""}`}>

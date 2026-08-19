@@ -6,6 +6,7 @@ import { animate } from "motion";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { IconButton } from "./IconButton";
 import { RangeFilter, type TrendGranularity } from "./RangeFilter";
+import { Skeleton } from "./Skeleton";
 import styles from "./TrendChart.module.css";
 
 export type TrendSeries = {
@@ -31,6 +32,7 @@ export type TrendChartProps = {
   onGranularityChange: (granularity: TrendGranularity) => void;
   /** Formats y-axis tick values and hover-tooltip values (e.g. as currency). Defaults to the raw number. */
   valueFormatter?: (value: number) => string;
+  loading?: boolean;
   className?: string;
 };
 
@@ -71,6 +73,7 @@ export function TrendChart({
   granularity,
   onGranularityChange,
   valueFormatter,
+  loading,
   className,
 }: TrendChartProps) {
   const [hidden, setHidden] = useState<Set<string>>(new Set());
@@ -199,6 +202,19 @@ export function TrendChart({
           point: toPoints(renderSeries[i]?.values ?? s.values)[hoverIndex],
         }))
       : [];
+
+  if (loading) {
+    return (
+      <div className={`${styles.wrap} ${className ?? ""}`}>
+        <div className={styles.header}>
+          <div className={styles.headerLeft}>
+            <span className={styles.title}>{title}</span>
+          </div>
+        </div>
+        <Skeleton variant="rect" height={HEIGHT} />
+      </div>
+    );
+  }
 
   return (
     <div className={`${styles.wrap} ${className ?? ""}`}>

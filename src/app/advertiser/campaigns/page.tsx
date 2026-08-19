@@ -18,7 +18,7 @@ const viewItems = [
 ];
 
 export default function CampaignsPage() {
-  const { isNewUser, forceEmptyStates } = useDemoState();
+  const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
   const router = useRouter();
   const isEmpty = forceEmptyStates || isNewUser;
   const campaigns: Campaign[] = isEmpty ? [] : mockCampaigns;
@@ -58,6 +58,7 @@ export default function CampaignsPage() {
           campaigns={campaigns}
           onRowClick={handleRowClick}
           onCreateNew={() => router.push("/advertiser/campaigns/new")}
+          loading={forceLoadingStates}
         />
       </div>
 
@@ -66,6 +67,7 @@ export default function CampaignsPage() {
           campaigns={campaigns}
           onManage={handleRowClick}
           onCreateNew={() => router.push("/advertiser/campaigns/new")}
+          loading={forceLoadingStates}
         />
       </div>
     </DashboardShell>

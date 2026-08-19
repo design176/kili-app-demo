@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { CampaignCardGrid } from "@/components/ui/CampaignCardGrid";
+import { Switch } from "@/components/ui/Switch";
 import type { Campaign } from "@/components/ui/CampaignTable";
 import styles from "../demo.module.css";
 
@@ -47,6 +49,8 @@ const campaigns: Campaign[] = [
 ];
 
 export default function CampaignCardGridPage() {
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>Campaign Card Grid</h1>
@@ -58,8 +62,15 @@ export default function CampaignCardGridPage() {
       </p>
 
       <div className={styles.section}>
+        <div className={styles.sectionTitle}>Loading</div>
+        <div className={styles.row} style={{ alignItems: "center", gap: 8 }}>
+          <Switch checked={loading} onCheckedChange={setLoading} />
+        </div>
+      </div>
+
+      <div className={styles.section}>
         <div className={styles.sectionTitle}>3 campaigns</div>
-        <CampaignCardGrid campaigns={campaigns} onManage={() => {}} />
+        <CampaignCardGrid campaigns={campaigns} onManage={() => {}} loading={loading} />
       </div>
 
       <div className={styles.section}>

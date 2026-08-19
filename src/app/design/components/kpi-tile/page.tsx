@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   CurrencyDollar,
   Eye,
@@ -7,12 +10,15 @@ import {
   Percent,
 } from "@phosphor-icons/react/dist/ssr";
 import { KPITile } from "@/components/ui/KPITile";
+import { Switch } from "@/components/ui/Switch";
 import styles from "../demo.module.css";
 
 const spendData = [12, 14, 11, 18, 22, 19, 25, 28, 24, 30];
 const impressionsData = [30, 28, 32, 29, 31, 35, 33, 30, 28, 27];
 
 export default function KPITilePage() {
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>KPI Tile</h1>
@@ -25,6 +31,16 @@ export default function KPITilePage() {
       </p>
 
       <div className={styles.section}>
+        <div className={styles.sectionTitle}>Loading</div>
+        <div className={styles.row} style={{ alignItems: "center", gap: 8 }}>
+          <Switch checked={loading} onCheckedChange={setLoading} />
+          <span style={{ fontSize: 13, color: "var(--color-text-muted)" }}>
+            Applies to every tile below
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.section}>
         <div className={styles.sectionTitle}>Advertiser Overview KPI strip</div>
         <div className={styles.row}>
           <KPITile
@@ -34,6 +50,7 @@ export default function KPITilePage() {
             description="Total amount spent on the campaign, this period."
             trend={{ direction: "up", percent: 12, comparisonPeriod: "yesterday" }}
             sparklineData={spendData}
+            loading={loading}
           />
           <KPITile
             icon={<Eye size={16} weight="bold" />}
@@ -42,6 +59,7 @@ export default function KPITilePage() {
             description="How many times the ad was shown."
             trend={{ direction: "down", percent: 4, comparisonPeriod: "last_week" }}
             sparklineData={impressionsData}
+            loading={loading}
           />
           <KPITile
             icon={<Cursor size={16} weight="bold" />}
@@ -50,6 +68,7 @@ export default function KPITilePage() {
             description="How many times people clicked the ad."
             trend={{ direction: "up", percent: 8, comparisonPeriod: "last_month" }}
             sparklineData={spendData}
+            loading={loading}
           />
         </div>
       </div>
@@ -64,6 +83,7 @@ export default function KPITilePage() {
             description="Total money earned from ads shown, this period."
             trend={{ direction: "up", percent: 6, comparisonPeriod: "last_period" }}
             sparklineData={spendData}
+            loading={loading}
           />
           <KPITile
             icon={<ChartLineUp size={16} weight="bold" />}
@@ -72,6 +92,7 @@ export default function KPITilePage() {
             description="Revenue per 1,000 impressions."
             trend={{ direction: "up", percent: 3, comparisonPeriod: "yesterday" }}
             sparklineData={impressionsData}
+            loading={loading}
           />
         </div>
       </div>

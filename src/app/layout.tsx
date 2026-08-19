@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Work_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DemoStateProvider } from "@/components/demo-state";
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <SettingsPanel />
           </DemoStateProvider>
         </ThemeProvider>
+        <Script src="https://tally.so/widgets/embed.js" strategy="afterInteractive" />
       </body>
     </html>
   );

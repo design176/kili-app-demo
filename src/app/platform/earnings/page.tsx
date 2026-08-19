@@ -8,10 +8,13 @@ import { Button } from "@/components/ui/Button";
 import { FormField } from "@/components/ui/FormField";
 import { Input } from "@/components/ui/Input";
 import { HistoryTable } from "@/components/ui/HistoryTable";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { useDemoState } from "@/components/demo-state";
 import { mockPayouts } from "@/lib/mock-data";
 import styles from "./earnings.module.css";
 
 export default function EarningsPage() {
+  const { forceLoadingStates } = useDemoState();
   const [editingPayout, setEditingPayout] = useState(false);
   const [accountNumber, setAccountNumber] = useState("");
 
@@ -28,14 +31,23 @@ export default function EarningsPage() {
       <div className={styles.topRow}>
         <Card className={styles.summaryCard}>
           <div className={styles.summaryLabel}>Next payout</div>
-          <div className={styles.summaryValue}>
-            {nextPayout ? `$${nextPayout.amount.toLocaleString()}` : "—"}
-          </div>
-          <div className={styles.summarySub}>
-            {nextPayout
-              ? `Scheduled for ${nextPayout.date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
-              : "No payout scheduled yet."}
-          </div>
+          {forceLoadingStates ? (
+            <>
+              <Skeleton variant="text" width={100} height={28} />
+              <Skeleton variant="text" width={140} />
+            </>
+          ) : (
+            <>
+              <div className={styles.summaryValue}>
+                {nextPayout ? `$${nextPayout.amount.toLocaleString()}` : "—"}
+              </div>
+              <div className={styles.summarySub}>
+                {nextPayout
+                  ? `Scheduled for ${nextPayout.date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
+                  : "No payout scheduled yet."}
+              </div>
+            </>
+          )}
         </Card>
 
         <Card className={styles.payoutCard}>
@@ -72,7 +84,7 @@ export default function EarningsPage() {
 
       <div>
         <div className={styles.sectionTitle}>Payout history</div>
-        <HistoryTable type="payout" entries={mockPayouts} />
+        <HistoryTable type="payout" entries={mockPayouts} loading={forceLoadingStates} />
       </div>
     </DashboardShell>
   );

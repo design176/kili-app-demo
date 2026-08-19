@@ -20,7 +20,14 @@ export function SettingsPanel() {
   const router = useRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-  const { isNewUser, setIsNewUser, forceEmptyStates, setForceEmptyStates } = useDemoState();
+  const {
+    isNewUser,
+    setIsNewUser,
+    forceEmptyStates,
+    setForceEmptyStates,
+    forceLoadingStates,
+    setForceLoadingStates,
+  } = useDemoState();
   const mounted = useMounted();
   const [open, setOpen] = useState(false);
   const dashboard = pathname.startsWith("/platform") ? "platform" : "advertiser";
@@ -102,6 +109,15 @@ export function SettingsPanel() {
               <p className={styles.rowHint}>
                 Forces every page/component&apos;s empty state, independent
                 of the New user toggle.
+              </p>
+
+              <div className={styles.row}>
+                <span className={styles.rowLabel}>Loading states</span>
+                <Switch checked={forceLoadingStates} onCheckedChange={setForceLoadingStates} />
+              </div>
+              <p className={styles.rowHint}>
+                Forces every page&apos;s loading skeleton, independent of the
+                other toggles above.
               </p>
             </div>
           </div>,

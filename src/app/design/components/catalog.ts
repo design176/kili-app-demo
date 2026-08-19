@@ -107,6 +107,14 @@ export const catalog: ComponentEntry[] = [
     usedIn: ["Login/Signup"],
     status: "built",
   },
+  {
+    slug: "skeleton",
+    name: "Skeleton",
+    category: "Atom",
+    desc: "Shimmering placeholder block — text/rect/circle variants. The primitive every data-bearing component composes for its loading state.",
+    usedIn: ["KPI Tile", "KPI Small Strip", "Table", "Campaign Card Grid", "Activity Feed", "Trend Chart", "Stacked Bar Chart"],
+    status: "built",
+  },
 
   // Molecules
   {
@@ -323,7 +331,7 @@ export const catalog: ComponentEntry[] = [
     slug: "settings-panel",
     name: "Settings Panel",
     category: "Organism",
-    desc: "Pink circular FAB (bottom-right, Gear icon) mounted globally — dark mode, New user (routes to /login), Dashboard switcher (Advertiser/Platform), and a force-empty-states toggle.",
+    desc: "Pink circular FAB (bottom-right, Gear icon) mounted globally — dark mode, New user (routes to /login), Dashboard switcher (Advertiser/Platform), and force-empty-states/force-loading-states toggles.",
     usedIn: ["Whole app, every page"],
     status: "built",
   },

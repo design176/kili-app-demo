@@ -18,7 +18,7 @@ import styles from "./overview.module.css";
 const granularities = ["daily", "weekly", "monthly"] as const;
 
 export default function AdvertiserOverviewPage() {
-  const { isNewUser, forceEmptyStates } = useDemoState();
+  const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
   const router = useRouter();
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
@@ -66,6 +66,7 @@ export default function AdvertiserOverviewPage() {
     >
       <div>
         <KPISmallStrip
+          loading={forceLoadingStates}
           items={[
             {
               icon: <CurrencyDollar size={14} weight="bold" />,
@@ -107,7 +108,40 @@ export default function AdvertiserOverviewPage() {
         />
       </div>
 
-      {isEmpty ? (
+      {forceLoadingStates ? (
+        <div className={styles.lowerRow}>
+          <div className={styles.mainCol}>
+            <Card>
+              <TrendChart
+                title="Spend over time"
+                chartStyle="default"
+                data={spendData}
+                valueFormatter={(v) => formatCompactCurrency(v)}
+                granularity={spendGranularity}
+                onGranularityChange={setSpendGranularity}
+                loading
+              />
+            </Card>
+            <Card>
+              <TrendChart
+                title="Impressions"
+                chartStyle="default"
+                data={impressionsData}
+                valueFormatter={(v) => formatCompactNumber(v)}
+                granularity={impressionsGranularity}
+                onGranularityChange={setImpressionsGranularity}
+                loading
+              />
+            </Card>
+          </div>
+
+          <div className={styles.sideCol}>
+            <Card>
+              <ActivityFeed events={[]} loading />
+            </Card>
+          </div>
+        </div>
+      ) : isEmpty ? (
         <>
           <div className={styles.sectionTitle}>Spend over time</div>
           <div className={styles.emptyChartWrap}>

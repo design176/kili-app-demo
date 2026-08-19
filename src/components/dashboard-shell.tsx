@@ -16,7 +16,10 @@ import { SidebarNav, type SidebarNavSection } from "@/components/ui/SidebarNav";
 import { TopBar } from "@/components/ui/TopBar";
 import { useDemoState } from "@/components/demo-state";
 import { formatCurrency } from "@/lib/format";
+import { openTallyForm } from "@/lib/tally";
 import styles from "./dashboard-shell.module.css";
+
+const BUG_REPORT_TALLY_FORM_ID = "ja8LLE";
 
 const advertiserSections: SidebarNavSection[] = [
   {
@@ -141,6 +144,13 @@ export function DashboardShell({
   }, [sidebarCollapsed]);
 
   const handleSelect = (key: string) => {
+    if (key === "bug") {
+      openTallyForm(BUG_REPORT_TALLY_FORM_ID, {
+        layout: "modal",
+        emoji: { text: "🦜", animation: "spin" },
+      });
+      return;
+    }
     const href = routes[key];
     if (href) router.push(href);
   };

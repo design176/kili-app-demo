@@ -17,7 +17,7 @@ import styles from "./overview.module.css";
 const granularities = ["daily", "weekly", "monthly"] as const;
 
 export default function PlatformOverviewPage() {
-  const { isNewUser, forceEmptyStates } = useDemoState();
+  const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
   const router = useRouter();
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
@@ -65,6 +65,7 @@ export default function PlatformOverviewPage() {
     >
       <div>
         <KPISmallStrip
+          loading={forceLoadingStates}
           items={[
             {
               icon: <Coins size={14} weight="bold" />,
@@ -88,7 +89,34 @@ export default function PlatformOverviewPage() {
         />
       </div>
 
-      {isEmpty ? (
+      {forceLoadingStates ? (
+        <div className={styles.lowerRow}>
+          <div className={styles.mainCol}>
+            <Card>
+              <TrendChart
+                title="Revenue over time"
+                chartStyle="default"
+                data={revenueData}
+                valueFormatter={(v) => formatCompactCurrency(v)}
+                granularity={spendGranularity}
+                onGranularityChange={setSpendGranularity}
+                loading
+              />
+            </Card>
+            <Card>
+              <TrendChart
+                title="Impressions"
+                chartStyle="default"
+                data={impressionsData}
+                valueFormatter={(v) => formatCompactNumber(v)}
+                granularity={impressionsGranularity}
+                onGranularityChange={setImpressionsGranularity}
+                loading
+              />
+            </Card>
+          </div>
+        </div>
+      ) : isEmpty ? (
         <>
           <div className={styles.sectionTitle}>Revenue over time</div>
           <div className={styles.emptyChartWrap}>

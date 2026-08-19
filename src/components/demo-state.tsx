@@ -48,6 +48,8 @@ type DemoState = {
   setIsNewUser: (value: boolean) => void;
   forceEmptyStates: boolean;
   setForceEmptyStates: (value: boolean) => void;
+  forceLoadingStates: boolean;
+  setForceLoadingStates: (value: boolean) => void;
   sidebarCollapsed: boolean;
   setSidebarCollapsed: (value: boolean) => void;
   balance: number;
@@ -62,6 +64,7 @@ const DemoStateContext = createContext<DemoState | null>(null);
 export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [isNewUser, setIsNewUserState] = useState(false);
   const [forceEmptyStates, setForceEmptyStates] = useState(false);
+  const [forceLoadingStates, setForceLoadingStates] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Overrides win once set (i.e. after any write this session); until then,
@@ -133,6 +136,8 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         setIsNewUser,
         forceEmptyStates,
         setForceEmptyStates,
+        forceLoadingStates,
+        setForceLoadingStates,
         sidebarCollapsed,
         setSidebarCollapsed,
         balance,

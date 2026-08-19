@@ -42,7 +42,7 @@ function KeyOptionsCell({ value, onDelete }: { value: string; onDelete: () => vo
 }
 
 export default function IntegrationPage() {
-  const { apiKeys, addApiKey, removeApiKey } = useDemoState();
+  const { apiKeys, addApiKey, removeApiKey, forceLoadingStates } = useDemoState();
   const [createOpen, setCreateOpen] = useState(false);
 
   const columns: TableColumn<ApiKeyEntry>[] = [
@@ -89,6 +89,7 @@ export default function IntegrationPage() {
           columns={columns}
           rows={apiKeys}
           rowKey={(row) => row.id}
+          loading={forceLoadingStates}
           emptyState={
             <EmptyState
               icon={<Plug size={20} weight="bold" />}

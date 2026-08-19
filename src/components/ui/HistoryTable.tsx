@@ -33,11 +33,11 @@ function formatDate(d: Date) {
 }
 
 type HistoryTableProps =
-  | { type: "payout"; entries: HistoryEntry<PayoutStatus>[] }
-  | { type: "invoice"; entries: HistoryEntry<InvoiceStatus>[] };
+  | { type: "payout"; entries: HistoryEntry<PayoutStatus>[]; loading?: boolean }
+  | { type: "invoice"; entries: HistoryEntry<InvoiceStatus>[]; loading?: boolean };
 
 export function HistoryTable(props: HistoryTableProps) {
-  const { type, entries } = props;
+  const { type, entries, loading } = props;
 
   // Always latest → oldest by default, regardless of status.
   const sorted = useMemo(
@@ -91,6 +91,7 @@ export function HistoryTable(props: HistoryTableProps) {
       columns={columns}
       rows={sorted}
       rowKey={(row) => row.id}
+      loading={loading}
       emptyState={
         type === "payout" ? (
           <EmptyState

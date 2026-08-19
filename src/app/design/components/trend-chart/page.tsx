@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { TrendChart, type TrendDataset } from '@/components/ui/TrendChart';
 import type { TrendGranularity } from '@/components/ui/RangeFilter';
+import { Switch } from '@/components/ui/Switch';
 import { StateToggle } from '../state-toggle';
 import styles from '../demo.module.css';
 
@@ -82,6 +83,7 @@ export default function TrendChartPage() {
   const [chartStyle, setChartStyle] =
     useState<(typeof chartStyles)[number]>('default');
   const [granularity, setGranularity] = useState<TrendGranularity>('monthly');
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -109,6 +111,13 @@ export default function TrendChartPage() {
       </div>
 
       <div className={styles.section}>
+        <div className={styles.sectionTitle}>Loading</div>
+        <div className={styles.row} style={{ alignItems: "center", gap: 8 }}>
+          <Switch checked={loading} onCheckedChange={setLoading} />
+        </div>
+      </div>
+
+      <div className={styles.section}>
         <div className={styles.sectionTitle}>
           Advertiser Overview — Spend-over-time chart
         </div>
@@ -120,6 +129,7 @@ export default function TrendChartPage() {
           granularity={granularity}
           onGranularityChange={setGranularity}
           valueFormatter={(v) => `$${v}`}
+          loading={loading}
         />
       </div>
     </div>

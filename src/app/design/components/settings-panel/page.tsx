@@ -17,6 +17,7 @@ export default function SettingsPanelPage() {
           <li><strong>New user</strong> — since auth is dummy (any 6-digit code works), this decides whether going through Login/Signup ends in the empty-onboarding path or a populated dashboard. Toggling it navigates straight to /login.</li>
           <li><strong>Dashboard</strong> — Advertiser/Platform. Advertiser and Platform live under separate route prefixes (<code>/advertiser/*</code>, <code>/platform/*</code>); this switcher jumps to the other workspace&apos;s Overview page.</li>
           <li><strong>Empty states</strong> — forces every page/component&apos;s empty state, independent of New user.</li>
+          <li><strong>Loading states</strong> — forces every page&apos;s loading skeleton, independent of the other toggles.</li>
         </ul>
       </div>
 

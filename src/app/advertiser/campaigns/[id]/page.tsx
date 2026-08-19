@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { DatePicker, type DateRange } from "@/components/ui/DatePicker";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { useDemoState } from "@/components/demo-state";
 import { mockCampaigns, spendByGranularity, impressionsTotalByGranularity } from "@/lib/mock-data";
 import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
 import styles from "./detail.module.css";
@@ -38,6 +39,7 @@ const REFERENCE_IMPRESSIONS_TOTAL = 333800;
 export default function CampaignDetailPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const { forceLoadingStates } = useDemoState();
   const campaign = useMemo(
     () => mockCampaigns.find((c) => c.id === params.id) ?? mockCampaigns[0],
     [params.id]
@@ -126,6 +128,7 @@ export default function CampaignDetailPage() {
       </div>
 
       <KPISmallStrip
+        loading={forceLoadingStates}
         items={[
           {
             icon: <CurrencyDollar size={14} weight="bold" />,
@@ -168,7 +171,32 @@ export default function CampaignDetailPage() {
 
       <div className={styles.lowerRow}>
         <div className={styles.mainCol}>
-          {isFreshlyLaunched ? (
+          {forceLoadingStates ? (
+            <>
+              <Card>
+                <TrendChart
+                  title="Spend over time"
+                  chartStyle="default"
+                  data={spendData}
+                  valueFormatter={(v) => formatCompactCurrency(v)}
+                  granularity={spendGranularity}
+                  onGranularityChange={setSpendGranularity}
+                  loading
+                />
+              </Card>
+              <Card>
+                <TrendChart
+                  title="Impressions"
+                  chartStyle="default"
+                  data={impressionsData}
+                  valueFormatter={(v) => formatCompactNumber(v)}
+                  granularity={impressionsGranularity}
+                  onGranularityChange={setImpressionsGranularity}
+                  loading
+                />
+              </Card>
+            </>
+          ) : isFreshlyLaunched ? (
             <div className={styles.emptyChartWrap}>
               <EmptyState
                 icon={<Rocket size={20} weight="bold" />}
