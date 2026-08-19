@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
@@ -25,26 +24,11 @@ export default function Home() {
           color: "var(--color-text-primary)",
         }}
       >
-        App shell is set up
+        kili design demo
       </h1>
-      <p
-        style={{
-          fontFamily: "var(--font-body)",
-          fontSize: "16px",
-          color: "var(--color-text-secondary)",
-          maxWidth: "480px",
-        }}
-      >
-        Colors, typography, and light/dark theming are wired up via CSS
-        variables and next-themes. The IA and full component library live
-        under Design.
-      </p>
-      <div style={{ display: "flex", gap: "12px" }}>
-        <Link href="/design">
-          <Button variant="primary">Open Design</Button>
-        </Link>
-        <ThemeToggle />
-      </div>
+      <Link href="/login">
+        <Button variant="accent">Login</Button>
+      </Link>
     </div>
   );
 }
