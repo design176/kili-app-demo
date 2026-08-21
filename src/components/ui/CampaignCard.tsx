@@ -48,6 +48,10 @@ export function CampaignCard({ campaign, onManage, className }: CampaignCardProp
           <span className={styles.statValue}>{campaign.clicks.toLocaleString()}</span>
         </div>
         <div className={styles.stat}>
+          <span className={styles.statLabel}>Conversions</span>
+          <span className={styles.statValue}>{campaign.conversions.toLocaleString()}</span>
+        </div>
+        <div className={styles.stat}>
           <span className={styles.statLabel}>CPC</span>
           <span className={styles.statValue}>${campaign.cpc.toFixed(2)}</span>
         </div>
@@ -58,6 +62,10 @@ export function CampaignCard({ campaign, onManage, className }: CampaignCardProp
         <div className={styles.stat}>
           <span className={styles.statLabel}>CTR</span>
           <span className={styles.statValue}>{campaign.ctr}%</span>
+        </div>
+        <div className={styles.stat}>
+          <span className={styles.statLabel}>CPA</span>
+          <span className={styles.statValue}>${campaign.cpa.toFixed(2)}</span>
         </div>
         <div className={styles.stat}>
           <span className={styles.statLabel}>End date</span>

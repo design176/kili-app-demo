@@ -8,15 +8,17 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { mockBalance } from "@/lib/mock-data";
 
 export type ApiKeyEntry = {
   id: string;
+  name: string;
   value: string;
 };
 
 const BALANCE_STORAGE_KEY = "kili-demo-balance";
-const DEFAULT_BALANCE = 1860.4;
 const API_KEYS_STORAGE_KEY = "kili-demo-api-keys";
+const PIXEL_KEYS_STORAGE_KEY = "kili-demo-pixel-keys";
 
 function generateKeyValue() {
   return `kili_live_${Math.random().toString(36).slice(2, 18)}`;
@@ -52,9 +54,13 @@ type DemoState = {
   addBalance: (amount: number) => void;
   resetBalance: () => void;
   apiKeys: ApiKeyEntry[];
-  addApiKey: () => void;
+  addApiKey: () => ApiKeyEntry;
   removeApiKey: (id: string) => void;
   clearApiKeys: () => void;
+  pixelKeys: ApiKeyEntry[];
+  addPixelKey: () => ApiKeyEntry;
+  removePixelKey: (id: string) => void;
+  clearPixelKeys: () => void;
 };
 
 const DemoStateContext = createContext<DemoState | null>(null);
@@ -69,12 +75,14 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   // the value read from localStorage on the client is used.
   const [balanceOverride, setBalanceOverride] = useState<number | null>(null);
   const [apiKeysOverride, setApiKeysOverride] = useState<ApiKeyEntry[] | null>(null);
+  const [pixelKeysOverride, setPixelKeysOverride] = useState<ApiKeyEntry[] | null>(null);
 
   const storedBalanceRaw = useStoredRaw(BALANCE_STORAGE_KEY);
   const storedApiKeysRaw = useStoredRaw(API_KEYS_STORAGE_KEY);
+  const storedPixelKeysRaw = useStoredRaw(PIXEL_KEYS_STORAGE_KEY);
 
   const storedBalance = useMemo(
-    () => (storedBalanceRaw !== null ? Number(storedBalanceRaw) : DEFAULT_BALANCE),
+    () => (storedBalanceRaw !== null ? Number(storedBalanceRaw) : mockBalance),
     [storedBalanceRaw]
   );
   const storedApiKeys = useMemo(() => {
@@ -85,9 +93,18 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
       return [];
     }
   }, [storedApiKeysRaw]);
+  const storedPixelKeys = useMemo(() => {
+    if (storedPixelKeysRaw === null) return [];
+    try {
+      return JSON.parse(storedPixelKeysRaw) as ApiKeyEntry[];
+    } catch {
+      return [];
+    }
+  }, [storedPixelKeysRaw]);
 
   const balance = balanceOverride ?? storedBalance;
   const apiKeys = apiKeysOverride ?? storedApiKeys;
+  const pixelKeys = pixelKeysOverride ?? storedPixelKeys;
 
   const persistBalance = (value: number) => {
     setBalanceOverride(value);
@@ -99,12 +116,18 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(API_KEYS_STORAGE_KEY, JSON.stringify(keys));
   };
 
-  // Toggling into "new user" simulates a fresh signup — balance and API keys reset.
+  const persistPixelKeys = (keys: ApiKeyEntry[]) => {
+    setPixelKeysOverride(keys);
+    window.localStorage.setItem(PIXEL_KEYS_STORAGE_KEY, JSON.stringify(keys));
+  };
+
+  // Toggling into "new user" simulates a fresh signup — balance and keys reset.
   const setIsNewUser = (value: boolean) => {
     setIsNewUserState(value);
     if (value) {
       persistBalance(0);
       persistApiKeys([]);
+      persistPixelKeys([]);
     }
   };
 
@@ -118,9 +141,11 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const addApiKey = () => {
     const entry: ApiKeyEntry = {
       id: `key_${Date.now()}`,
+      name: `Key ${apiKeys.length + 1}`,
       value: generateKeyValue(),
     };
     persistApiKeys([...apiKeys, entry]);
+    return entry;
   };
 
   const removeApiKey = (id: string) => {
@@ -128,6 +153,22 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   };
 
   const clearApiKeys = () => persistApiKeys([]);
+
+  const addPixelKey = () => {
+    const entry: ApiKeyEntry = {
+      id: `pxkey_${Date.now()}`,
+      name: `Key ${pixelKeys.length + 1}`,
+      value: generateKeyValue(),
+    };
+    persistPixelKeys([...pixelKeys, entry]);
+    return entry;
+  };
+
+  const removePixelKey = (id: string) => {
+    persistPixelKeys(pixelKeys.filter((k) => k.id !== id));
+  };
+
+  const clearPixelKeys = () => persistPixelKeys([]);
 
   return (
     <DemoStateContext.Provider
@@ -147,6 +188,10 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         addApiKey,
         removeApiKey,
         clearApiKeys,
+        pixelKeys,
+        addPixelKey,
+        removePixelKey,
+        clearPixelKeys,
       }}
     >
       {children}

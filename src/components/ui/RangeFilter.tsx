@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { CalendarBlank, CaretDown } from "@phosphor-icons/react";
-import { PopoverPortal } from "./popover";
+import { PopoverPortal } from "./Popover";
 import { Radio } from "./Radio";
 import styles from "./RangeFilter.module.css";
 

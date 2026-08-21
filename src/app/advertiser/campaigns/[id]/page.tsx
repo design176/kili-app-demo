@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { CurrencyDollar, Eye, Cursor, Coins, ChartBar, Percent, Rocket } from "@phosphor-icons/react";
+import { CurrencyDollar, Eye, Cursor, Target, Coins, ChartBar, Percent, HandCoins, Rocket } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -11,6 +11,7 @@ import { Divider } from "@/components/ui/Divider";
 import { KPISmallStrip } from "@/components/ui/KPISmallStrip";
 import { TrendChart } from "@/components/ui/TrendChart";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { CostBreakdownPills, CostBreakdownPanel } from "@/components/ui/CostBreakdown";
 import type { TrendGranularity } from "@/components/ui/RangeFilter";
 import { FormField } from "@/components/ui/FormField";
 import { Input } from "@/components/ui/Input";
@@ -18,7 +19,8 @@ import { Textarea } from "@/components/ui/Textarea";
 import { DatePicker, type DateRange } from "@/components/ui/DatePicker";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { useDemoState } from "@/components/demo-state";
-import { mockCampaigns, spendByGranularity, impressionsTotalByGranularity } from "@/lib/mock-data";
+import { mockCampaigns, spendByGranularity, impressionsTotalByGranularity, conversionsByGranularity } from "@/lib/mock-data";
+import { buildTrendData } from "@/lib/chart-data";
 import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
 import styles from "./detail.module.css";
 
@@ -30,11 +32,12 @@ const statusTone = {
   Archived: "danger",
 } as const;
 
-const granularities = ["daily", "weekly", "monthly"] as const;
 /** The reference dataset's default 6-month window (Jul–Dec) sums to 4,200 — this scales it to match each campaign's own spend KPI. */
 const REFERENCE_SPEND_TOTAL = 4200;
 /** The reference impressions dataset's default 6-month window (Jul–Dec) sums to 333,800 — this scales it to match each campaign's own impressions KPI. */
 const REFERENCE_IMPRESSIONS_TOTAL = 333800;
+/** The reference conversions dataset's default 6-month window (Jul–Dec) sums to 209 — this scales it to match each campaign's own conversions KPI. */
+const REFERENCE_CONVERSIONS_TOTAL = 209;
 
 export default function CampaignDetailPage() {
   const params = useParams<{ id: string }>();
@@ -58,45 +61,53 @@ export default function CampaignDetailPage() {
   const [confirmSave, setConfirmSave] = useState(false);
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
+  const [conversionsGranularity, setConversionsGranularity] = useState<TrendGranularity>("monthly");
   const isFreshlyLaunched =
     status !== "Draft" && campaign.spend === 0 && campaign.impressions === 0;
 
-  const spendScale = campaign.spend > 0 ? campaign.spend / REFERENCE_SPEND_TOTAL : 0;
-  const spendData = Object.fromEntries(
-    granularities.map((g) => [
-      g,
-      {
-        xLabels: spendByGranularity[g].xLabels,
-        series: [
-          {
-            key: "spend",
-            label: "Spend",
-            color: "var(--color-brand)",
-            values: spendByGranularity[g].values.map((v) => Math.round(v * spendScale)),
-          },
-        ],
-      },
-    ])
-  ) as Record<TrendGranularity, { xLabels: string[]; series: { key: string; label: string; color: string; values: number[] }[] }>;
+  const spendData = buildTrendData(
+    spendByGranularity,
+    { key: "spend", label: "Spend", color: "var(--color-brand)" },
+    campaign.spend / REFERENCE_SPEND_TOTAL
+  );
 
-  const impressionsScale =
-    campaign.impressions > 0 ? campaign.impressions / REFERENCE_IMPRESSIONS_TOTAL : 0;
-  const impressionsData = Object.fromEntries(
-    granularities.map((g) => [
-      g,
-      {
-        xLabels: impressionsTotalByGranularity[g].xLabels,
-        series: [
-          {
-            key: "impressions",
-            label: "Impressions",
-            color: "var(--color-chart-blue)",
-            values: impressionsTotalByGranularity[g].values.map((v) => Math.round(v * impressionsScale)),
-          },
-        ],
-      },
-    ])
-  ) as Record<TrendGranularity, { xLabels: string[]; series: { key: string; label: string; color: string; values: number[] }[] }>;
+  const impressionsData = buildTrendData(
+    impressionsTotalByGranularity,
+    { key: "impressions", label: "Impressions", color: "var(--color-chart-blue)" },
+    campaign.impressions / REFERENCE_IMPRESSIONS_TOTAL
+  );
+
+  const conversionsData = buildTrendData(
+    conversionsByGranularity,
+    { key: "conversions", label: "Conversions", color: "var(--color-chart-purple)" },
+    campaign.conversions / REFERENCE_CONVERSIONS_TOTAL
+  );
+
+  type CostRow = { key: string; icon: ReactNode; tooltip: string; label: string; value: string };
+
+  const costRows: CostRow[] = [
+    {
+      key: "cpc",
+      icon: <Coins size={12} weight="bold" />,
+      tooltip: "Average cost for each click.",
+      label: "CPC",
+      value: `$${campaign.cpc.toFixed(2)}`,
+    },
+    {
+      key: "cpm",
+      icon: <ChartBar size={12} weight="bold" />,
+      tooltip: "Cost for every thousand impressions.",
+      label: "CPM",
+      value: `$${campaign.cpm.toFixed(2)}`,
+    },
+    {
+      key: "cpa",
+      icon: <HandCoins size={12} weight="bold" />,
+      tooltip: "Average cost for each conversion.",
+      label: "CPA",
+      value: `$${campaign.cpa.toFixed(2)}`,
+    },
+  ];
 
   return (
     <DashboardShell
@@ -149,16 +160,10 @@ export default function CampaignDetailPage() {
             value: campaign.clicks.toLocaleString(),
           },
           {
-            icon: <Coins size={14} weight="bold" />,
-            tooltip: "Average cost for each click.",
-            label: "CPC",
-            value: `$${campaign.cpc.toFixed(2)}`,
-          },
-          {
-            icon: <ChartBar size={14} weight="bold" />,
-            tooltip: "Cost for every thousand impressions.",
-            label: "CPM",
-            value: `$${campaign.cpm.toFixed(2)}`,
+            icon: <Target size={14} weight="bold" />,
+            tooltip: "Visits that reached your defined conversion URL.",
+            label: "Conversions",
+            value: campaign.conversions.toLocaleString(),
           },
           {
             icon: <Percent size={14} weight="bold" />,
@@ -168,6 +173,8 @@ export default function CampaignDetailPage() {
           },
         ]}
       />
+
+      <CostBreakdownPills items={costRows} loading={forceLoadingStates} />
 
       <div className={styles.lowerRow}>
         <div className={styles.mainCol}>
@@ -192,6 +199,17 @@ export default function CampaignDetailPage() {
                   valueFormatter={(v) => formatCompactNumber(v)}
                   granularity={impressionsGranularity}
                   onGranularityChange={setImpressionsGranularity}
+                  loading
+                />
+              </Card>
+              <Card>
+                <TrendChart
+                  title="Conversions over time"
+                  chartStyle="default"
+                  data={conversionsData}
+                  valueFormatter={(v) => formatCompactNumber(v)}
+                  granularity={conversionsGranularity}
+                  onGranularityChange={setConversionsGranularity}
                   loading
                 />
               </Card>
@@ -226,6 +244,16 @@ export default function CampaignDetailPage() {
                   onGranularityChange={setImpressionsGranularity}
                 />
               </Card>
+              <Card>
+                <TrendChart
+                  title="Conversions over time"
+                  chartStyle="default"
+                  data={conversionsData}
+                  valueFormatter={(v) => formatCompactNumber(v)}
+                  granularity={conversionsGranularity}
+                  onGranularityChange={setConversionsGranularity}
+                />
+              </Card>
             </>
           )}
         </div>
@@ -257,6 +285,7 @@ export default function CampaignDetailPage() {
               </div>
             </div>
           </Card>
+          <CostBreakdownPanel title="Cost breakdown" items={costRows} loading={forceLoadingStates} />
         </div>
       </div>
 

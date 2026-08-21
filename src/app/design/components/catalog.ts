@@ -15,7 +15,7 @@ export const catalog: ComponentEntry[] = [
     slug: "button",
     name: "Button",
     category: "Atom",
-    desc: "Primary/secondary/ghost/destructive/accent variants, 4 sizes (sm/md/lg/xl), disabled state.",
+    desc: "Primary/secondary/ghost/destructive/accent variants, 4 sizes (sm/md/lg/xl), disabled state. Primary/Secondary/Accent/Destructive all get a glossy shimmer-ring overlay; Ghost doesn't.",
     usedIn: ["Create Campaign CTA", "Launch button", "Pause/Archive", "Copy actions"],
     status: "built",
   },
@@ -64,7 +64,7 @@ export const catalog: ComponentEntry[] = [
     name: "Badge",
     category: "Atom",
     desc: "Small status pill — 8 generic color tones (incl. purple, amber), callers map them to statuses.",
-    usedIn: ["Campaign List — Status badge", "IA page — Scope tags"],
+    usedIn: ["Campaign List — Status badge", "IA page — Scope tags", "Cost Breakdown pills"],
     status: "built",
   },
   {
@@ -194,7 +194,11 @@ export const catalog: ComponentEntry[] = [
     name: "Trend Chart",
     category: "Molecule",
     desc: "Legend (only shown for 2+ series — a single line hides it), a Range Filter (Daily/Weekly/Monthly) plus secondary prev/next pan arrows (with hover Tooltips) that page through the underlying data, minimal or default (axes/gridlines + hatch-filled area) style.",
-    usedIn: ["Overview — Spend/Revenue-over-time chart", "Campaign Detail — Spend over time"],
+    usedIn: [
+      "Overview — Spend/Revenue-over-time chart",
+      "Campaign Detail — Spend over time, Impressions, Conversions over time",
+      "Advertiser Events Tracking — Conversions over time, Page visits over time",
+    ],
     status: "built",
   },
   {
@@ -237,6 +241,22 @@ export const catalog: ComponentEntry[] = [
     usedIn: ["Sidebar Nav — balance card", "Billing — Add balance"],
     status: "built",
   },
+  {
+    slug: "cost-breakdown",
+    name: "Cost Breakdown",
+    category: "Molecule",
+    desc: "Responsive pair — CostBreakdownPills (Badge pills, mobile) and CostBreakdownPanel (a titled Card with dashed-divider rows, tablet/desktop) — same item shape, CSS-only visibility swap at 800px.",
+    usedIn: ["Advertiser Overview — Spend breakdown", "Campaign Detail — Cost breakdown"],
+    status: "built",
+  },
+  {
+    slug: "key-manager",
+    name: "Key Manager",
+    category: "Molecule",
+    desc: "Create-key flow — header + Create button, a Table of existing keys (masked value, delete action) or an Empty State, and a one-time reveal Card (Copy Field + Copy key/Done) shown right after creating a new key.",
+    usedIn: ["Platform Integration — API keys", "Advertiser Pixel Setup — Pixel keys"],
+    status: "built",
+  },
 
   // Organisms
   {
@@ -260,15 +280,15 @@ export const catalog: ComponentEntry[] = [
     name: "KPI Strip",
     category: "Organism",
     desc: "Row of bordered KPI Tiles (icon, value, trend, sparkline) for a screen — the fuller, more detailed layout. See KPI Compact Strip for the simpler one used on Overview.",
-    usedIn: ["Campaign Detail"],
+    usedIn: ["Advertiser Events Tracking"],
     status: "built",
   },
   {
     slug: "kpi-small-strip",
     name: "KPI Small Strip",
     category: "Organism",
-    desc: "The most minimal KPI variant, from a Figma reference — value + a small bordered icon badge on top (Tooltip trigger, not a button), label below. No trend row.",
-    usedIn: ["Advertiser Overview", "Platform Overview"],
+    desc: "The most minimal KPI variant, from a Figma reference — value + a small bordered icon badge on top (Tooltip trigger, not a button), label below. No trend row. Row orientation by default; column orientation stacks items vertically for a compact side-panel list.",
+    usedIn: ["Advertiser Overview", "Platform Overview", "Campaign Detail"],
     status: "built",
   },
   {
@@ -283,8 +303,8 @@ export const catalog: ComponentEntry[] = [
     slug: "activity-feed",
     name: "Activity Feed",
     category: "Organism",
-    desc: "Passive, chronological log of campaign lifecycle and pixel-tracking events — a tone-colored icon badge, title, optional description, and relative time per row.",
-    usedIn: ["Advertiser Overview — right panel"],
+    desc: "Passive, chronological log of campaign lifecycle, pixel-tracking, and conversion events — a tone-colored icon badge, title, optional description, and relative time per row.",
+    usedIn: ["Advertiser Overview — right panel", "Advertiser Events Tracking"],
     status: "built",
   },
   {

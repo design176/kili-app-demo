@@ -2,6 +2,7 @@ import type { Campaign } from "@/components/ui/CampaignTable";
 import type { HistoryEntry, InvoiceStatus, PayoutStatus } from "@/components/ui/HistoryTable";
 import type { ActivityEvent } from "@/components/ui/ActivityFeed";
 
+/** Starting balance for a demo account — `demo-state` seeds `balance` from this. */
 export const mockBalance = 1860.4;
 
 export const mockCampaigns: Campaign[] = [
@@ -13,9 +14,11 @@ export const mockCampaigns: Campaign[] = [
     spend: 1240,
     impressions: 84200,
     clicks: 1320,
+    conversions: 120,
     cpc: 0.94,
     cpm: 14.73,
     ctr: 1.6,
+    cpa: 10.33,
     endDate: new Date(2026, 8, 30),
   },
   {
@@ -26,9 +29,11 @@ export const mockCampaigns: Campaign[] = [
     spend: 990,
     impressions: 62100,
     clicks: 980,
+    conversions: 95,
     cpc: 1.01,
     cpm: 15.94,
     ctr: 1.58,
+    cpa: 10.42,
     endDate: new Date(2026, 9, 15),
   },
   {
@@ -39,9 +44,11 @@ export const mockCampaigns: Campaign[] = [
     spend: 640,
     impressions: 30100,
     clicks: 410,
+    conversions: 35,
     cpc: 1.56,
     cpm: 21.26,
     ctr: 1.36,
+    cpa: 18.29,
     endDate: new Date(2026, 10, 1),
   },
   {
@@ -52,9 +59,11 @@ export const mockCampaigns: Campaign[] = [
     spend: 1500,
     impressions: 92000,
     clicks: 1610,
+    conversions: 140,
     cpc: 0.93,
     cpm: 16.3,
     ctr: 1.75,
+    cpa: 10.71,
     endDate: new Date(2025, 11, 31),
   },
   {
@@ -65,9 +74,11 @@ export const mockCampaigns: Campaign[] = [
     spend: 0,
     impressions: 0,
     clicks: 0,
+    conversions: 0,
     cpc: 0,
     cpm: 0,
     ctr: 0,
+    cpa: 0,
     endDate: new Date(2026, 11, 31),
   },
   {
@@ -78,9 +89,11 @@ export const mockCampaigns: Campaign[] = [
     spend: 0,
     impressions: 0,
     clicks: 0,
+    conversions: 0,
     cpc: 0,
     cpm: 0,
     ctr: 0,
+    cpa: 0,
     endDate: new Date(2026, 11, 15),
   },
 ];
@@ -102,6 +115,30 @@ export const mockActivityEvents: ActivityEvent[] = [
   { id: "act_6", type: "visit", title: "126 new page visits on Q4 launch", time: "1d ago" },
   { id: "act_7", type: "launched", title: "Q4 launch was launched", time: "3d ago" },
   { id: "act_8", type: "ended", title: "Holiday promo 2025 ended", time: "5d ago" },
+];
+
+// Events Tracking KPI strip — shared with Pixel Setup's install-verification
+// numbers so both pages agree.
+export const mockPageVisits = "12,480";
+export const mockConversions = "318";
+export const mockCPA = "$5.84";
+
+export const mockConversionEvents: ActivityEvent[] = [
+  { id: "conv_1", type: "purchase", title: "$49.00 purchase on Q4 launch", time: "8m ago" },
+  { id: "conv_2", type: "purchase", title: "$129.00 purchase on Retargeting — trial users", time: "45m ago" },
+  { id: "conv_3", type: "purchase", title: "$19.00 purchase on Q4 launch", time: "2h ago" },
+  { id: "conv_4", type: "purchase", title: "$79.00 purchase on Brand awareness — spring", time: "6h ago" },
+  { id: "conv_5", type: "purchase", title: "$49.00 purchase on Q4 launch", time: "1d ago" },
+  { id: "conv_6", type: "purchase", title: "$99.00 purchase on Holiday promo 2025", time: "1d ago" },
+  { id: "conv_7", type: "purchase", title: "$29.00 purchase on Retargeting — trial users", time: "1d ago" },
+  { id: "conv_8", type: "purchase", title: "$149.00 purchase on Q4 launch", time: "2d ago" },
+  { id: "conv_9", type: "purchase", title: "$39.00 purchase on Brand awareness — spring", time: "2d ago" },
+  { id: "conv_10", type: "purchase", title: "$59.00 purchase on Holiday promo 2025", time: "2d ago" },
+  { id: "conv_11", type: "purchase", title: "$19.00 purchase on Q4 launch", time: "3d ago" },
+  { id: "conv_12", type: "purchase", title: "$199.00 purchase on Retargeting — trial users", time: "3d ago" },
+  { id: "conv_13", type: "purchase", title: "$49.00 purchase on Q4 launch", time: "4d ago" },
+  { id: "conv_14", type: "purchase", title: "$89.00 purchase on Brand awareness — spring", time: "4d ago" },
+  { id: "conv_15", type: "purchase", title: "$129.00 purchase on Holiday promo 2025", time: "5d ago" },
 ];
 
 export const mockPayouts: HistoryEntry<PayoutStatus>[] = [
@@ -230,4 +267,26 @@ export const impressionsTotalByGranularity: Record<"daily" | "weekly" | "monthly
   daily: { xLabels: dailyLabels, values: sumSeries(impressionsByGranularity.daily.series, dailyLabels.length) },
   weekly: { xLabels: weeklyLabels, values: sumSeries(impressionsByGranularity.weekly.series, weeklyLabels.length) },
   monthly: { xLabels: monthLabels, values: sumSeries(impressionsByGranularity.monthly.series, monthLabels.length) },
+};
+
+const monthlyConversions = [22, 25, 20, 28, 30, 26, 31, 34, 29, 38, 35, 42];
+const weeklyConversions = buildValues(16, 18, 5, 0.6, 1.2);
+const dailyConversions = buildValues(30, 9, 3, 0.15, 1.6);
+
+/** Conversions-over-time chart data (Events Tracking), keyed by Range Filter granularity. */
+export const conversionsByGranularity: Record<"daily" | "weekly" | "monthly", TrendGranularityData> = {
+  daily: { xLabels: dailyLabels, values: dailyConversions },
+  weekly: { xLabels: weeklyLabels, values: weeklyConversions },
+  monthly: { xLabels: monthLabels, values: monthlyConversions },
+};
+
+const monthlyPageVisits = [820, 890, 760, 980, 1050, 940, 1080, 1180, 1020, 1310, 1220, 1420];
+const weeklyPageVisits = buildValues(16, 620, 140, 22, 0.7);
+const dailyPageVisits = buildValues(30, 320, 70, 6, 0.3);
+
+/** Page-visits-over-time chart data (Events Tracking), keyed by Range Filter granularity. */
+export const pageVisitsByGranularity: Record<"daily" | "weekly" | "monthly", TrendGranularityData> = {
+  daily: { xLabels: dailyLabels, values: dailyPageVisits },
+  weekly: { xLabels: weeklyLabels, values: weeklyPageVisits },
+  monthly: { xLabels: monthLabels, values: monthlyPageVisits },
 };

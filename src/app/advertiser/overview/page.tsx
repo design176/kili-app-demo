@@ -1,62 +1,111 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { Megaphone, CurrencyDollar, Eye, Cursor, Coins, ChartBar, Percent } from "@phosphor-icons/react";
+import { Megaphone, CurrencyDollar, Eye, Cursor, Target, Percent, Wallet, Coins, ChartBar, HandCoins } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { Card } from "@/components/ui/Card";
 import { KPISmallStrip } from "@/components/ui/KPISmallStrip";
 import { TrendChart } from "@/components/ui/TrendChart";
 import { ActivityFeed } from "@/components/ui/ActivityFeed";
+import { CostBreakdownPills, CostBreakdownPanel } from "@/components/ui/CostBreakdown";
 import type { TrendGranularity } from "@/components/ui/RangeFilter";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDemoState } from "@/components/demo-state";
-import { spendByGranularity, impressionsTotalByGranularity, mockActivityEvents } from "@/lib/mock-data";
-import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
+import { useIsMobile } from "@/lib/use-mobile";
+import { spendByGranularity, impressionsTotalByGranularity, mockActivityEvents, mockConversions, mockCPA } from "@/lib/mock-data";
+import { buildTrendData } from "@/lib/chart-data";
+import { formatCompactCurrency, formatCompactNumber, formatCurrency } from "@/lib/format";
 import styles from "./overview.module.css";
 
-const granularities = ["daily", "weekly", "monthly"] as const;
-
 export default function AdvertiserOverviewPage() {
-  const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
+  const { isNewUser, forceEmptyStates, forceLoadingStates, balance } = useDemoState();
   const router = useRouter();
+  const isMobile = useIsMobile();
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
   const isEmpty = forceEmptyStates || isNewUser;
 
-  const spendData = Object.fromEntries(
-    granularities.map((g) => [
-      g,
-      {
-        xLabels: spendByGranularity[g].xLabels,
-        series: [
-          {
-            key: "main",
-            label: "Spend",
-            color: "var(--color-brand)",
-            values: spendByGranularity[g].values,
-          },
-        ],
-      },
-    ])
-  ) as Record<TrendGranularity, { xLabels: string[]; series: { key: string; label: string; color: string; values: number[] }[] }>;
+  const spendData = buildTrendData(spendByGranularity, {
+    key: "main",
+    label: "Spend",
+    color: "var(--color-brand)",
+  });
 
-  const impressionsData = Object.fromEntries(
-    granularities.map((g) => [
-      g,
-      {
-        xLabels: impressionsTotalByGranularity[g].xLabels,
-        series: [
+  const impressionsData = buildTrendData(impressionsTotalByGranularity, {
+    key: "impressions",
+    label: "Impressions",
+    color: "var(--color-chart-blue)",
+  });
+
+  type CostRow = { key: string; icon: ReactNode; tooltip: string; label: string; value: string };
+
+  const costRows: CostRow[] = [
+    {
+      key: "cpc",
+      icon: <Coins size={12} weight="bold" />,
+      tooltip: "Average cost for each click.",
+      label: "CPC",
+      value: isEmpty ? "—" : "$1.36",
+    },
+    {
+      key: "cpm",
+      icon: <ChartBar size={12} weight="bold" />,
+      tooltip: "Cost for every thousand impressions.",
+      label: "CPM",
+      value: isEmpty ? "—" : "$23.20",
+    },
+    {
+      key: "cpa",
+      icon: <HandCoins size={12} weight="bold" />,
+      tooltip: "Average cost for each conversion.",
+      label: "CPA",
+      value: isEmpty ? "—" : mockCPA,
+    },
+  ];
+
+  const kpiItems = [
+    {
+      icon: <CurrencyDollar size={14} weight="bold" />,
+      tooltip: "Total amount spent on the campaign, this period.",
+      label: "Spend",
+      value: isEmpty ? "$0" : formatCompactCurrency(4230),
+    },
+    {
+      icon: <Eye size={14} weight="bold" />,
+      tooltip: "How many times the ad was shown.",
+      label: "Impressions",
+      value: isEmpty ? "0" : formatCompactNumber(182400),
+    },
+    {
+      icon: <Cursor size={14} weight="bold" />,
+      tooltip: "How many times people clicked the ad.",
+      label: "Clicks",
+      value: isEmpty ? "0" : formatCompactNumber(3102),
+    },
+    ...(isMobile
+      ? [
           {
-            key: "impressions",
-            label: "Impressions",
-            color: "var(--color-chart-blue)",
-            values: impressionsTotalByGranularity[g].values,
+            icon: <Wallet size={14} weight="bold" />,
+            tooltip: "Your current account balance.",
+            label: "Balance",
+            value: isEmpty ? "$0" : formatCurrency(balance),
           },
-        ],
-      },
-    ])
-  ) as Record<TrendGranularity, { xLabels: string[]; series: { key: string; label: string; color: string; values: number[] }[] }>;
+        ]
+      : []),
+    {
+      icon: <Target size={14} weight="bold" />,
+      tooltip: "Visits that reached your defined conversion URL.",
+      label: "Conversions",
+      value: isEmpty ? "0" : mockConversions,
+    },
+    {
+      icon: <Percent size={14} weight="bold" />,
+      tooltip: "Percentage of impressions that turned into clicks.",
+      label: "CTR",
+      value: isEmpty ? "—" : "1.7%",
+    },
+  ];
 
   return (
     <DashboardShell
@@ -65,48 +114,10 @@ export default function AdvertiserOverviewPage() {
       pageDescription="Spend and performance across your campaigns."
     >
       <div>
-        <KPISmallStrip
-          loading={forceLoadingStates}
-          items={[
-            {
-              icon: <CurrencyDollar size={14} weight="bold" />,
-              tooltip: "Total amount spent on the campaign, this period.",
-              label: "Spend",
-              value: isEmpty ? "$0" : formatCompactCurrency(4230),
-            },
-            {
-              icon: <Eye size={14} weight="bold" />,
-              tooltip: "How many times the ad was shown.",
-              label: "Impressions",
-              value: isEmpty ? "0" : formatCompactNumber(182400),
-            },
-            {
-              icon: <Cursor size={14} weight="bold" />,
-              tooltip: "How many times people clicked the ad.",
-              label: "Clicks",
-              value: isEmpty ? "0" : formatCompactNumber(3102),
-            },
-            {
-              icon: <Coins size={14} weight="bold" />,
-              tooltip: "Average cost for each click.",
-              label: "CPC",
-              value: isEmpty ? "—" : "$1.36",
-            },
-            {
-              icon: <ChartBar size={14} weight="bold" />,
-              tooltip: "Cost for every thousand impressions.",
-              label: "CPM",
-              value: isEmpty ? "—" : "$23.20",
-            },
-            {
-              icon: <Percent size={14} weight="bold" />,
-              tooltip: "Percentage of impressions that turned into clicks.",
-              label: "CTR",
-              value: isEmpty ? "—" : "1.7%",
-            },
-          ]}
-        />
+        <KPISmallStrip loading={forceLoadingStates} items={kpiItems} />
       </div>
+
+      <CostBreakdownPills items={costRows} loading={forceLoadingStates} />
 
       {forceLoadingStates ? (
         <div className={styles.lowerRow}>
@@ -139,6 +150,7 @@ export default function AdvertiserOverviewPage() {
             <Card>
               <ActivityFeed events={[]} loading />
             </Card>
+            <CostBreakdownPanel title="Spend breakdown" items={costRows} loading />
           </div>
         </div>
       ) : isEmpty ? (
@@ -185,6 +197,7 @@ export default function AdvertiserOverviewPage() {
             <Card>
               <ActivityFeed events={mockActivityEvents} />
             </Card>
+            <CostBreakdownPanel title="Spend breakdown" items={costRows} />
           </div>
         </div>
       )}

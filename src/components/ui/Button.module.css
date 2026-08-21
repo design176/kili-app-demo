@@ -5,15 +5,19 @@
   justify-content: center;
   gap: 6px;
   border: none;
+  overflow: hidden;
   cursor: pointer;
   font-family: var(--font-body);
   font-weight: 600;
   white-space: nowrap;
-  transition: filter 0.12s ease, background 0.12s ease, transform 0.05s ease;
+  transition:
+    filter 0.12s ease,
+    background 0.12s ease,
+    transform 0.05s ease;
 }
 
 .btn:active,
-.btn[data-force="active"] {
+.btn[data-force='active'] {
   transform: translateY(0.5px);
 }
 
@@ -46,11 +50,8 @@
   border-radius: 9px;
 }
 
-/* Glossy filled family: a solid fill with a top-light overlay. Used directly
-   by Accent/Destructive, and by whichever of Primary/Secondary is currently
-   playing the "mono dark" role (see below — the other one plays "mono
-   light" and needs a different recipe, since a white overlay on white is
-   invisible). */
+/* Glossy filled family: a solid colored fill with a top-light overlay and a
+   fading shimmer border. Used by Accent/Destructive only. */
 .glossy {
   color: var(--btn-text, var(--color-on-brand));
   background-image: linear-gradient(
@@ -64,12 +65,8 @@
     0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
-/* Shimmer: a fading-out highlight border. Only .glossy (Accent/Destructive/
-   dark-mono) uses this — the light-mono variant already has its own real
-   border + ring (below), and layering this on top of those doubled up into
-   a visibly nested rounded-rect, so it's deliberately left off there. */
 .glossy::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 1px;
   border-radius: inherit;
@@ -80,14 +77,19 @@
 }
 
 .glossy:hover,
-.glossy[data-force="hover"] {
+.glossy[data-force='hover'] {
   background-color: var(--btn-fill-hover);
 }
 
 .glossy:active,
-.glossy[data-force="active"] {
+.glossy[data-force='active'] {
   background-color: var(--btn-fill-active, var(--btn-fill-hover));
   filter: brightness(0.96);
+}
+
+.sm.glossy,
+.md.glossy {
+  box-shadow: none;
 }
 
 .accent {
@@ -101,51 +103,61 @@
   --btn-fill-hover: var(--color-danger-hover);
 }
 
-/* Primary and Secondary invert white/black with the theme, opposite of each
-   other: whichever is dark gets the .glossy treatment above, whichever is
-   white gets the gradient/border recipe below. */
-:global([data-theme="light"]) .primary,
-:global([data-theme="dark"]) .secondary {
-  --btn-fill: var(--btn-mono-dark-fill);
-  --btn-fill-hover: var(--btn-mono-dark-fill-hover);
-  --btn-fill-active: var(--btn-mono-dark-fill-active);
-  --btn-text: var(--btn-mono-dark-text);
+/* Primary: its own tokens, no shared role. --btn-primary-* is redefined
+   under [data-theme="dark"] in globals.css, so this rule never needs a
+   theme selector of its own. */
+.primary {
+  color: var(--btn-primary-text);
+  background-color: var(--btn-primary-bg);
+  background-image: var(--btn-primary-image);
+  border: var(--btn-primary-border-width) solid var(--btn-primary-border);
+  box-shadow: var(--btn-primary-shadow);
 }
 
-:global([data-theme="light"]) .secondary,
-:global([data-theme="dark"]) .primary {
-  color: var(--btn-mono-light-text);
-  background-image: linear-gradient(
-    to bottom,
-    var(--btn-mono-light-top) 0%,
-    var(--btn-mono-light-bottom) 100%
-  );
-  border: 1.5px solid var(--btn-mono-light-border);
-  box-shadow:
-    0 3px 6px -5px rgba(0, 0, 0, 0.1),
-    0 0 0 1.5px var(--btn-mono-light-ring);
+.primary:hover,
+.primary[data-force='hover'] {
+  background-color: var(--btn-primary-bg-hover);
+  background-image: var(--btn-primary-image-hover);
 }
 
-:global([data-theme="light"]) .secondary:hover,
-:global([data-theme="light"]) .secondary[data-force="hover"],
-:global([data-theme="dark"]) .primary:hover,
-:global([data-theme="dark"]) .primary[data-force="hover"] {
-  background-image: linear-gradient(
-    to bottom,
-    var(--btn-mono-light-top) 0%,
-    var(--btn-mono-light-hover-bottom) 100%
-  );
+.primary:active,
+.primary[data-force='active'] {
+  background-color: var(--btn-primary-bg-active);
+  background-image: var(--btn-primary-image-active);
+  filter: brightness(0.96);
 }
 
-:global([data-theme="light"]) .secondary:active,
-:global([data-theme="light"]) .secondary[data-force="active"],
-:global([data-theme="dark"]) .primary:active,
-:global([data-theme="dark"]) .primary[data-force="active"] {
-  background-image: linear-gradient(
-    to bottom,
-    var(--btn-mono-light-active-top) 0%,
-    var(--btn-mono-light-active-bottom) 100%
-  );
+.sm.primary,
+.md.primary {
+  box-shadow: var(--btn-primary-shadow-sm);
+}
+
+/* Secondary: same shape as Primary, its own tokens, again redefined under
+   [data-theme="dark"] in globals.css. */
+.secondary {
+  color: var(--btn-secondary-text);
+  background-color: var(--btn-secondary-bg);
+  background-image: var(--btn-secondary-image);
+  border: var(--btn-secondary-border-width) solid var(--btn-secondary-border);
+  box-shadow: var(--btn-secondary-shadow);
+}
+
+.secondary:hover,
+.secondary[data-force='hover'] {
+  background-color: var(--btn-secondary-bg-hover);
+  background-image: var(--btn-secondary-image-hover);
+}
+
+.secondary:active,
+.secondary[data-force='active'] {
+  background-color: var(--btn-secondary-bg-active);
+  background-image: var(--btn-secondary-image-active);
+  filter: brightness(0.96);
+}
+
+.sm.secondary,
+.md.secondary {
+  box-shadow: var(--btn-secondary-shadow-sm);
 }
 
 /* Ghost: no fill, no shadow */
@@ -155,28 +167,13 @@
 }
 
 .ghost:hover,
-.ghost[data-force="hover"] {
+.ghost[data-force='hover'] {
   background: var(--color-hover);
 }
 
 .ghost:active,
-.ghost[data-force="active"] {
+.ghost[data-force='active'] {
   background: var(--color-active);
-}
-
-/* No shadow at small sizes — a solid/colored fill still reads as a button
-   from its background color alone. The mono-light recipe has no color
-   contrast of its own though, so it keeps at least its ring. */
-.sm.glossy,
-.md.glossy {
-  box-shadow: none;
-}
-
-:global([data-theme="light"]) .sm.secondary,
-:global([data-theme="light"]) .md.secondary,
-:global([data-theme="dark"]) .sm.primary,
-:global([data-theme="dark"]) .md.primary {
-  box-shadow: 0 0 0 1.5px var(--btn-mono-light-ring);
 }
 
 /* Disabled overrides any variant */
@@ -185,7 +182,7 @@
   color: var(--color-text-disabled);
   background: var(--color-disabled-bg);
   background-image: none;
-  border-color: var(--color-border);
+  border-width: 0;
   box-shadow: none;
   transform: none;
 }

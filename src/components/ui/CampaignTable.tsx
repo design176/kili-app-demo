@@ -13,9 +13,11 @@ export type Campaign = {
   spend: number;
   impressions: number;
   clicks: number;
+  conversions: number;
   cpc: number;
   cpm: number;
   ctr: number;
+  cpa: number;
   endDate: Date;
 };
 
@@ -76,6 +78,13 @@ export function CampaignTable({
       render: (row) => row.clicks.toLocaleString(),
     },
     {
+      key: "conversions",
+      header: "Conversions",
+      align: "right",
+      sortable: true,
+      render: (row) => row.conversions.toLocaleString(),
+    },
+    {
       key: "cpc",
       header: "CPC",
       align: "right",
@@ -95,6 +104,13 @@ export function CampaignTable({
       align: "right",
       sortable: true,
       render: (row) => `${row.ctr}%`,
+    },
+    {
+      key: "cpa",
+      header: "CPA",
+      align: "right",
+      sortable: true,
+      render: (row) => `$${row.cpa.toFixed(2)}`,
     },
     {
       key: "endDate",

@@ -21,7 +21,13 @@ function entryToMarkdown(entry: ChangelogEntry) {
     const files = change.files.map((f) => `\`${f}\``).join(", ");
     return `- [ ] ${change.text}\n      Files: ${files}`;
   });
-  return [`## Changes — ${entry.date}`, "", ...lines].join("\n");
+  return [
+    `## Changes — ${entry.date}`,
+    "",
+    "_These are changes from a design-only UI demo — prioritize the visual and interaction changes over others._",
+    "",
+    ...lines,
+  ].join("\n");
 }
 
 function CopyButton({

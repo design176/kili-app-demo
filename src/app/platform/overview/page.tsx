@@ -11,10 +11,9 @@ import type { TrendGranularity } from "@/components/ui/RangeFilter";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDemoState } from "@/components/demo-state";
 import { spendByGranularity, impressionsTotalByGranularity } from "@/lib/mock-data";
+import { buildTrendData } from "@/lib/chart-data";
 import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
 import styles from "./overview.module.css";
-
-const granularities = ["daily", "weekly", "monthly"] as const;
 
 export default function PlatformOverviewPage() {
   const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
@@ -23,39 +22,17 @@ export default function PlatformOverviewPage() {
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
   const isEmpty = forceEmptyStates || isNewUser;
 
-  const revenueData = Object.fromEntries(
-    granularities.map((g) => [
-      g,
-      {
-        xLabels: spendByGranularity[g].xLabels,
-        series: [
-          {
-            key: "main",
-            label: "Revenue",
-            color: "var(--color-brand)",
-            values: spendByGranularity[g].values,
-          },
-        ],
-      },
-    ])
-  ) as Record<TrendGranularity, { xLabels: string[]; series: { key: string; label: string; color: string; values: number[] }[] }>;
+  const revenueData = buildTrendData(spendByGranularity, {
+    key: "main",
+    label: "Revenue",
+    color: "var(--color-brand)",
+  });
 
-  const impressionsData = Object.fromEntries(
-    granularities.map((g) => [
-      g,
-      {
-        xLabels: impressionsTotalByGranularity[g].xLabels,
-        series: [
-          {
-            key: "impressions",
-            label: "Impressions",
-            color: "var(--color-chart-blue)",
-            values: impressionsTotalByGranularity[g].values,
-          },
-        ],
-      },
-    ])
-  ) as Record<TrendGranularity, { xLabels: string[]; series: { key: string; label: string; color: string; values: number[] }[] }>;
+  const impressionsData = buildTrendData(impressionsTotalByGranularity, {
+    key: "impressions",
+    label: "Impressions",
+    color: "var(--color-chart-blue)",
+  });
 
   return (
     <DashboardShell

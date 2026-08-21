@@ -13,9 +13,11 @@ const campaigns: Campaign[] = [
     spend: 3120,
     impressions: 182400,
     clicks: 3102,
+    conversions: 298,
     cpc: 1.01,
     cpm: 17.1,
     ctr: 1.8,
+    cpa: 10.47,
     endDate: new Date(2026, 8, 30),
   },
   {
@@ -26,9 +28,11 @@ const campaigns: Campaign[] = [
     spend: 990,
     impressions: 62100,
     clicks: 980,
+    conversions: 95,
     cpc: 1.01,
     cpm: 15.94,
     ctr: 1.58,
+    cpa: 10.42,
     endDate: new Date(2026, 9, 15),
   },
   {
@@ -39,9 +43,11 @@ const campaigns: Campaign[] = [
     spend: 0,
     impressions: 0,
     clicks: 0,
+    conversions: 0,
     cpc: 0,
     cpm: 0,
     ctr: 0,
+    cpa: 0,
     endDate: new Date(2026, 11, 31),
   },
 ];
@@ -52,7 +58,7 @@ export default function CampaignCardPage() {
       <h1 className={styles.title}>Campaign Card</h1>
       <p className={styles.subtitle}>
         Mobile/cards-view equivalent of a Campaign Table row: name + status
-        badge, a stacked stat list (Budget/Spend/Impressions/Clicks/CPC/CPM/CTR/End
+        badge, a stacked stat list (Budget/Spend/Impressions/Clicks/Conversions/CPC/CPM/CTR/CPA/End
         date), and the same primary &quot;Manage&quot; action, full-width.
       </p>
 

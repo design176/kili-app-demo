@@ -27,7 +27,9 @@ export default function KPISmallStripPage() {
         bordered icon on top, label below. No trend row at all. The icon is
         not a button — it&apos;s a static badge that shows a description
         tooltip on hover/focus (reuses the Tooltip atom&apos;s custom-trigger
-        support).
+        support). <code>orientation=&quot;column&quot;</code> stacks items
+        vertically with horizontal dividers instead — used for a compact
+        metrics list under a side panel.
       </p>
 
       <div className={styles.section}>
@@ -50,6 +52,21 @@ export default function KPISmallStripPage() {
             { icon: <Eye size={14} weight="bold" />, tooltip: "How many times the ad was shown.", value: formatCompactNumber(182400), label: "Impressions" },
           ]}
         />
+      </div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>Column orientation</div>
+        <div style={{ maxWidth: 220 }}>
+          <KPISmallStrip
+            orientation="column"
+            loading={loading}
+            items={[
+              { icon: <Eye size={14} weight="bold" />, tooltip: "Average cost for each click.", value: "$1.36", label: "CPC" },
+              { icon: <Eye size={14} weight="bold" />, tooltip: "Cost for every thousand impressions.", value: "$23.20", label: "CPM" },
+              { icon: <Eye size={14} weight="bold" />, tooltip: "Average cost for each conversion.", value: "$5.84", label: "CPA" },
+            ]}
+          />
+        </div>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { CaretDown, Check } from "@phosphor-icons/react";
-import { PopoverPortal } from "./popover";
+import { PopoverPortal } from "./Popover";
 import styles from "./Select.module.css";
 
 export type SelectOption = {

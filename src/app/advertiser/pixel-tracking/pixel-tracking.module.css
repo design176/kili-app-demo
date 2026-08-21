@@ -89,7 +89,7 @@
   gap: 8px;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--color-danger-text);
+  color: var(--color-success-text);
 }
 
 .verifyStatus svg {

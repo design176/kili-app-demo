@@ -51,6 +51,7 @@ export function SettingsPanel() {
     setForceLoadingStates,
     resetBalance,
     clearApiKeys,
+    clearPixelKeys,
   } = useDemoState();
   const mounted = useMounted();
   const [open, setOpen] = useState(false);
@@ -109,9 +110,10 @@ export function SettingsPanel() {
                     <Switch checked={isNewUser} onCheckedChange={setIsNewUser} />
                   </div>
                   <p className={styles.rowHint}>
-                    Simulates a fresh signup — resets balance and API keys to
-                    zero/empty. Doesn&apos;t navigate anywhere; visit Login
-                    yourself (Routes tab) to see the empty-onboarding path.
+                    Simulates a fresh signup — resets balance, API keys, and
+                    pixel keys to zero/empty. Doesn&apos;t navigate anywhere;
+                    visit Login yourself (Routes tab) to see the
+                    empty-onboarding path.
                   </p>
 
                   <div className={styles.row}>
@@ -144,6 +146,13 @@ export function SettingsPanel() {
                   <div className={styles.row}>
                     <span className={styles.rowLabel}>API keys</span>
                     <button type="button" className={styles.resetButton} onClick={clearApiKeys}>
+                      Clear all
+                    </button>
+                  </div>
+
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Pixel keys</span>
+                    <button type="button" className={styles.resetButton} onClick={clearPixelKeys}>
                       Clear all
                     </button>
                   </div>

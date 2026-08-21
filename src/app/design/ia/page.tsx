@@ -151,15 +151,33 @@ const advertiserScreens: Screen[] = [
   },
   {
     section: "Tracking",
-    screen: "Pixel Tracking",
-    desc: "Tracks what happens on the advertiser's own website after someone clicks through from an ad — separate from the Platform-side ad-serving integration.",
-    why: "New top-level section, not part of Campaigns — conversion tracking lives on the advertiser's own site, not inside a campaign's settings.",
+    screen: "Events Tracking",
+    desc: "Conversion analytics: page visits and conversions attributed to Kili ads, over time, plus a live feed of individual purchase events.",
+    why: "Split out from pixel install/verification — this is the ongoing analytics view an advertiser checks in on, separate from the one-time setup flow below.",
+    tag: "mvp",
+    children: [
+      {
+        label: "KPI strip",
+        children: [
+          { label: "Page visits", desc: "traffic sent to the site by the ad" },
+          { label: "Conversions", desc: "count of completed conversion events" },
+        ],
+      },
+      { label: "Conversions-over-time chart" },
+      { label: "Page-visits-over-time chart" },
+      { label: "Events activity feed", desc: "individual purchase events, most recent first" },
+      { label: "Empty state", desc: "\"set up your pixel to get started\" — links to Pixel Setup" },
+    ],
+  },
+  {
+    section: "Tracking",
+    screen: "Pixel Setup",
+    desc: "Install and verify the client-side pixel on the advertiser's own website — separate from the Platform-side ad-serving integration.",
+    why: "New top-level section, not part of Campaigns — pixel install lives on the advertiser's own site, not inside a campaign's settings. Conversion setup/analytics itself now lives on Events Tracking, not here.",
     tag: "mvp",
     children: [
       { label: "Install snippet", desc: "copyable pixel code the advertiser embeds on their own site" },
-      { label: "Conversion setup", desc: "define what counts as a conversion, e.g. 'someone reaches this URL'" },
-      { label: "Page visits", desc: "traffic sent to the site by the ad, per campaign" },
-      { label: "Conversions", desc: "count of completed conversion events, per campaign" },
+      { label: "Verify installation", desc: "checks that ads are rendering on a live page" },
     ],
   },
   {

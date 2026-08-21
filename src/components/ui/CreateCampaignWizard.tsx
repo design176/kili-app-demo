@@ -185,7 +185,7 @@ export function CreateCampaignWizard({
             <div className={styles.balanceWarning}>
               <span>
                 {balance !== undefined ? `Current balance: $${balance.toLocaleString()}. ` : ""}
-                Add funds to continue with this budget — we'll save this campaign as a draft.
+                Add funds to continue with this budget — we&apos;ll save this campaign as a draft.
               </span>
               <Button variant="secondary" size="sm" onClick={() => onAddBalance?.(draft)}>
                 Add balance

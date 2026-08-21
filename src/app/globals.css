@@ -1,47 +1,51 @@
 :root,
-[data-theme="light"] {
+[data-theme='light'] {
   color-scheme: light;
 
   /* Typography */
-  --font-heading: "Satoshi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-body: "Work Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading:
+    'Satoshi', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  --font-body:
+    'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
 
   /* -------------------------------------------------
      BACKGROUNDS
   ------------------------------------------------- */
 
-  --color-bg: #FFFFFF;
-  --color-bg-subtle: #FAFAFA;
-  --color-bg-muted: #F7F7F8;
+  --color-bg: #ffffff;
+  --color-bg-subtle: #fafafa;
+  --color-bg-muted: #f7f7f8;
 
-  --color-surface-1: #FCFCFD;
-  --color-surface-2: #F9FAFB;
-  --color-surface-3: #F2F4F7;
-  --color-surface-4: #EAECF0;
+  --color-surface-1: #fcfcfd;
+  --color-surface-2: #f9fafb;
+  --color-surface-3: #f2f4f7;
+  --color-surface-4: #eaecf0;
 
-  --color-surface-raised: #FFFFFF;
-  --color-surface-overlay: #FFFFFF;
+  --color-surface-raised: #ffffff;
+  --color-surface-overlay: #ffffff;
 
-  --color-hover: #F2F4F7;
-  --color-active: #EAECF0;
-  --color-selected: #ECFDF3;
-  --color-disabled-bg: #F2F4F7;
+  --color-hover: #f2f4f7;
+  --color-active: #eaecf0;
+  --color-selected: #ecfdf3;
+  --color-disabled-bg: #f2f4f7;
 
   /* Dashboard shell only: canvas is the muted surround, page is the
      elevated card floating on it. Dedicated tokens (not reused generic
      surface tokens) so dark mode can invert which one is darker without
      a component-level theme override. */
-  --color-canvas: #FAFAFA;
-  --color-page: #FCFCFD;
+  --color-canvas: #fafafa;
+  --color-page: #fcfcfd;
 
   /* -------------------------------------------------
      BORDERS / DIVIDERS
   ------------------------------------------------- */
 
-  --color-border-subtle: #F0F1F2;
-  --color-border: #E4E7EC;
-  --color-border-strong: #D0D5DD;
-  --color-border-emphasis: #98A2B3;
+  --color-border-subtle: #f0f1f2;
+  --color-border: #e4e7ec;
+  --color-border-strong: #d0d5dd;
+  --color-border-emphasis: #98a2b3;
 
   /* -------------------------------------------------
      TEXT
@@ -51,9 +55,9 @@
   --color-text-secondary: #344054;
   --color-text-tertiary: #475467;
   --color-text-muted: #667085;
-  --color-text-subtle: #98A2B3;
-  --color-text-disabled: #B2B8C2;
-  --color-text-inverse: #FFFFFF;
+  --color-text-subtle: #98a2b3;
+  --color-text-disabled: #b2b8c2;
+  --color-text-inverse: #ffffff;
 
   /* -------------------------------------------------
      ICONS
@@ -61,146 +65,146 @@
 
   --color-icon-primary: #344054;
   --color-icon-secondary: #667085;
-  --color-icon-muted: #98A2B3;
-  --color-icon-disabled: #B2B8C2;
-  --color-icon-inverse: #FFFFFF;
+  --color-icon-muted: #98a2b3;
+  --color-icon-disabled: #b2b8c2;
+  --color-icon-inverse: #ffffff;
 
   /* -------------------------------------------------
      BRAND / PRIMARY INTERACTION
   ------------------------------------------------- */
 
-  --color-brand: #16A34A;
-  --color-brand-hover: #15803D;
+  --color-brand: #16a34a;
+  --color-brand-hover: #15803d;
   --color-brand-active: #166534;
-  --color-brand-disabled: #86D9A2;
+  --color-brand-disabled: #86d9a2;
 
-  --color-brand-soft: #ECFDF3;
-  --color-brand-soft-hover: #D1FADF;
-  --color-brand-soft-active: #ABEFC6;
+  --color-brand-soft: #ecfdf3;
+  --color-brand-soft-hover: #d1fadf;
+  --color-brand-soft-active: #abefc6;
 
-  --color-brand-border: #ABEFC6;
+  --color-brand-border: #abefc6;
   --color-brand-text: #067647;
-  --color-on-brand: #FFFFFF;
+  --color-on-brand: #ffffff;
 
-  --color-focus: #16A34A;
+  --color-focus: #16a34a;
   --color-focus-ring: rgba(22, 163, 74, 0.28);
 
   /* -------------------------------------------------
      SUCCESS
   ------------------------------------------------- */
 
-  --color-success: #15803D;
+  --color-success: #15803d;
   --color-success-hover: #166534;
-  --color-success-soft: #ECFDF3;
-  --color-success-border: #ABEFC6;
+  --color-success-soft: #ecfdf3;
+  --color-success-border: #abefc6;
   --color-success-text: #067647;
 
   /* -------------------------------------------------
      WARNING
   ------------------------------------------------- */
 
-  --color-warning: #DF7700;
-  --color-warning-hover: #BD5200;
-  --color-warning-soft: #FFFAEB;
-  --color-warning-border: #FFDF88;
-  --color-warning-text: #C2660A;
+  --color-warning: #df7700;
+  --color-warning-hover: #bd5200;
+  --color-warning-soft: #fffaeb;
+  --color-warning-border: #ffdf88;
+  --color-warning-text: #c2660a;
 
   /* -------------------------------------------------
      DANGER / ERROR
   ------------------------------------------------- */
 
-  --color-danger: #EA1818;
-  --color-danger-hover: #C51010;
-  --color-danger-soft: #FEF3F2;
-  --color-danger-border: #FFCCC9;
-  --color-danger-text: #E23F3F;
+  --color-danger: #ea1818;
+  --color-danger-hover: #c51010;
+  --color-danger-soft: #fef3f2;
+  --color-danger-border: #ffccc9;
+  --color-danger-text: #e23f3f;
 
   /* -------------------------------------------------
      INFO
   ------------------------------------------------- */
 
-  --color-info: #165DFA;
-  --color-info-hover: #0F47E6;
-  --color-info-soft: #EFF6FF;
-  --color-info-border: #BEDBFF;
-  --color-info-text: #2F86EB;
+  --color-info: #165dfa;
+  --color-info-hover: #0f47e6;
+  --color-info-soft: #eff6ff;
+  --color-info-border: #bedbff;
+  --color-info-text: #2f86eb;
 
   /* -------------------------------------------------
      PURPLE
   ------------------------------------------------- */
 
-  --color-purple: #6D5CE0;
-  --color-purple-hover: #5A48D6;
-  --color-purple-soft: #EDEAFB;
-  --color-purple-border: #D9D2F7;
-  --color-purple-text: #5A48D6;
+  --color-purple: #6d5ce0;
+  --color-purple-hover: #5a48d6;
+  --color-purple-soft: #edeafb;
+  --color-purple-border: #d9d2f7;
+  --color-purple-text: #5a48d6;
 
   /* -------------------------------------------------
      AMBER
   ------------------------------------------------- */
 
-  --color-amber: #C9930B;
-  --color-amber-hover: #A87A08;
-  --color-amber-soft: #FBF3D9;
-  --color-amber-border: #F0DFA0;
-  --color-amber-text: #A87A08;
+  --color-amber: #c9930b;
+  --color-amber-hover: #a87a08;
+  --color-amber-soft: #fbf3d9;
+  --color-amber-border: #f0dfa0;
+  --color-amber-text: #a87a08;
 
   /* -------------------------------------------------
      CHART / DATA VISUALIZATION
   ------------------------------------------------- */
 
-  --color-chart-green: #16A34A;
-  --color-chart-blue: #165DFA;
-  --color-chart-purple: #6D5CE0;
-  --color-chart-amber: #C9930B;
-  --color-chart-orange: #DF7700;
-  --color-chart-cyan: #0096BA;
-  --color-chart-pink: #E81975;
+  --color-chart-green: #16a34a;
+  --color-chart-blue: #165dfa;
+  --color-chart-purple: #6d5ce0;
+  --color-chart-amber: #c9930b;
+  --color-chart-orange: #df7700;
+  --color-chart-cyan: #0096ba;
+  --color-chart-pink: #e81975;
 
-  --color-chart-neutral-1: #D0D5DD;
-  --color-chart-neutral-2: #98A2B3;
+  --color-chart-neutral-1: #d0d5dd;
+  --color-chart-neutral-2: #98a2b3;
   --color-chart-neutral-3: #667085;
 
-  --color-chart-grid: #EAECF0;
-  --color-chart-axis: #98A2B3;
+  --color-chart-grid: #eaecf0;
+  --color-chart-axis: #98a2b3;
   --color-chart-label: #667085;
 
-  --color-chart-positive: #16A34A;
-  --color-chart-negative: #EA1818;
-  --color-chart-warning: #DF7700;
+  --color-chart-positive: #16a34a;
+  --color-chart-negative: #ea1818;
+  --color-chart-warning: #df7700;
 
   /* -------------------------------------------------
      TABLE / LIST STATE COLORS
   ------------------------------------------------- */
 
-  --color-row-hover: #F9FAFB;
-  --color-row-selected: #ECFDF3;
-  --color-row-divider: #EAECF0;
+  --color-row-hover: #f9fafb;
+  --color-row-selected: #ecfdf3;
+  --color-row-divider: #eaecf0;
 
   /* -------------------------------------------------
      FORM / CONTROL STATE COLORS
   ------------------------------------------------- */
 
-  --color-control-bg: #FFFFFF;
-  --color-control-bg-hover: #FCFCFD;
-  --color-control-bg-disabled: #F2F4F7;
+  --color-control-bg: #ffffff;
+  --color-control-bg-hover: #fcfcfd;
+  --color-control-bg-disabled: #f2f4f7;
 
-  --color-control-border: #D0D5DD;
-  --color-control-border-hover: #98A2B3;
-  --color-control-border-focus: #16A34A;
-  --color-control-border-error: #DC2626;
+  --color-control-border: #d0d5dd;
+  --color-control-border-hover: #98a2b3;
+  --color-control-border-focus: #16a34a;
+  --color-control-border-error: #dc2626;
 
   --color-control-text: #101828;
-  --color-control-placeholder: #98A2B3;
+  --color-control-placeholder: #98a2b3;
 
   /* -------------------------------------------------
      TOOLTIP / MENU / POPOVER
   ------------------------------------------------- */
 
-  --color-floating-bg: #18181B;
-  --color-floating-text: #FAFAFA;
-  --color-floating-muted: #D4D4D8;
-  --color-floating-border: #27272A;
+  --color-floating-bg: #18181b;
+  --color-floating-text: #fafafa;
+  --color-floating-muted: #d4d4d8;
+  --color-floating-border: #27272a;
 
   /* -------------------------------------------------
      OVERLAYS
@@ -214,8 +218,8 @@
   ------------------------------------------------- */
 
   --color-scrollbar-track: transparent;
-  --color-scrollbar-thumb: #D0D5DD;
-  --color-scrollbar-thumb-hover: #98A2B3;
+  --color-scrollbar-thumb: #d0d5dd;
+  --color-scrollbar-thumb-hover: #98a2b3;
 
   /* -------------------------------------------------
      SHADOWS
@@ -223,37 +227,60 @@
 
   --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
   --shadow-sm:
-    0 1px 3px rgba(16, 24, 40, 0.08),
-    0 1px 2px rgba(16, 24, 40, 0.04);
+    0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
   --shadow-md:
-    0 4px 8px -2px rgba(16, 24, 40, 0.10),
-    0 2px 4px -2px rgba(16, 24, 40, 0.06);
-  --shadow-lg:
-    0 12px 24px -8px rgba(16, 24, 40, 0.14);
+    0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 12px 24px -8px rgba(16, 24, 40, 0.14);
 
   /* -------------------------------------------------
-     BUTTON MONOCHROME
-     Two fixed recipes, not theme-specific — Button.module.css decides which
-     of Primary/Secondary points to which one, per theme.
+     BUTTON: PRIMARY / SECONDARY
+     Each variant owns its own tokens outright — no shared "mono" role to
+     swap between them. This is the light-theme value set; [data-theme="dark"]
+     redefines the same variable names below with its own values.
   ------------------------------------------------- */
 
-  --btn-mono-dark-fill: #18181b;
-  --btn-mono-dark-fill-hover: #262626;
-  --btn-mono-dark-fill-active: #000000;
-  --btn-mono-dark-text: #ffffff;
+  --btn-primary-bg: #18181b;
+  --btn-primary-bg-hover: #262626;
+  --btn-primary-bg-active: #000000;
 
-  --btn-mono-light-top: #ffffff;
-  --btn-mono-light-bottom: #f6f6f6;
-  --btn-mono-light-hover-bottom: #efefef;
-  --btn-mono-light-active-top: #f6f6f6;
-  --btn-mono-light-active-bottom: #ededed;
-  --btn-mono-light-border: #ffffff;
-  --btn-mono-light-ring: #ededed;
-  --btn-mono-light-text: #18181b;
+  --btn-primary-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0) 65%
+  );
+
+  --btn-primary-image-hover: var(--btn-primary-image);
+  --btn-primary-image-active: var(--btn-primary-image);
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: transparent;
+  --btn-primary-border-width: 0px;
+  --btn-primary-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --btn-primary-shadow-sm: none;
+
+  --btn-secondary-bg: #f6f6f6;
+  --btn-secondary-bg-hover: #efefef;
+  --btn-secondary-bg-active: #ededed;
+  --btn-secondary-image: linear-gradient(to bottom, #ffffff 0%, #f6f6f6 100%);
+  --btn-secondary-image-hover: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #efefef 100%
+  );
+  --btn-secondary-image-active: linear-gradient(
+    to bottom,
+    #f6f6f6 0%,
+    #ededed 100%
+  );
+  --btn-secondary-text: #18181b;
+  --btn-secondary-border: #ffffff;
+  --btn-secondary-border-width: 1.5px;
+  --btn-secondary-shadow:
+    0 3px 6px -5px rgba(0, 0, 0, 0.1), 0 0 0 1.5px #ededed;
+  --btn-secondary-shadow-sm: 0 0 0 1.5px #ededed;
 }
 
-
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
 
   /* -------------------------------------------------
@@ -262,24 +289,24 @@
 
   --color-bg: #000000;
   --color-bg-subtle: #050506;
-  --color-bg-muted: #08080A;
+  --color-bg-muted: #08080a;
 
-  --color-surface-1: #0A0A0C;
-  --color-surface-2: #0F0F11;
+  --color-surface-1: #0a0a0c;
+  --color-surface-2: #0f0f11;
   --color-surface-3: #151517;
-  --color-surface-4: #1E1E21;
+  --color-surface-4: #1e1e21;
 
   --color-surface-raised: #151517;
-  --color-surface-overlay: #1A1A1D;
+  --color-surface-overlay: #1a1a1d;
 
   --color-hover: #151517;
-  --color-active: #1E1E21;
-  --color-selected: #0F2818;
+  --color-active: #1e1e21;
+  --color-selected: #0f2818;
   --color-disabled-bg: #151517;
 
   /* Inverted vs. light: the page card is the darkest surface, the canvas
      around it is a step lighter. */
-  --color-canvas: #0F0F11;
+  --color-canvas: #0f0f11;
   --color-page: #000000;
 
   /* -------------------------------------------------
@@ -287,135 +314,135 @@
   ------------------------------------------------- */
 
   --color-border-subtle: #202023;
-  --color-border: #27272A;
-  --color-border-strong: #3F3F46;
-  --color-border-emphasis: #71717A;
+  --color-border: #27272a;
+  --color-border-strong: #3f3f46;
+  --color-border-emphasis: #71717a;
 
   /* -------------------------------------------------
      TEXT
   ------------------------------------------------- */
 
-  --color-text-primary: #FAFAFA;
-  --color-text-secondary: #E4E4E7;
-  --color-text-tertiary: #D4D4D8;
-  --color-text-muted: #A1A1AA;
-  --color-text-subtle: #71717A;
-  --color-text-disabled: #52525B;
-  --color-text-inverse: #09090B;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #e4e4e7;
+  --color-text-tertiary: #d4d4d8;
+  --color-text-muted: #a1a1aa;
+  --color-text-subtle: #71717a;
+  --color-text-disabled: #52525b;
+  --color-text-inverse: #09090b;
 
   /* -------------------------------------------------
      ICONS
   ------------------------------------------------- */
 
-  --color-icon-primary: #E4E4E7;
-  --color-icon-secondary: #A1A1AA;
-  --color-icon-muted: #71717A;
-  --color-icon-disabled: #52525B;
-  --color-icon-inverse: #09090B;
+  --color-icon-primary: #e4e4e7;
+  --color-icon-secondary: #a1a1aa;
+  --color-icon-muted: #71717a;
+  --color-icon-disabled: #52525b;
+  --color-icon-inverse: #09090b;
 
   /* -------------------------------------------------
      BRAND / PRIMARY INTERACTION
   ------------------------------------------------- */
 
-  --color-brand: #16A34A;
-  --color-brand-hover: #22C55E;
-  --color-brand-active: #15803D;
+  --color-brand: #16a34a;
+  --color-brand-hover: #22c55e;
+  --color-brand-active: #15803d;
   --color-brand-disabled: #166534;
 
   --color-brand-soft: #143821;
-  --color-brand-soft-hover: #14532D;
+  --color-brand-soft-hover: #14532d;
   --color-brand-soft-active: #166534;
 
   --color-brand-border: #166534;
-  --color-brand-text: #86EFAC;
-  --color-on-brand: #FFFFFF;
+  --color-brand-text: #86efac;
+  --color-on-brand: #ffffff;
 
-  --color-focus: #22C55E;
-  --color-focus-ring: rgba(34, 197, 94, 0.40);
+  --color-focus: #22c55e;
+  --color-focus-ring: rgba(34, 197, 94, 0.4);
 
   /* -------------------------------------------------
      SUCCESS
   ------------------------------------------------- */
 
-  --color-success: #22C55E;
-  --color-success-hover: #4ADE80;
-  --color-success-soft: #123D26;
+  --color-success: #22c55e;
+  --color-success-hover: #4ade80;
+  --color-success-soft: #123d26;
   --color-success-border: #166534;
-  --color-success-text: #86EFAC;
+  --color-success-text: #86efac;
 
   /* -------------------------------------------------
      WARNING
   ------------------------------------------------- */
 
-  --color-warning: #FFC120;
-  --color-warning-hover: #FFD54A;
-  --color-warning-soft: #3B2909;
-  --color-warning-border: #783F0B;
-  --color-warning-text: #FFB454;
+  --color-warning: #ffc120;
+  --color-warning-hover: #ffd54a;
+  --color-warning-soft: #3b2909;
+  --color-warning-border: #783f0b;
+  --color-warning-text: #ffb454;
 
   /* -------------------------------------------------
      DANGER / ERROR
   ------------------------------------------------- */
 
-  --color-danger: #FF3333;
-  --color-danger-hover: #FF4D4D;
-  --color-danger-soft: #441A1A;
+  --color-danger: #ff3333;
+  --color-danger-hover: #ff4d4d;
+  --color-danger-soft: #441a1a;
   --color-danger-border: #861616;
-  --color-danger-text: #FF8080;
+  --color-danger-text: #ff8080;
 
   /* -------------------------------------------------
      INFO
   ------------------------------------------------- */
 
-  --color-info: #5BA4FF;
-  --color-info-hover: #91C5FF;
+  --color-info: #5ba4ff;
+  --color-info-hover: #91c5ff;
   --color-info-soft: #172554;
-  --color-info-border: #133ABA;
-  --color-info-text: #7CB8FF;
+  --color-info-border: #133aba;
+  --color-info-text: #7cb8ff;
 
   /* -------------------------------------------------
      PURPLE
   ------------------------------------------------- */
 
-  --color-purple: #A79CF0;
-  --color-purple-hover: #BFB6F5;
-  --color-purple-soft: #211B3D;
-  --color-purple-border: #4A3F80;
-  --color-purple-text: #BFB6F5;
+  --color-purple: #a79cf0;
+  --color-purple-hover: #bfb6f5;
+  --color-purple-soft: #211b3d;
+  --color-purple-border: #4a3f80;
+  --color-purple-text: #bfb6f5;
 
   /* -------------------------------------------------
      AMBER
   ------------------------------------------------- */
 
-  --color-amber: #E0C355;
-  --color-amber-hover: #EDD98A;
-  --color-amber-soft: #332C13;
-  --color-amber-border: #6B5A1F;
-  --color-amber-text: #EDD98A;
+  --color-amber: #e0c355;
+  --color-amber-hover: #edd98a;
+  --color-amber-soft: #332c13;
+  --color-amber-border: #6b5a1f;
+  --color-amber-text: #edd98a;
 
   /* -------------------------------------------------
      CHART / DATA VISUALIZATION
   ------------------------------------------------- */
 
-  --color-chart-green: #16A34A;
-  --color-chart-blue: #5BA4FF;
-  --color-chart-purple: #A79CF0;
-  --color-chart-amber: #E0C355;
-  --color-chart-orange: #FFC120;
-  --color-chart-cyan: #13DEFD;
-  --color-chart-pink: #FE68B6;
+  --color-chart-green: #16a34a;
+  --color-chart-blue: #5ba4ff;
+  --color-chart-purple: #a79cf0;
+  --color-chart-amber: #e0c355;
+  --color-chart-orange: #ffc120;
+  --color-chart-cyan: #13defd;
+  --color-chart-pink: #fe68b6;
 
-  --color-chart-neutral-1: #52525B;
-  --color-chart-neutral-2: #71717A;
-  --color-chart-neutral-3: #A1A1AA;
+  --color-chart-neutral-1: #52525b;
+  --color-chart-neutral-2: #71717a;
+  --color-chart-neutral-3: #a1a1aa;
 
-  --color-chart-grid: #27272A;
-  --color-chart-axis: #52525B;
-  --color-chart-label: #A1A1AA;
+  --color-chart-grid: #27272a;
+  --color-chart-axis: #52525b;
+  --color-chart-label: #a1a1aa;
 
-  --color-chart-positive: #22C55E;
-  --color-chart-negative: #FF3333;
-  --color-chart-warning: #FFC120;
+  --color-chart-positive: #22c55e;
+  --color-chart-negative: #ff3333;
+  --color-chart-warning: #ffc120;
 
   /* -------------------------------------------------
      TABLE / LIST STATE COLORS
@@ -431,24 +458,24 @@
 
   --color-control-bg: #111214;
   --color-control-bg-hover: #171719;
-  --color-control-bg-disabled: #1D1D20;
+  --color-control-bg-disabled: #1d1d20;
 
-  --color-control-border: #3F3F46;
-  --color-control-border-hover: #52525B;
-  --color-control-border-focus: #16A34A;
-  --color-control-border-error: #F87171;
+  --color-control-border: #3f3f46;
+  --color-control-border-hover: #52525b;
+  --color-control-border-focus: #16a34a;
+  --color-control-border-error: #f87171;
 
-  --color-control-text: #FAFAFA;
-  --color-control-placeholder: #71717A;
+  --color-control-text: #fafafa;
+  --color-control-placeholder: #71717a;
 
   /* -------------------------------------------------
      TOOLTIP / MENU / POPOVER
   ------------------------------------------------- */
 
-  --color-floating-bg: #FAFAFA;
-  --color-floating-text: #18181B;
-  --color-floating-muted: #52525B;
-  --color-floating-border: #E4E4E7;
+  --color-floating-bg: #fafafa;
+  --color-floating-text: #18181b;
+  --color-floating-muted: #52525b;
+  --color-floating-border: #e4e4e7;
 
   /* -------------------------------------------------
      OVERLAYS
@@ -462,17 +489,60 @@
   ------------------------------------------------- */
 
   --color-scrollbar-track: transparent;
-  --color-scrollbar-thumb: #3F3F46;
-  --color-scrollbar-thumb-hover: #52525B;
+  --color-scrollbar-thumb: #3f3f46;
+  --color-scrollbar-thumb-hover: #52525b;
 
   /* -------------------------------------------------
      SHADOWS
   ------------------------------------------------- */
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);
-  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.30);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 8px 18px rgba(0, 0, 0, 0.34);
   --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.42);
+
+  /* -------------------------------------------------
+     BUTTON: PRIMARY / SECONDARY
+     Dark-theme values — Primary and Secondary swap which look they carry
+     versus light theme, but each still owns its own tokens outright.
+  ------------------------------------------------- */
+
+  --btn-primary-bg: #f6f6f6;
+  --btn-primary-bg-hover: #efefef;
+  --btn-primary-bg-active: #ededed;
+  --btn-primary-image: linear-gradient(to bottom, #ffffff 0%, #f6f6f6 100%);
+  --btn-primary-image-hover: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #efefef 100%
+  );
+  --btn-primary-image-active: linear-gradient(
+    to bottom,
+    #f6f6f6 0%,
+    #ededed 100%
+  );
+  --btn-primary-text: #18181b;
+  --btn-primary-border: #ffffff;
+  --btn-primary-border-width: 1.5px;
+  --btn-primary-shadow: 0 3px 6px -5px rgba(0, 0, 0, 0.1), 0 0 0 1.5px #ededed;
+  --btn-primary-shadow-sm: none;
+
+  --btn-secondary-bg: #18181b;
+  --btn-secondary-bg-hover: #262626;
+  --btn-secondary-bg-active: #000000;
+  --btn-secondary-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0) 65%
+  );
+  --btn-secondary-image-hover: var(--btn-secondary-image);
+  --btn-secondary-image-active: var(--btn-secondary-image);
+  --btn-secondary-text: #ffffff;
+  --btn-secondary-border: transparent;
+  --btn-secondary-border-width: 0px;
+  --btn-secondary-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --btn-secondary-shadow-sm: none;
 }
 
 html {

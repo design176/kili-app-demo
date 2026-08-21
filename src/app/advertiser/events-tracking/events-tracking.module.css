@@ -1,12 +1,4 @@
-.sectionTitle {
-  font-family: var(--font-heading);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: 12px;
-}
-
-.emptyChartWrap {
+.emptyWrap {
   border: 1px solid var(--color-border);
   border-radius: 10px;
   background: var(--color-surface-1);
@@ -18,7 +10,7 @@
   gap: 16px;
 }
 
-.mainCol {
+.chartCol {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -26,13 +18,15 @@
   gap: 16px;
 }
 
-.sideCol {
+.feedCol {
   width: 100%;
   max-width: 360px;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+}
+
+.feedCard {
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 @media (max-width: 1200px) {
@@ -41,7 +35,7 @@
     align-items: stretch;
   }
 
-  .sideCol {
+  .feedCol {
     max-width: none;
   }
 }

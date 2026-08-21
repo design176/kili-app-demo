@@ -1,4 +1,4 @@
-import { Rocket, PauseCircle, CheckCircle, Warning, Cursor, Eye } from "@phosphor-icons/react";
+import { Rocket, PauseCircle, CheckCircle, Warning, Cursor, Eye, ShoppingBag } from "@phosphor-icons/react";
 import { Skeleton } from "./Skeleton";
 import styles from "./ActivityFeed.module.css";
 
@@ -10,7 +10,8 @@ export type ActivityEventType =
   | "ended"
   | "budget-exhausting"
   | "click"
-  | "visit";
+  | "visit"
+  | "purchase";
 
 export type ActivityEvent = {
   id: string;
@@ -36,6 +37,7 @@ const eventMeta: Record<ActivityEventType, { icon: typeof Rocket; tone: "success
   "budget-exhausting": { icon: Warning, tone: "warning" },
   click: { icon: Cursor, tone: "success" },
   visit: { icon: Eye, tone: "info" },
+  purchase: { icon: ShoppingBag, tone: "success" },
 };
 
 export function ActivityFeed({

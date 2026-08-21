@@ -15,13 +15,15 @@ export type KPISmallItem = {
 export type KPISmallStripProps = {
   items: KPISmallItem[];
   loading?: boolean;
+  /** "row" (default) lays items side by side; "column" stacks them vertically. */
+  orientation?: "row" | "column";
   className?: string;
 };
 
-export function KPISmallStrip({ items, loading, className }: KPISmallStripProps) {
+export function KPISmallStrip({ items, loading, orientation = "row", className }: KPISmallStripProps) {
   return (
     <Card
-      className={`${styles.strip} ${className ?? ""}`}
+      className={`${styles.strip} ${orientation === "column" ? styles.column : ""} ${className ?? ""}`}
       style={{ padding: "20px 24px", background: "var(--color-surface-2)" }}
     >
       {items.map((item, i) => {

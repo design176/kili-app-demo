@@ -7,7 +7,7 @@ import { IconButton } from "./IconButton";
 import { Button } from "./Button";
 import { Divider } from "./Divider";
 import { Tooltip } from "./Tooltip";
-import { PopoverPortal } from "./popover";
+import { PopoverPortal } from "./Popover";
 import { AddBalanceModal } from "./AddBalanceModal";
 import styles from "./SidebarNav.module.css";
 

@@ -1,0 +1,83 @@
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.sectionDescription {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+}
+
+.createButton {
+  flex-shrink: 0;
+}
+
+@media (max-width: 800px) {
+  .sectionHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.keysTable {
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+.keyValueText {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--color-overlay);
+  z-index: 1001;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  box-shadow: var(--shadow-lg);
+}
+
+.revealTitle {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.revealHint {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: 4px 0 16px;
+}
+
+.revealActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}

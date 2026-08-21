@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ActivityFeed } from "@/components/ui/ActivityFeed";
 import { Card } from "@/components/ui/Card";
 import { Switch } from "@/components/ui/Switch";
-import { mockActivityEvents } from "@/lib/mock-data";
+import { mockActivityEvents, mockConversionEvents } from "@/lib/mock-data";
 import styles from "../demo.module.css";
 
 export default function ActivityFeedPage() {
@@ -16,8 +16,9 @@ export default function ActivityFeedPage() {
       <p className={styles.subtitle}>
         A passive, chronological log — not actionable alerts like Needs
         Attention Panel. Covers campaign lifecycle events (launched, paused,
-        ended, budget exhausting) and pixel-tracking events (clicks, page
-        visits), each with a tone-colored icon badge and a relative time.
+        ended, budget exhausting), pixel-tracking events (clicks, page
+        visits), and conversion events (purchases), each with a tone-colored
+        icon badge and a relative time.
       </p>
 
       <div className={styles.section}>
@@ -32,6 +33,15 @@ export default function ActivityFeedPage() {
         <div style={{ maxWidth: 360 }}>
           <Card>
             <ActivityFeed events={mockActivityEvents} loading={loading} />
+          </Card>
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>With conversion events</div>
+        <div style={{ maxWidth: 360 }}>
+          <Card>
+            <ActivityFeed title="Events" events={mockConversionEvents} loading={loading} />
           </Card>
         </div>
       </div>

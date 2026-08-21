@@ -14,8 +14,8 @@ export default function RadioPage() {
     <div className={styles.page}>
       <h1 className={styles.title}>Radio</h1>
       <p className={styles.subtitle}>
-        Single-select circular control with a label. Used by Range Filter's
-        Daily/Weekly/Monthly options.
+        Single-select circular control with a label. Used by Range
+        Filter&apos;s Daily/Weekly/Monthly options.
       </p>
 
       <div className={styles.section}>

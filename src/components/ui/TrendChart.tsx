@@ -82,11 +82,15 @@ export function TrendChart({
   const maxOffset = Math.max(0, dataset.xLabels.length - windowSize);
   const [offset, setOffset] = useState(maxOffset);
 
-  useEffect(() => {
-    setOffset(Math.max(0, data[granularity].xLabels.length - windowSize));
+  // Switching granularity swaps the whole x-axis, so jump back to the newest
+  // window and drop any hover. Adjusting during render (rather than in an
+  // effect) is React's recommended way to reset state on a prop change.
+  const [renderedGranularity, setRenderedGranularity] = useState(granularity);
+  if (granularity !== renderedGranularity) {
+    setRenderedGranularity(granularity);
+    setOffset(maxOffset);
     setHoverIndex(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [granularity]);
+  }
 
   const clampedOffset = Math.min(offset, maxOffset);
 
@@ -378,7 +382,7 @@ export function TrendChart({
               }}
             >
               <div className={styles.hoverBubbleLabel}>{windowXLabels[hoverIndex]}</div>
-              {hoverPoints.map(({ series: s, point }) => (
+              {hoverPoints.map(({ series: s }) => (
                 <div key={s.key} className={styles.hoverBubbleRow}>
                   <span className={styles.hoverBubbleDot} style={{ background: s.color }} />
                   <span>{s.label}</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import { IconButton } from "./IconButton";
 import { Tooltip } from "./Tooltip";
@@ -58,10 +58,14 @@ export function StackedBarChart({
   const maxOffset = Math.max(0, dataset.xLabels.length - windowSize);
   const [offset, setOffset] = useState(maxOffset);
 
-  useEffect(() => {
-    setOffset(Math.max(0, data[granularity].xLabels.length - windowSize));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [granularity]);
+  // Switching granularity swaps the whole x-axis, so jump back to the newest
+  // window. Adjusting during render (rather than in an effect) is React's
+  // recommended way to reset state in response to a prop change.
+  const [renderedGranularity, setRenderedGranularity] = useState(granularity);
+  if (granularity !== renderedGranularity) {
+    setRenderedGranularity(granularity);
+    setOffset(maxOffset);
+  }
 
   const clampedOffset = Math.min(offset, maxOffset);
 

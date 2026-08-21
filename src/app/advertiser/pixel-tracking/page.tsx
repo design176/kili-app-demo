@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowSquareOut, Eye, Target, XCircle } from "@phosphor-icons/react";
+import { ArrowSquareOut, CheckCircle, ChartLineUp } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { Card } from "@/components/ui/Card";
-import { KPIStrip } from "@/components/ui/KPIStrip";
 import { Tabs } from "@/components/ui/Tabs";
 import { Select } from "@/components/ui/Select";
 import { CopyField } from "@/components/ui/CopyField";
@@ -12,12 +11,11 @@ import { CodeBlock } from "@/components/ui/CodeBlock";
 import { FormField } from "@/components/ui/FormField";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { KeyManager } from "@/components/ui/KeyManager";
 import { useDemoState } from "@/components/demo-state";
 import styles from "./pixel-tracking.module.css";
 
 const REACT_DOCS_URL = "https://www.npmjs.com/package/@cherry_ai/react";
-
-const LEGACY_SNIPPET = `<script src="https://cdn.kili.ai/pixel.js" data-account="acct_8fj29d"></script>`;
 
 const USAGE_SNIPPET = `import { CherryAd } from "@cherry_ai/react";
 import "@cherry_ai/react/styles.css";
@@ -48,37 +46,34 @@ const platforms = [
 ];
 
 export default function PixelTrackingPage() {
-  const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
-  const isEmpty = forceEmptyStates || isNewUser;
+  const { pixelKeys, addPixelKey, removePixelKey, forceLoadingStates } = useDemoState();
   const [platform, setPlatform] = useState("react");
   const [verifyUrl, setVerifyUrl] = useState("");
   const [verifyAttempted, setVerifyAttempted] = useState(false);
 
   const isReactFamily = platform === "react" || platform === "nextjs";
+  const legacySnippet = `<script src="https://cdn.kili.ai/pixel.js" data-account="${pixelKeys[pixelKeys.length - 1]?.value ?? "acct_8fj29d"}"></script>`;
 
   return (
     <DashboardShell
       activeKey="pixel"
-      pageTitle="Pixel Tracking"
+      pageTitle="Pixel Setup"
       pageDescription="Install @cherry_ai/react and verify ads are rendering on your site."
     >
-      <KPIStrip
-        loading={forceLoadingStates}
-        tiles={[
-          {
-            icon: <Eye size={16} weight="bold" />,
-            label: "Page visits",
-            value: isEmpty ? "0" : "12,480",
-            description: "Visits to your site attributed to a Kili ad click.",
-          },
-          {
-            icon: <Target size={16} weight="bold" />,
-            label: "Conversions",
-            value: isEmpty ? "0" : "318",
-            description: "Visits that reached your defined conversion URL.",
-          },
-        ]}
-      />
+      <div>
+        <KeyManager
+          title="Pixel keys"
+          description="The snippet below authenticates with one of these. Revoking a key stops the pixel on any site still using it."
+          createLabel="Create pixel key"
+          emptyIcon={<ChartLineUp size={20} weight="bold" />}
+          emptyTitle="No pixel keys yet"
+          emptyDescription="Create a key to identify events coming from your site."
+          keys={pixelKeys}
+          onCreate={addPixelKey}
+          onRemove={removePixelKey}
+          loading={forceLoadingStates}
+        />
+      </div>
 
       <Card>
         <div className={styles.cardHeader}>
@@ -124,7 +119,7 @@ export default function PixelTrackingPage() {
           </div>
         ) : (
           <div className={styles.snippetWrap}>
-            <CopyField value={LEGACY_SNIPPET} />
+            <CopyField value={legacySnippet} />
           </div>
         )}
       </Card>
@@ -149,8 +144,8 @@ export default function PixelTrackingPage() {
           </FormField>
           {verifyAttempted && (
             <div className={styles.verifyStatus}>
-              <XCircle size={16} weight="bold" />
-              No events yet. Make sure the snippet is installed and the page is live, then verify again.
+              <CheckCircle size={16} weight="bold" />
+              Pixel detected — events are now being tracked.
             </div>
           )}
         </div>

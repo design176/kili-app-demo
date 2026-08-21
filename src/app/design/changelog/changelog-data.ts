@@ -11,26 +11,107 @@ export type ChangelogEntry = {
 // Add a new entry to the top of this array each time you're asked to log a
 // push — one entry per push, newest first. Only log what changed since the
 // previous entry; don't back-fill history from before this file existed.
+// Date format: "D Month YY" (e.g. "14 July 26"). Keep entries terse — just
+// enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
-    date: "2026-08-19",
+    date: "21 August 26",
     changes: [
       {
-        text: "Reworked the advertiser Pixel Tracking page to install/use @cherry_ai/react (npm install, styles import, CherryAd usage) on the React/Next.js tabs; other platform tabs keep a static placeholder snippet.",
+        text: "Pixel Tracking renamed to Pixel Setup in the advertiser nav (plug icon); the page itself is just the install/verify flow, no KPI strip.",
+        files: ["src/components/dashboard-shell.tsx", "src/app/advertiser/pixel-tracking/page.tsx"],
+      },
+      {
+        text: "New Advertiser Events Tracking screen: Page visits/Conversions KPIs, Conversions-over-time and Page-visits-over-time Trend Charts, and a purchase-events Activity Feed; empty state links back to Pixel Setup. Nav item sits above Campaigns with a Target icon.",
+        files: [
+          "src/app/advertiser/events-tracking/page.tsx",
+          "src/app/advertiser/events-tracking/events-tracking.module.css",
+          "src/components/dashboard-shell.tsx",
+          "src/components/ui/ActivityFeed.tsx",
+        ],
+      },
+      {
+        text: "New Cost Breakdown component (pills on mobile, a panel on desktop) — used for Advertiser Overview's Spend breakdown and Campaign Detail's Cost breakdown (CPC/CPM/CPA).",
+        files: [
+          "src/components/ui/CostBreakdown.tsx",
+          "src/components/ui/CostBreakdown.module.css",
+          "src/app/advertiser/overview/page.tsx",
+          "src/app/advertiser/campaigns/[id]/page.tsx",
+        ],
+      },
+      {
+        text: "Advertiser Overview: added Conversions to the KPI strip and a mobile-only Balance tile next to Clicks (new useIsMobile hook).",
+        files: ["src/app/advertiser/overview/page.tsx", "src/lib/use-mobile.ts"],
+      },
+      {
+        text: "Campaign model: added conversions/cpa fields; Campaign Table/Card gained matching columns/stats; Campaign Detail gained Conversions/CPA KPIs and a third Conversions-over-time chart.",
+        files: [
+          "src/components/ui/CampaignTable.tsx",
+          "src/components/ui/CampaignCard.tsx",
+          "src/app/advertiser/campaigns/[id]/page.tsx",
+          "src/lib/mock-data.ts",
+        ],
+      },
+      {
+        text: "KPI Small Strip: row layout stays 2-column on mobile instead of collapsing to 1.",
+        files: ["src/components/ui/KPISmallStrip.module.css"],
+      },
+      {
+        text: "Button: Primary/Secondary now have their own --btn-primary-*/--btn-secondary-* tokens (background, gradient, border, shadow, border-width) instead of a shared theme-swapped role, and get the same glossy shimmer-ring overlay as Accent/Destructive/Icon Button. Disabled state zeroes border-width on every variant so none shows a ring.",
+        files: ["src/components/ui/Button.tsx", "src/components/ui/Button.module.css", "src/app/globals.css"],
+      },
+      {
+        text: "IA page and components catalog updated to match: Pixel Setup/Events Tracking split, new Cost Breakdown and Key Manager entries, corrected KPI Strip/KPI Small Strip/Trend Chart usedIn.",
+        files: ["src/app/design/ia/page.tsx", "src/app/design/components/catalog.ts"],
+      },
+      {
+        text: "New Key Manager component — create-key flow: header, a Table of existing keys (masked value, delete action) sized to its content, and a reveal modal shown once after creating a key (Copy Field, right-aligned Copy key / primary Done). Used by Platform Integration's API keys and Pixel Setup's new pixel keys.",
+        files: [
+          "src/components/ui/KeyManager.tsx",
+          "src/components/ui/KeyManager.module.css",
+          "src/app/platform/integration/page.tsx",
+          "src/app/advertiser/pixel-tracking/page.tsx",
+          "src/components/demo-state.tsx",
+        ],
+      },
+      {
+        text: "Platform Integration: Install snippet card is always visible; the CHERRY_API_KEY env line falls back to a YOUR_API_KEY placeholder when no key exists yet.",
+        files: ["src/app/platform/integration/page.tsx"],
+      },
+      {
+        text: "Settings panel: Pixel keys has its own Clear all reset row; New user hint mentions pixel keys too.",
+        files: ["src/components/ui/SettingsPanel.tsx"],
+      },
+      {
+        text: "Cleanup: extracted buildTrendData() so pages stop hand-casting chart data (9 call sites), dropped dead CSS + a redundant balance constant, renamed popover.tsx to Popover.tsx for casing consistency, and cleared all outstanding lint errors.",
+        files: [
+          "src/lib/chart-data.ts",
+          "src/components/ui/TrendChart.tsx",
+          "src/components/ui/StackedBarChart.tsx",
+          "src/components/ui/Popover.tsx",
+        ],
+      },
+    ],
+  },
+  {
+    date: "19 August 26",
+    changes: [
+      {
+        text: "Pixel Tracking page: install/use @cherry_ai/react on React/Next.js tabs; other platform tabs keep a static placeholder snippet.",
         files: [
           "src/app/advertiser/pixel-tracking/page.tsx",
           "src/app/advertiser/pixel-tracking/pixel-tracking.module.css",
         ],
       },
       {
-        text: "Reworked the platform Integration page to install/use @cherry_ai/api — env var wired to the real generated API key, a client CherryContext snippet, and Node vs Next.js server snippet tabs.",
+        text: "Integration page: install/use @cherry_ai/api — env var wired to the real API key, client + server (Node/Next.js) snippets.",
         files: [
           "src/app/platform/integration/page.tsx",
           "src/app/platform/integration/integration.module.css",
         ],
       },
       {
-        text: "Added a new Code Block component (a labeled Copy Field) with a design/components demo page and catalog entry.",
+        text: "New Code Block component (labeled Copy Field) + demo page + catalog entry.",
         files: [
           "src/components/ui/CodeBlock.tsx",
           "src/components/ui/CodeBlock.module.css",
@@ -39,62 +120,59 @@ export const changelogEntries: ChangelogEntry[] = [
         ],
       },
       {
-        text: "Added \"View docs\" buttons linking to the npm package pages on both the Pixel Tracking and Integration pages.",
+        text: "\"View docs\" buttons on Pixel Tracking and Integration, linking to npm.",
         files: [
           "src/app/advertiser/pixel-tracking/page.tsx",
           "src/app/platform/integration/page.tsx",
         ],
       },
       {
-        text: "Simplified API key creation — \"Create API key\" now generates a key instantly with no config modal. Removed the now-unused Create Api Key Modal; the API keys table was trimmed to just Key + Options.",
-        files: [
-          "src/components/demo-state.tsx",
-          "src/app/platform/integration/page.tsx",
-        ],
+        text: "API key creation is now instant (no config modal). Removed the unused Create Api Key Modal; API keys table trimmed to Key + Options.",
+        files: ["src/components/demo-state.tsx", "src/app/platform/integration/page.tsx"],
       },
       {
-        text: "Reordered the Pixel Tracking platform tabs so React and Next.js come first.",
+        text: "Pixel Tracking platform tabs reordered — React and Next.js first.",
         files: ["src/app/advertiser/pixel-tracking/page.tsx"],
       },
       {
-        text: "Fixed the \"View docs\" button and the Integration page's Node/Next.js tabs so they stay right-aligned and don't stretch full-width through tablet widths, only stacking/collapsing at mobile (≤800px); the docs button is capped at 200px wide.",
+        text: "Fixed \"View docs\" button and Node/Next.js tabs stretching/misaligning at tablet widths; docs button capped at 200px.",
         files: [
           "src/app/advertiser/pixel-tracking/pixel-tracking.module.css",
           "src/app/platform/integration/integration.module.css",
         ],
       },
       {
-        text: "Added a mobile Select dropdown fallback for the Pixel Tracking platform picker (the Tabs row is hidden ≤1200px).",
+        text: "Mobile Select dropdown fallback for the Pixel Tracking platform picker (Tabs hidden ≤1200px).",
         files: [
           "src/app/advertiser/pixel-tracking/page.tsx",
           "src/app/advertiser/pixel-tracking/pixel-tracking.module.css",
         ],
       },
       {
-        text: "Gave the Integration page's API keys table a fixed 300px height with internal scrolling.",
+        text: "Integration API keys table: fixed 300px height, internal scroll.",
         files: [
           "src/app/platform/integration/page.tsx",
           "src/app/platform/integration/integration.module.css",
         ],
       },
       {
-        text: "Hid the Integration page's \"Install snippet\" card until at least one API key exists.",
+        text: "Integration \"Install snippet\" card hidden until an API key exists.",
         files: ["src/app/platform/integration/page.tsx"],
       },
       {
-        text: "Fixed Trend Chart's y-axis numbers overlapping the plotted line on mobile by moving axis labels out of the SVG-scaled overlay into a fixed-width CSS column.",
+        text: "Fixed Trend Chart y-axis numbers overlapping the plotted line on mobile.",
         files: ["src/components/ui/TrendChart.tsx", "src/components/ui/TrendChart.module.css"],
       },
       {
-        text: "Fixed Trend Chart's pan/granularity-change animation jumping — the y-axis domain now eases in with the line instead of snapping instantly to the new window.",
+        text: "Fixed Trend Chart pan/granularity animation jump.",
         files: ["src/components/ui/TrendChart.tsx"],
       },
       {
-        text: "Removed the redundant \"Next\" badge from Platform Earnings' payout history — the Scheduled status badge already says the same thing.",
+        text: "Removed redundant \"Next\" badge from Platform Earnings payout history.",
         files: ["src/components/ui/HistoryTable.tsx"],
       },
       {
-        text: "Bumped the payout method text (\"Bank account ending in ...\") to 20px on desktop.",
+        text: "Payout method text bumped to 20px on desktop.",
         files: ["src/app/platform/earnings/earnings.module.css"],
       },
     ],

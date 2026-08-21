@@ -1,0 +1,85 @@
+.pillRow {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pillSkeleton {
+  border-radius: 999px !important;
+}
+
+.pillAmount {
+  color: var(--color-brand);
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .pillRow {
+    display: flex;
+  }
+}
+
+.panel {
+  display: block;
+}
+
+@media (max-width: 800px) {
+  .panel {
+    display: none;
+  }
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.costList {
+  display: flex;
+  flex-direction: column;
+}
+
+.costRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.costRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.costIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+  background: var(--color-surface-3);
+  color: var(--color-icon-secondary);
+}
+
+.costLabel {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.costValue {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
