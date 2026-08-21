@@ -2,8 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 10px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
 }
 
 .date {
@@ -16,7 +22,7 @@
 .changes {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   padding-left: 18px;
   font-size: 13px;
   line-height: 1.5;
@@ -25,4 +31,21 @@
 
 .changes li {
   list-style: disc;
+}
+
+.files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.file {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 2px 6px;
 }
