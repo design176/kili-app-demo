@@ -15,6 +15,37 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "24 August 26 — B",
+    changes: [
+      {
+        text: 'Login page rebuilt as a split-panel layout: an empty animated left panel (background inverts dark/light opposite the app theme) beside a centered sign-in card — Advertiser/Platform switcher, "Continue with Google", email form, and a magic-link "Check your inbox" step (replaces the old OTP step). Footer holds ToS/Privacy placeholder links + a theme-toggle icon button. Left panel hides ≤980px; panels split 60/40.',
+        files: ["src/app/login/page.tsx", "src/app/login/login.module.css"],
+      },
+      {
+        text: "New Dot Swirl component — canvas-drawn monochrome background: a swirl-warped noise field quantized through 4x4 ordered (Bayer) dithering into an ASCII-character grid (shaded by intensity for depth), forming a ring around a fixed empty center with rotating arms. Tracks the pointer at the window level (works through overlapping UI) to swap nearby characters to a distinct glyph. Respects prefers-reduced-motion. Used as the Login left panel's background.",
+        files: [
+          "src/components/ui/DotSwirl.tsx",
+          "src/components/ui/DotSwirl.module.css",
+          "src/app/design/components/dot-swirl/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+      {
+        text: "New Card Carousel + Carousel Dots components — one text-only card (title + description) at a time, auto-advancing every 3s; Icon Button Prev/Next arrows outside the card navigate manually, Carousel Dots below show pagination (active dot is a pill with a fill-bar animation that drives the auto-advance, restarting on manual navigation). Shown centered over the Login left panel's Dot Swirl with Match/Serve/Measure copy.",
+        files: [
+          "src/components/ui/CardCarousel.tsx",
+          "src/components/ui/CardCarousel.module.css",
+          "src/components/ui/CarouselDots.tsx",
+          "src/components/ui/CarouselDots.module.css",
+          "src/app/design/components/card-carousel/page.tsx",
+          "src/app/design/components/carousel-dots/page.tsx",
+          "src/app/design/components/catalog.ts",
+          "src/app/login/page.tsx",
+        ],
+      },
+    ],
+  },
+  {
     date: "24 August 26",
     changes: [
       {
@@ -36,7 +67,7 @@ export const changelogEntries: ChangelogEntry[] = [
         ],
       },
       {
-        text: "Pixel Setup page copy renamed from \"Pixel\" to \"API\" throughout (title, API keys, install snippet URL, verify message) — sidebar nav label and internal pixel-key state names left as-is.",
+        text: 'Pixel Setup page copy renamed from "Pixel" to "API" throughout (title, API keys, install snippet URL, verify message) — sidebar nav label and internal pixel-key state names left as-is.',
         files: ["src/app/advertiser/pixel-tracking/page.tsx"],
       },
     ],
@@ -46,7 +77,10 @@ export const changelogEntries: ChangelogEntry[] = [
     changes: [
       {
         text: "Pixel Tracking renamed to Pixel Setup in the advertiser nav (plug icon); the page itself is just the install/verify flow, no KPI strip.",
-        files: ["src/components/dashboard-shell.tsx", "src/app/advertiser/pixel-tracking/page.tsx"],
+        files: [
+          "src/components/dashboard-shell.tsx",
+          "src/app/advertiser/pixel-tracking/page.tsx",
+        ],
       },
       {
         text: "New Advertiser Events Tracking screen: Page visits/Conversions KPIs, Conversions-over-time and Page-visits-over-time Trend Charts, and a purchase-events Activity Feed; empty state links back to Pixel Setup. Nav item sits above Campaigns with a Target icon.",
@@ -68,7 +102,10 @@ export const changelogEntries: ChangelogEntry[] = [
       },
       {
         text: "Advertiser Overview: added Conversions to the KPI strip and a mobile-only Balance tile next to Clicks (new useIsMobile hook).",
-        files: ["src/app/advertiser/overview/page.tsx", "src/lib/use-mobile.ts"],
+        files: [
+          "src/app/advertiser/overview/page.tsx",
+          "src/lib/use-mobile.ts",
+        ],
       },
       {
         text: "Campaign model: added conversions/cpa fields; Campaign Table/Card gained matching columns/stats; Campaign Detail gained Conversions/CPA KPIs and a third Conversions-over-time chart.",
@@ -85,11 +122,18 @@ export const changelogEntries: ChangelogEntry[] = [
       },
       {
         text: "Button: Primary/Secondary now have their own --btn-primary-*/--btn-secondary-* tokens (background, gradient, border, shadow, border-width) instead of a shared theme-swapped role, and get the same glossy shimmer-ring overlay as Accent/Destructive/Icon Button. Disabled state zeroes border-width on every variant so none shows a ring.",
-        files: ["src/components/ui/Button.tsx", "src/components/ui/Button.module.css", "src/app/globals.css"],
+        files: [
+          "src/components/ui/Button.tsx",
+          "src/components/ui/Button.module.css",
+          "src/app/globals.css",
+        ],
       },
       {
         text: "IA page and components catalog updated to match: Pixel Setup/Events Tracking split, new Cost Breakdown and Key Manager entries, corrected KPI Strip/KPI Small Strip/Trend Chart usedIn.",
-        files: ["src/app/design/ia/page.tsx", "src/app/design/components/catalog.ts"],
+        files: [
+          "src/app/design/ia/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
       },
       {
         text: "New Key Manager component — create-key flow: header, a Table of existing keys (masked value, delete action) sized to its content, and a reveal modal shown once after creating a key (Copy Field, right-aligned Copy key / primary Done). Used by Platform Integration's API keys and Pixel Setup's new pixel keys.",
@@ -147,7 +191,7 @@ export const changelogEntries: ChangelogEntry[] = [
         ],
       },
       {
-        text: "\"View docs\" buttons on Pixel Tracking and Integration, linking to npm.",
+        text: '"View docs" buttons on Pixel Tracking and Integration, linking to npm.',
         files: [
           "src/app/advertiser/pixel-tracking/page.tsx",
           "src/app/platform/integration/page.tsx",
@@ -155,14 +199,17 @@ export const changelogEntries: ChangelogEntry[] = [
       },
       {
         text: "API key creation is now instant (no config modal). Removed the unused Create Api Key Modal; API keys table trimmed to Key + Options.",
-        files: ["src/components/demo-state.tsx", "src/app/platform/integration/page.tsx"],
+        files: [
+          "src/components/demo-state.tsx",
+          "src/app/platform/integration/page.tsx",
+        ],
       },
       {
         text: "Pixel Tracking platform tabs reordered — React and Next.js first.",
         files: ["src/app/advertiser/pixel-tracking/page.tsx"],
       },
       {
-        text: "Fixed \"View docs\" button and Node/Next.js tabs stretching/misaligning at tablet widths; docs button capped at 200px.",
+        text: 'Fixed "View docs" button and Node/Next.js tabs stretching/misaligning at tablet widths; docs button capped at 200px.',
         files: [
           "src/app/advertiser/pixel-tracking/pixel-tracking.module.css",
           "src/app/platform/integration/integration.module.css",
@@ -183,19 +230,22 @@ export const changelogEntries: ChangelogEntry[] = [
         ],
       },
       {
-        text: "Integration \"Install snippet\" card hidden until an API key exists.",
+        text: 'Integration "Install snippet" card hidden until an API key exists.',
         files: ["src/app/platform/integration/page.tsx"],
       },
       {
         text: "Fixed Trend Chart y-axis numbers overlapping the plotted line on mobile.",
-        files: ["src/components/ui/TrendChart.tsx", "src/components/ui/TrendChart.module.css"],
+        files: [
+          "src/components/ui/TrendChart.tsx",
+          "src/components/ui/TrendChart.module.css",
+        ],
       },
       {
         text: "Fixed Trend Chart pan/granularity animation jump.",
         files: ["src/components/ui/TrendChart.tsx"],
       },
       {
-        text: "Removed redundant \"Next\" badge from Platform Earnings payout history.",
+        text: 'Removed redundant "Next" badge from Platform Earnings payout history.',
         files: ["src/components/ui/HistoryTable.tsx"],
       },
       {
