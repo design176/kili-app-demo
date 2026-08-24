@@ -1,0 +1,269 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 260px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-text-primary);
+}
+
+.waveform {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  margin: 0 -16px;
+  width: calc(100% + 32px);
+  overflow: hidden;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.waveGroup {
+  animation: waveScroll 3s linear infinite;
+}
+
+.wavePath {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.heartWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heart {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(9, 8px);
+  grid-template-rows: repeat(8, 8px);
+  gap: 2px;
+  background: var(--color-surface-1);
+  animation: heartBeat 2.6s ease-in-out infinite;
+}
+
+.block {
+  width: 100%;
+  height: 100%;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.blockEmpty {
+  width: 100%;
+  height: 100%;
+}
+
+.footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.footerText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.footerLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.footerValue {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Status variants */
+
+.healthy .wavePath {
+  color: var(--color-success);
+  filter: drop-shadow(0 0 6px var(--color-success));
+}
+
+.healthy .heartWrap {
+  color: var(--color-success);
+}
+
+.healthy .footerValue {
+  color: var(--color-success-text);
+}
+
+.healthy .iconBadge {
+  background: var(--color-success-soft);
+  color: var(--color-success-text);
+  border-color: var(--color-success-border);
+}
+
+.warning .wavePath {
+  color: var(--color-warning);
+  filter: drop-shadow(0 0 6px var(--color-warning));
+}
+
+.warning .heartWrap {
+  color: var(--color-warning);
+}
+
+.warning .footerValue {
+  color: var(--color-warning-text);
+}
+
+.warning .iconBadge {
+  background: var(--color-warning-soft);
+  color: var(--color-warning-text);
+  border-color: var(--color-warning-border);
+}
+
+.critical .wavePath {
+  color: var(--color-danger);
+  filter: drop-shadow(0 0 6px var(--color-danger));
+}
+
+.critical .heartWrap {
+  color: var(--color-danger);
+}
+
+.critical .footerValue {
+  color: var(--color-danger-text);
+}
+
+.critical .iconBadge {
+  background: var(--color-danger-soft);
+  color: var(--color-danger-text);
+  border-color: var(--color-danger-border);
+}
+
+.critical .waveGroup {
+  animation: none;
+}
+
+/* empty and refreshing share the same neutral, gray palette */
+
+.empty .wavePath,
+.refreshing .wavePath {
+  color: var(--color-icon-muted);
+}
+
+.empty .heartWrap,
+.refreshing .heartWrap {
+  color: var(--color-icon-muted);
+}
+
+.empty .heart,
+.refreshing .heart {
+  animation: none;
+}
+
+.empty .waveGroup {
+  animation: none;
+}
+
+.empty .footerValue,
+.refreshing .footerValue {
+  color: var(--color-text-muted);
+}
+
+.empty .iconBadge,
+.refreshing .iconBadge {
+  background: var(--color-surface-3);
+  color: var(--color-icon-secondary);
+  border-color: var(--color-border);
+}
+
+.refreshing .heartWrap,
+.refreshing .waveGroup {
+  animation: opacityPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes opacityPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes waveScroll {
+  from {
+    transform: translateX(-200px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes heartBeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.1);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(1);
+  }
+}

@@ -15,6 +15,33 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "24 August 26",
+    changes: [
+      {
+        text: "New Heartbeat Indicator component — a pixel-block heart (clipped to its own silhouette) over a scrolling EKG line, 5 states (healthy/warning/critical/empty/refreshing) with a header refresh button and a footer status row + icon badge.",
+        files: [
+          "src/components/ui/HeartbeatIndicator.tsx",
+          "src/components/ui/HeartbeatIndicator.module.css",
+          "src/app/design/components/heartbeat-indicator/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+      {
+        text: "Pixel Setup and Platform Integration: Install snippet card now sits beside a new API Status Heartbeat Indicator (snippet panel is full width); status reacts to the pink settings FAB's Empty states/Loading states toggles.",
+        files: [
+          "src/app/advertiser/pixel-tracking/page.tsx",
+          "src/app/advertiser/pixel-tracking/pixel-tracking.module.css",
+          "src/app/platform/integration/page.tsx",
+          "src/app/platform/integration/integration.module.css",
+        ],
+      },
+      {
+        text: "Pixel Setup page copy renamed from \"Pixel\" to \"API\" throughout (title, API keys, install snippet URL, verify message) — sidebar nav label and internal pixel-key state names left as-is.",
+        files: ["src/app/advertiser/pixel-tracking/page.tsx"],
+      },
+    ],
+  },
+  {
     date: "21 August 26",
     changes: [
       {

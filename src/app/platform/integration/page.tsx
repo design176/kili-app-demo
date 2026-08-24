@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { Tabs } from "@/components/ui/Tabs";
 import { KeyManager } from "@/components/ui/KeyManager";
+import { HeartbeatIndicator } from "@/components/ui/HeartbeatIndicator";
 import { useDemoState } from "@/components/demo-state";
 import styles from "./integration.module.css";
 
@@ -76,10 +77,15 @@ const frameworks = [
 ];
 
 export default function IntegrationPage() {
-  const { apiKeys, addApiKey, removeApiKey, forceLoadingStates } = useDemoState();
+  const { apiKeys, addApiKey, removeApiKey, forceEmptyStates, forceLoadingStates } = useDemoState();
   const [framework, setFramework] = useState("node");
 
   const envValue = `CHERRY_API_KEY=${apiKeys[apiKeys.length - 1]?.value ?? "YOUR_API_KEY"}`;
+  const apiStatus = forceLoadingStates
+    ? "refreshing"
+    : forceEmptyStates || apiKeys.length === 0
+      ? "empty"
+      : "healthy";
 
   return (
     <DashboardShell
@@ -102,41 +108,48 @@ export default function IntegrationPage() {
         />
       </div>
 
-      <Card>
-        <div className={styles.cardHeader}>
-          <div>
-            <div className={styles.sectionTitle}>Install snippet</div>
-            <p className={styles.sectionDescription}>
-              Fetch ads from the client, then request them server-side using the key above.
-            </p>
-          </div>
-          <Button
-            variant="secondary"
-            size="sm"
-            className={styles.docsButton}
-            onClick={() => window.open(API_DOCS_URL, "_blank", "noopener,noreferrer")}
-          >
-            <ArrowSquareOut size={14} weight="bold" />
-            View docs
-          </Button>
-        </div>
+      <div className={styles.lowerRow}>
+        <div className={styles.mainCol}>
+          <Card>
+            <div className={styles.cardHeader}>
+              <div>
+                <div className={styles.sectionTitle}>Install snippet</div>
+                <p className={styles.sectionDescription}>
+                  Fetch ads from the client, then request them server-side using the key above.
+                </p>
+              </div>
+              <Button
+                variant="secondary"
+                size="sm"
+                className={styles.docsButton}
+                onClick={() => window.open(API_DOCS_URL, "_blank", "noopener,noreferrer")}
+              >
+                <ArrowSquareOut size={14} weight="bold" />
+                View docs
+              </Button>
+            </div>
 
-        <div className={styles.snippetStack}>
-          <CodeBlock label="Install" value="npm install @cherry_ai/api" />
-          <CodeBlock label="Environment" value={envValue} />
-          <CodeBlock label="Client — chat UI" multiline value={CLIENT_SNIPPET} />
+            <div className={styles.snippetStack}>
+              <CodeBlock label="Install" value="npm install @cherry_ai/api" />
+              <CodeBlock label="Environment" value={envValue} />
+              <CodeBlock label="Client — chat UI" multiline value={CLIENT_SNIPPET} />
 
-          <div className={styles.platformLabel}>Server framework</div>
-          <Tabs
-            items={frameworks}
-            value={framework}
-            onChange={setFramework}
-            size="sm"
-            className={styles.frameworkTabs}
-          />
-          <CodeBlock label="Server — fetch ads" multiline value={SERVER_SNIPPETS[framework]} />
+              <div className={styles.platformLabel}>Server framework</div>
+              <Tabs
+                items={frameworks}
+                value={framework}
+                onChange={setFramework}
+                size="sm"
+                className={styles.frameworkTabs}
+              />
+              <CodeBlock label="Server — fetch ads" multiline value={SERVER_SNIPPETS[framework]} />
+            </div>
+          </Card>
         </div>
-      </Card>
+        <div className={styles.sideCol}>
+          <HeartbeatIndicator status={apiStatus} onRefresh={() => {}} />
+        </div>
+      </div>
     </DashboardShell>
   );
 }

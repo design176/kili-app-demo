@@ -150,6 +150,14 @@ export const catalog: ComponentEntry[] = [
     status: "built",
   },
   {
+    slug: "heartbeat-indicator",
+    name: "Heartbeat Indicator",
+    category: "Molecule",
+    desc: "Bordered API-status card with a beating pixel-block heart (clipped to its own silhouette) over an EKG line, a header refresh button, and a footer status row with a tone-colored icon badge. healthy = Live, warning = Partially Available, critical = Not Live; default/empty state is a static gray card with a flat line, no refresh button (\"No API Keys Created\"); refreshing state is the same gray look with a fading heart/line, no refresh button, and a spinning footer icon.",
+    usedIn: ["Not currently used — demo/prototype component"],
+    status: "built",
+  },
+  {
     slug: "empty-state",
     name: "Empty State",
     category: "Molecule",

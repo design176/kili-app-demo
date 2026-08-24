@@ -18,6 +18,28 @@
   gap: 12px;
 }
 
+.lowerRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.mainCol {
+  flex: 1;
+  min-width: 0;
+}
+
+.sideCol {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1200px) {
+  .lowerRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .docsButton {
   max-width: 200px;
 }
@@ -49,7 +71,6 @@
   flex-direction: column;
   gap: 16px;
   margin-top: 28px;
-  max-width: 640px;
 }
 
 .form {
@@ -69,7 +90,6 @@
 
 .snippetWrap {
   margin-top: 28px;
-  max-width: 640px;
 }
 
 .verifyRow {

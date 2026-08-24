@@ -12,6 +12,7 @@ import { FormField } from "@/components/ui/FormField";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { KeyManager } from "@/components/ui/KeyManager";
+import { HeartbeatIndicator } from "@/components/ui/HeartbeatIndicator";
 import { useDemoState } from "@/components/demo-state";
 import styles from "./pixel-tracking.module.css";
 
@@ -46,27 +47,34 @@ const platforms = [
 ];
 
 export default function PixelTrackingPage() {
-  const { pixelKeys, addPixelKey, removePixelKey, forceLoadingStates } = useDemoState();
+  const { pixelKeys, addPixelKey, removePixelKey, forceEmptyStates, forceLoadingStates } = useDemoState();
   const [platform, setPlatform] = useState("react");
   const [verifyUrl, setVerifyUrl] = useState("");
   const [verifyAttempted, setVerifyAttempted] = useState(false);
 
   const isReactFamily = platform === "react" || platform === "nextjs";
-  const legacySnippet = `<script src="https://cdn.kili.ai/pixel.js" data-account="${pixelKeys[pixelKeys.length - 1]?.value ?? "acct_8fj29d"}"></script>`;
+  const legacySnippet = `<script src="https://cdn.kili.ai/api.js" data-account="${pixelKeys[pixelKeys.length - 1]?.value ?? "acct_8fj29d"}"></script>`;
+  const pixelStatus = forceLoadingStates
+    ? "refreshing"
+    : forceEmptyStates || pixelKeys.length === 0
+      ? "empty"
+      : verifyAttempted
+        ? "healthy"
+        : "critical";
 
   return (
     <DashboardShell
       activeKey="pixel"
-      pageTitle="Pixel Setup"
+      pageTitle="API Setup"
       pageDescription="Install @cherry_ai/react and verify ads are rendering on your site."
     >
       <div>
         <KeyManager
-          title="Pixel keys"
-          description="The snippet below authenticates with one of these. Revoking a key stops the pixel on any site still using it."
-          createLabel="Create pixel key"
+          title="API keys"
+          description="The snippet below authenticates with one of these. Revoking a key stops the API on any site still using it."
+          createLabel="Create API key"
           emptyIcon={<ChartLineUp size={20} weight="bold" />}
-          emptyTitle="No pixel keys yet"
+          emptyTitle="No API keys yet"
           emptyDescription="Create a key to identify events coming from your site."
           keys={pixelKeys}
           onCreate={addPixelKey}
@@ -75,54 +83,61 @@ export default function PixelTrackingPage() {
         />
       </div>
 
-      <Card>
-        <div className={styles.cardHeader}>
-          <div>
-            <div className={styles.sectionTitle}>Install snippet</div>
-            <p className={styles.sectionDescription}>
-              {isReactFamily
-                ? "Install the package and render CherryAd wherever you show a chat response."
-                : "Add this to the <head> of every page on your site, just before the closing </head> tag."}
-            </p>
-          </div>
-          <Button
-            variant="secondary"
-            size="sm"
-            className={styles.docsButton}
-            onClick={() => window.open(REACT_DOCS_URL, "_blank", "noopener,noreferrer")}
-          >
-            <ArrowSquareOut size={14} weight="bold" />
-            View docs
-          </Button>
+      <div className={styles.lowerRow}>
+        <div className={styles.mainCol}>
+          <Card>
+            <div className={styles.cardHeader}>
+              <div>
+                <div className={styles.sectionTitle}>Install snippet</div>
+                <p className={styles.sectionDescription}>
+                  {isReactFamily
+                    ? "Install the package and render CherryAd wherever you show a chat response."
+                    : "Add this to the <head> of every page on your site, just before the closing </head> tag."}
+                </p>
+              </div>
+              <Button
+                variant="secondary"
+                size="sm"
+                className={styles.docsButton}
+                onClick={() => window.open(REACT_DOCS_URL, "_blank", "noopener,noreferrer")}
+              >
+                <ArrowSquareOut size={14} weight="bold" />
+                View docs
+              </Button>
+            </div>
+
+            <div className={styles.platformLabel}>Select your platform</div>
+            <Tabs
+              items={platforms}
+              value={platform}
+              onChange={setPlatform}
+              size="sm"
+              className={styles.platformTabs}
+            />
+            <Select
+              options={platforms}
+              value={platform}
+              onChange={setPlatform}
+              className={styles.platformSelect}
+            />
+
+            {isReactFamily ? (
+              <div className={styles.snippetStack}>
+                <CodeBlock label="Install" value="npm install @cherry_ai/react" />
+                <CodeBlock label="Import styles" value={`import "@cherry_ai/react/styles.css";`} />
+                <CodeBlock label="Render an ad" multiline value={USAGE_SNIPPET} />
+              </div>
+            ) : (
+              <div className={styles.snippetWrap}>
+                <CopyField value={legacySnippet} />
+              </div>
+            )}
+          </Card>
         </div>
-
-        <div className={styles.platformLabel}>Select your platform</div>
-        <Tabs
-          items={platforms}
-          value={platform}
-          onChange={setPlatform}
-          size="sm"
-          className={styles.platformTabs}
-        />
-        <Select
-          options={platforms}
-          value={platform}
-          onChange={setPlatform}
-          className={styles.platformSelect}
-        />
-
-        {isReactFamily ? (
-          <div className={styles.snippetStack}>
-            <CodeBlock label="Install" value="npm install @cherry_ai/react" />
-            <CodeBlock label="Import styles" value={`import "@cherry_ai/react/styles.css";`} />
-            <CodeBlock label="Render an ad" multiline value={USAGE_SNIPPET} />
-          </div>
-        ) : (
-          <div className={styles.snippetWrap}>
-            <CopyField value={legacySnippet} />
-          </div>
-        )}
-      </Card>
+        <div className={styles.sideCol}>
+          <HeartbeatIndicator status={pixelStatus} onRefresh={() => setVerifyAttempted(true)} />
+        </div>
+      </div>
 
       <Card>
         <div className={styles.sectionTitle}>Verify installation</div>
@@ -145,7 +160,7 @@ export default function PixelTrackingPage() {
           {verifyAttempted && (
             <div className={styles.verifyStatus}>
               <CheckCircle size={16} weight="bold" />
-              Pixel detected — events are now being tracked.
+              API detected — events are now being tracked.
             </div>
           )}
         </div>
