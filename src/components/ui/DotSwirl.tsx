@@ -62,10 +62,6 @@ export function DotSwirl({ className }: DotSwirlProps) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
     const resize = (width: number, height: number) => {
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.round(width * dpr);
@@ -87,7 +83,7 @@ export function DotSwirl({ className }: DotSwirlProps) {
       const center = { x: width / 2, y: height / 2 };
       const holeRadius = minDim * HOLE_RADIUS_RATIO;
       const ringRampEnd = holeRadius + minDim * RING_RAMP_RATIO;
-      const t = reducedMotion ? 0 : time;
+      const t = time;
       const noiseT = t * NOISE_TIME_SPEED;
       const color = colorRef.current;
       const pointer = pointerRef.current;
@@ -151,11 +147,7 @@ export function DotSwirl({ className }: DotSwirlProps) {
         }
       }
 
-      if (!reducedMotion) {
-        frameId = requestAnimationFrame(draw);
-      } else {
-        running = false;
-      }
+      frameId = requestAnimationFrame(draw);
     };
 
     const start = () => {
