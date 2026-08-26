@@ -1,15 +1,21 @@
 "use client";
 
-import { CodeSimple, PlugsConnected } from "@phosphor-icons/react";
+import type { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { PlugsConnected } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { mockSurfaces, type Surface } from "@/lib/mock-data";
 import styles from "./surfaces.module.css";
 
+const SURFACE_ICONS: Record<Surface["icon"], ReactNode> = {
+  vscode: <img src="/vscode-icon.png" alt="" />,
+  terminal: <img src="/terminal-icon.png" alt="" />,
+};
+
 export default function SurfacesPage() {
-  const vsCodeActive = true;
+  const router = useRouter();
 
   return (
     <DashboardShell
@@ -20,20 +26,21 @@ export default function SurfacesPage() {
       <div>
         <div className={styles.sectionTitle}>Kili Surfaces</div>
         <div className={styles.cardGrid}>
-          <Card className={styles.surfaceCard}>
-            <span className={styles.surfaceIcon}>
-              <CodeSimple size={16} weight="bold" />
-            </span>
-            <div className={styles.surfaceHead}>
-              <span className={styles.surfaceName}>VS Code</span>
-              <Badge tone={vsCodeActive ? "success" : "neutral"}>
-                {vsCodeActive ? "Active" : "Inactive"}
-              </Badge>
-            </div>
-            <Button variant="primary" size="sm" onClick={() => console.log("Install VS Code surface")}>
-              Install
-            </Button>
-          </Card>
+          {mockSurfaces.map((surface) => (
+            <SurfaceCard
+              key={surface.id}
+              icon={SURFACE_ICONS[surface.icon]}
+              name={surface.name}
+              description={surface.description}
+              status={surface.status}
+              earned={surface.earned}
+              onAction={() =>
+                surface.status === "active"
+                  ? router.push(`/developer/surfaces/${surface.id}`)
+                  : console.log(`Install ${surface.name} surface`)
+              }
+            />
+          ))}
         </div>
       </div>
 

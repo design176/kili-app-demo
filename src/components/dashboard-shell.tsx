@@ -10,6 +10,7 @@ import {
   Gear,
   Bug,
   Plug,
+  Stack,
   Wallet,
 } from "@phosphor-icons/react";
 import { SidebarNav, type SidebarNavSection } from "@/components/ui/SidebarNav";
@@ -53,7 +54,7 @@ const developerSections: SidebarNavSection[] = [
     label: "Workspace",
     items: [
       { key: "overview", label: "Overview", icon: <House size={16} weight="bold" /> },
-      { key: "surfaces", label: "Surfaces", icon: <Plug size={16} weight="bold" /> },
+      { key: "surfaces", label: "Surfaces", icon: <Stack size={16} weight="bold" /> },
     ],
   },
   {

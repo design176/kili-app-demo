@@ -14,24 +14,14 @@ export default function SettingsFormPage() {
   const [workspace, setWorkspace] = useState<(typeof workspaces)[number]>("advertiser");
   const [advertiserAcc, setAdvertiserAcc] = useState(advertiserAccount);
   const [developerAcc, setDeveloperAcc] = useState(developerAccount);
-  const [advertiserToggles, setAdvertiserToggles] = useState({
-    budgetExhausting: true,
-    adRejected: true,
-  });
-  const [developerToggles, setDeveloperToggles] = useState({
-    integrationErrors: true,
-    missingPayoutMethod: true,
-  });
 
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>Settings Form</h1>
       <p className={styles.subtitle}>
-        Account info Form Fields + notification Switches, assembled. Account
-        info is the same shape on both sides — the notification toggles are
-        different per workspace and built into the component (not
-        caller-defined), same pattern as History Table&apos;s{" "}
-        <code>type</code> prop.
+        Account info Form Fields, assembled. Same shape on both workspaces —
+        the <code>workspace</code> prop is kept for future per-workspace
+        sections.
       </p>
 
       <div className={styles.section}>
@@ -46,10 +36,6 @@ export default function SettingsFormPage() {
             workspace="advertiser"
             account={advertiserAcc}
             onAccountChange={setAdvertiserAcc}
-            toggleValues={advertiserToggles}
-            onToggleChange={(key, checked) =>
-              setAdvertiserToggles((prev) => ({ ...prev, [key]: checked }))
-            }
             onSave={() => console.log("save advertiser settings")}
           />
         ) : (
@@ -57,10 +43,6 @@ export default function SettingsFormPage() {
             workspace="developer"
             account={developerAcc}
             onAccountChange={setDeveloperAcc}
-            toggleValues={developerToggles}
-            onToggleChange={(key, checked) =>
-              setDeveloperToggles((prev) => ({ ...prev, [key]: checked }))
-            }
             onSave={() => console.log("save developer settings")}
           />
         )}

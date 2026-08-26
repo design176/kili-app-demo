@@ -15,6 +15,47 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "26 August 26 — B",
+    changes: [
+      {
+        text: "Settings page: removed the Notifications section (toggle list + Switch rows) from Settings Form for both Advertiser and Developer — Account info + Save is all that's left.",
+        files: [
+          "src/components/ui/SettingsForm.tsx",
+          "src/components/ui/SettingsForm.module.css",
+          "src/app/advertiser/settings/page.tsx",
+          "src/app/developer/settings/page.tsx",
+          "src/app/design/components/settings-form/page.tsx",
+        ],
+      },
+      {
+        text: "Developer Surfaces nav icon swapped from Plug to Stack (Pixel Setup keeps Plug).",
+        files: ["src/components/dashboard-shell.tsx"],
+      },
+      {
+        text: "New Surface Card component, rebuilt from Figma to replace the old Badge/icon-square card: real app icon in a bordered square, a plain status dot + text (gray Inactive / brand-green Active) instead of a pill badge, and either an \"Install\" CTA (inactive) or earnings + a \"View\" CTA (active). Surfaces' data moved to a shared mockSurfaces fixture; added a second, inactive Terminal surface card next to VS Code Extension, both using real downloaded icon assets.",
+        files: [
+          "src/components/ui/SurfaceCard.tsx",
+          "src/components/ui/SurfaceCard.module.css",
+          "src/app/developer/surfaces/page.tsx",
+          "src/app/developer/surfaces/surfaces.module.css",
+          "src/app/design/components/surface-card/page.tsx",
+          "src/app/design/components/catalog.ts",
+          "src/lib/mock-data.ts",
+          "public/vscode-icon.png",
+          "public/terminal-icon.png",
+        ],
+      },
+      {
+        text: "New Surface Detail page (/developer/surfaces/[id]) — the Developer Overview screen (Revenue/Impressions/eCPM KPIs + Revenue-over-time and Impressions Trend Charts) scoped to one surface; an inactive surface shows a \"Not installed yet\" empty state instead. A Surface Card's \"View\" button navigates here.",
+        files: [
+          "src/app/developer/surfaces/[id]/page.tsx",
+          "src/app/developer/surfaces/[id]/detail.module.css",
+          "src/app/developer/surfaces/page.tsx",
+        ],
+      },
+    ],
+  },
+  {
     date: "26 August 26",
     changes: [
       {

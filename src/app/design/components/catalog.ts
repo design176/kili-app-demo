@@ -405,6 +405,14 @@ export const catalog: ComponentEntry[] = [
     status: "built",
   },
   {
+    slug: "surface-card",
+    name: "Surface Card",
+    category: "Organism",
+    desc: 'One integration surface as a card — icon, live status dot, name, description, and either an "Install" CTA (inactive) or earnings + a "View" CTA (active).',
+    usedIn: ["Developer Surfaces — Kili Surfaces grid"],
+    status: "built",
+  },
+  {
     slug: "create-campaign-wizard",
     name: "Create Campaign Wizard",
     category: "Organism",

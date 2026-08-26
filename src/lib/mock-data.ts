@@ -98,6 +98,33 @@ export const mockCampaigns: Campaign[] = [
   },
 ];
 
+export type Surface = {
+  id: string;
+  name: string;
+  description: string;
+  status: "active" | "inactive";
+  icon: "vscode" | "terminal";
+  earned?: number;
+};
+
+export const mockSurfaces: Surface[] = [
+  {
+    id: "vscode",
+    name: "VS Code Extension",
+    description: "View ads in your vs code while you code and pays you for views.",
+    status: "active",
+    icon: "vscode",
+    earned: 324,
+  },
+  {
+    id: "terminal",
+    name: "Terminal",
+    description: "View ads in your terminal while you work and get paid for views.",
+    status: "inactive",
+    icon: "terminal",
+  },
+];
+
 export const mockInvoices: HistoryEntry<InvoiceStatus>[] = [
   { id: "inv_1", date: new Date(2026, 7, 1), amount: 500, status: "Paid" },
   { id: "inv_2", date: new Date(2026, 6, 1), amount: 500, status: "Paid" },
