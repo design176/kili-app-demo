@@ -15,7 +15,7 @@ import { buildTrendData } from "@/lib/chart-data";
 import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
 import styles from "./overview.module.css";
 
-export default function PlatformOverviewPage() {
+export default function DeveloperOverviewPage() {
   const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
   const router = useRouter();
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
@@ -102,8 +102,8 @@ export default function PlatformOverviewPage() {
               title="Nothing to show yet"
               description="Once you integrate and start earning, your revenue will show up here."
               primaryAction={{
-                label: "Go to Integration",
-                onClick: () => router.push("/platform/integration"),
+                label: "Go to Surfaces",
+                onClick: () => router.push("/developer/surfaces"),
               }}
             />
           </div>

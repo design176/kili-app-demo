@@ -26,7 +26,7 @@ export default function SettingsPanelPage() {
         <p className={styles.sectionDesc}>
           A Settings/Routes segmented control sits at the top of the panel.
           Routes lists quick links, grouped as Dashboards
-          (<code>/advertiser/overview</code>, <code>/platform/overview</code>),
+          (<code>/advertiser/overview</code>, <code>/developer/overview</code>),
           Auth (<code>/login</code>), and Design (Design home, IA,
           Components, Changelog) — a fast way to jump anywhere without
           re-running the login flow.
@@ -37,7 +37,7 @@ export default function SettingsPanelPage() {
         <div className={styles.sectionTitle}>Try it</div>
         <p className={styles.sectionDesc}>
           Look at the bottom-right corner of your screen right now. Flip to
-          the Routes tab and jump straight to <code>/platform/overview</code>{" "}
+          the Routes tab and jump straight to <code>/developer/overview</code>{" "}
           — no login step in between.
         </p>
       </div>

@@ -10,7 +10,7 @@ export default function CodeBlockPage() {
       <p className={styles.subtitle}>
         A labeled Copy Field — small heading above the value. Used to stack
         multiple related snippets (install command, setup, usage) on Pixel
-        Tracking and Platform Integration.
+        Tracking and Developer Surfaces.
       </p>
 
       <div className={styles.section}>

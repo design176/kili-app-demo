@@ -21,7 +21,7 @@ const routeGroups = [
     label: "Dashboards",
     routes: [
       { href: "/advertiser/overview", label: "Advertiser" },
-      { href: "/platform/overview", label: "Platform" },
+      { href: "/developer/overview", label: "Developer" },
     ],
   },
   {

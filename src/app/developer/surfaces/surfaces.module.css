@@ -1,0 +1,63 @@
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1200px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.surfaceCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.surfaceIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  color: var(--color-icon-secondary);
+}
+
+.surfaceHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.surfaceName {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.emptyWrap {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 32px;
+}

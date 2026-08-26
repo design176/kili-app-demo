@@ -47,13 +47,13 @@ const advertiserSections: SidebarNavSection[] = [
   },
 ];
 
-const platformSections: SidebarNavSection[] = [
+const developerSections: SidebarNavSection[] = [
   {
     key: "workspace",
     label: "Workspace",
     items: [
       { key: "overview", label: "Overview", icon: <House size={16} weight="bold" /> },
-      { key: "integration", label: "Integration", icon: <Plug size={16} weight="bold" /> },
+      { key: "surfaces", label: "Surfaces", icon: <Plug size={16} weight="bold" /> },
     ],
   },
   {
@@ -80,11 +80,11 @@ const advertiserRoutes: Record<string, string> = {
   settings: "/advertiser/settings",
 };
 
-const platformRoutes: Record<string, string> = {
-  overview: "/platform/overview",
-  integration: "/platform/integration",
-  earnings: "/platform/earnings",
-  settings: "/platform/settings",
+const developerRoutes: Record<string, string> = {
+  overview: "/developer/overview",
+  surfaces: "/developer/surfaces",
+  earnings: "/developer/earnings",
+  settings: "/developer/settings",
 };
 
 const MOBILE_QUERY = "(max-width: 800px)";
@@ -113,7 +113,7 @@ export function DashboardShell({
   const pathname = usePathname();
   const contentRef = useRef<HTMLDivElement>(null);
   const isAdvertiser = pathname.startsWith("/advertiser");
-  const routes = isAdvertiser ? advertiserRoutes : platformRoutes;
+  const routes = isAdvertiser ? advertiserRoutes : developerRoutes;
 
   // On small screens the sidebar starts collapsed to a rail; expanding it
   // becomes an overlay drawer instead of pushing the page (handled in CSS).
@@ -166,7 +166,7 @@ export function DashboardShell({
         />
       )}
       <SidebarNav
-        sections={isAdvertiser ? advertiserSections : platformSections}
+        sections={isAdvertiser ? advertiserSections : developerSections}
         activeKey={activeKey}
         onSelect={handleSelect}
         collapsed={sidebarCollapsed}

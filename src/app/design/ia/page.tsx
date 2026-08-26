@@ -172,7 +172,7 @@ const advertiserScreens: Screen[] = [
   {
     section: "Tracking",
     screen: "Pixel Setup",
-    desc: "Install and verify the client-side pixel on the advertiser's own website — separate from the Platform-side ad-serving integration.",
+    desc: "Install and verify the client-side pixel on the advertiser's own website — separate from the Developer-side ad-serving integration.",
     why: "New top-level section, not part of Campaigns — pixel install lives on the advertiser's own site, not inside a campaign's settings. Conversion setup/analytics itself now lives on Events Tracking, not here.",
     tag: "mvp",
     children: [
@@ -195,7 +195,7 @@ const advertiserScreens: Screen[] = [
   {
     section: "Account",
     screen: "Settings",
-    desc: "Bare-minimum account controls. No API key — pixel/API integration belongs to the Platform side, not here.",
+    desc: "Bare-minimum account controls. No API key — pixel/API integration belongs to the Developer side, not here.",
     why: "Team roles and permissions are deferred — one user per account for MVP.",
     tag: "mvp",
     children: [
@@ -214,7 +214,7 @@ const advertiserScreens: Screen[] = [
   },
 ];
 
-const platformScreens: Screen[] = [
+const developerScreens: Screen[] = [
   {
     section: "Home",
     screen: "Overview",
@@ -244,8 +244,8 @@ const platformScreens: Screen[] = [
     ],
   },
   {
-    section: "Integration",
-    screen: "Integration",
+    section: "Surfaces",
+    screen: "Surfaces",
     desc: "The entire path from 'signed up' to 'ads are showing in my product.' No sandbox/live split for v1.",
     why: "This is the entire onboarding path — the less friction here, the faster a publisher goes live.",
     tag: "mvp",
@@ -292,7 +292,7 @@ const platformScreens: Screen[] = [
   {
     section: "Account",
     screen: "Settings",
-    desc: "Bare-minimum account controls. No API key here either — that lives under Integration.",
+    desc: "Bare-minimum account controls. No API key here either — that lives under Surfaces.",
     why: "Same as the advertiser side — team roles deferred.",
     tag: "mvp",
     children: [
@@ -320,10 +320,10 @@ const deferred = [
   "Brand Safety controls & review queues on both sides",
   "Custom reporting builder (exports, scheduled reports)",
   "Team roles & permissions",
-  "Sandbox/Live key split & \"test my integration\" check (Platform)",
-  "Ad density slider & advertiser-category block list (Platform)",
-  "Fill rate & Avg. added latency metrics (Platform)",
-  "Revenue breakdown by advertiser category (Platform Earnings)",
+  "Sandbox/Live key split & \"test my integration\" check (Developer)",
+  "Ad density slider & advertiser-category block list (Developer)",
+  "Fill rate & Avg. added latency metrics (Developer)",
+  "Revenue breakdown by advertiser category (Developer Earnings)",
   "\"Why did/didn't this ad show\" diagnostic tool",
 ];
 
@@ -368,7 +368,7 @@ function ScreenList({ screens }: { screens: Screen[] }) {
 
 const workspaces = [
   { key: "advertiser", label: "Advertiser", screens: advertiserScreens },
-  { key: "platform", label: "Platform", screens: platformScreens },
+  { key: "developer", label: "Developer", screens: developerScreens },
 ] as const;
 
 export default function IAPage() {
@@ -389,7 +389,7 @@ export default function IAPage() {
       <div className={styles.shared}>
         <strong>Note:</strong> this tab switch is just for comparing the two
         IAs side by side on this page. In the actual app, Advertiser and
-        Platform live on separate routes behind the Workspace Switcher.
+        Developer live on separate routes behind the Workspace Switcher.
       </div>
 
       <Tabs

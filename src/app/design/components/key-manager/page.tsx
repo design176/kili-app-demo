@@ -37,7 +37,7 @@ export default function KeyManagerPage() {
         row action) or an Empty State. Clicking Create reveals the new key&apos;s
         full value once, in a Card with a Copy Field + &quot;Copy key&quot;/&quot;Done&quot;
         actions — after Done, it drops back to the table showing only the
-        masked value. Used for Platform Integration&apos;s API keys and
+        masked value. Used for Developer Surfaces&apos; API keys and
         Advertiser Pixel Setup&apos;s pixel keys.
       </p>
 

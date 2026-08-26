@@ -11,7 +11,7 @@ export type AccountInfo = {
 };
 
 export type AdvertiserNotificationKey = "budgetExhausting" | "adRejected";
-export type PlatformNotificationKey = "integrationErrors" | "missingPayoutMethod";
+export type DeveloperNotificationKey = "integrationErrors" | "missingPayoutMethod";
 
 type ToggleDef = { key: string; label: string; description: string };
 
@@ -28,7 +28,7 @@ const advertiserToggles: ToggleDef[] = [
   },
 ];
 
-const platformToggles: ToggleDef[] = [
+const developerToggles: ToggleDef[] = [
   {
     key: "integrationErrors",
     label: "Integration errors",
@@ -49,7 +49,7 @@ type SettingsFormProps = {
   onSave?: () => void;
 } & (
   | { workspace: "advertiser" }
-  | { workspace: "platform" }
+  | { workspace: "developer" }
 );
 
 export function SettingsForm({
@@ -60,7 +60,7 @@ export function SettingsForm({
   onToggleChange,
   onSave,
 }: SettingsFormProps) {
-  const toggles = workspace === "advertiser" ? advertiserToggles : platformToggles;
+  const toggles = workspace === "advertiser" ? advertiserToggles : developerToggles;
 
   return (
     <div className={styles.form}>

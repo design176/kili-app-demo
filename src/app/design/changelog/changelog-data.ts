@@ -15,6 +15,36 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "26 August 26",
+    changes: [
+      {
+        text: "Platform workspace renamed to Developer throughout the app — route /platform/* → /developer/*, login page's workspace picker ('Continue as Platform' → 'Continue as Developer'), SettingsForm/DashboardShell/SettingsPanel workspace keys, and the design-catalog/IA docs.",
+        files: [
+          "src/components/dashboard-shell.tsx",
+          "src/components/ui/SettingsForm.tsx",
+          "src/components/ui/SettingsPanel.tsx",
+          "src/app/login/page.tsx",
+          "src/app/developer/overview/page.tsx",
+          "src/app/developer/earnings/page.tsx",
+          "src/app/developer/settings/page.tsx",
+          "src/app/design/ia/page.tsx",
+          "src/app/design/components/catalog.ts",
+          "src/app/design/components/settings-form/page.tsx",
+        ],
+      },
+      {
+        text: "Developer's Integration page renamed to Surfaces and rebuilt: a \"Kili Surfaces\" card grid (VS Code surface card with an Active/Inactive badge + Install button) and an \"Integrate your own surfaces\" section with a Coming soon empty state — replaces the old API-key/install-snippet/heartbeat-status content.",
+        files: [
+          "src/app/developer/surfaces/page.tsx",
+          "src/app/developer/surfaces/surfaces.module.css",
+          "src/components/dashboard-shell.tsx",
+          "src/app/design/components/catalog.ts",
+          "src/app/design/ia/page.tsx",
+        ],
+      },
+    ],
+  },
+  {
     date: "24 August 26 — B",
     changes: [
       {

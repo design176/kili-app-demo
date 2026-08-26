@@ -22,11 +22,11 @@ import { useMounted } from '@/lib/use-mounted';
 import styles from './login.module.css';
 
 type Step = 'workspace' | 'email' | 'sent';
-type Workspace = 'advertiser' | 'platform';
+type Workspace = 'advertiser' | 'developer';
 
 const WORKSPACE_SUBTITLE: Record<Workspace, string> = {
   advertiser: 'Sign in to run ads across the network.',
-  platform: 'Sign in to monetize your AI product.',
+  developer: 'Sign in to monetize your AI product.',
 };
 
 const CAROUSEL_ITEMS = [
@@ -82,7 +82,7 @@ export default function LoginPage() {
             <Tabs
               items={[
                 { value: 'advertiser', label: 'Advertiser' },
-                { value: 'platform', label: 'Platform' },
+                { value: 'developer', label: 'Developer' },
               ]}
               value={workspace}
               onChange={(value) => setWorkspace(value as Workspace)}
@@ -116,13 +116,13 @@ export default function LoginPage() {
                   <button
                     type='button'
                     className={styles.workspaceOption}
-                    onClick={() => chooseWorkspace('platform')}
+                    onClick={() => chooseWorkspace('developer')}
                   >
                     <span className={styles.workspaceOptionIconBox}>
                       <CodeSimple size={20} weight='bold' />
                     </span>
                     <span className={styles.workspaceOptionTitle}>
-                      Continue as Platform
+                      Continue as Developer
                     </span>
                     <span className={styles.workspaceOptionDesc}>
                       Host ads in your AI product and monetize traffic.

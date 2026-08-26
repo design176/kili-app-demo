@@ -5,20 +5,20 @@ import { SettingsForm } from "@/components/ui/SettingsForm";
 import { StateToggle } from "../state-toggle";
 import styles from "../demo.module.css";
 
-const workspaces = ["advertiser", "platform"] as const;
+const workspaces = ["advertiser", "developer"] as const;
 
 const advertiserAccount = { name: "Sam Rivera", email: "sam@example.com", company: "Kili" };
-const platformAccount = { name: "Jess Lin", email: "jess@example.com", company: "Kili" };
+const developerAccount = { name: "Jess Lin", email: "jess@example.com", company: "Kili" };
 
 export default function SettingsFormPage() {
   const [workspace, setWorkspace] = useState<(typeof workspaces)[number]>("advertiser");
   const [advertiserAcc, setAdvertiserAcc] = useState(advertiserAccount);
-  const [platformAcc, setPlatformAcc] = useState(platformAccount);
+  const [developerAcc, setDeveloperAcc] = useState(developerAccount);
   const [advertiserToggles, setAdvertiserToggles] = useState({
     budgetExhausting: true,
     adRejected: true,
   });
-  const [platformToggles, setPlatformToggles] = useState({
+  const [developerToggles, setDeveloperToggles] = useState({
     integrationErrors: true,
     missingPayoutMethod: true,
   });
@@ -54,14 +54,14 @@ export default function SettingsFormPage() {
           />
         ) : (
           <SettingsForm
-            workspace="platform"
-            account={platformAcc}
-            onAccountChange={setPlatformAcc}
-            toggleValues={platformToggles}
+            workspace="developer"
+            account={developerAcc}
+            onAccountChange={setDeveloperAcc}
+            toggleValues={developerToggles}
             onToggleChange={(key, checked) =>
-              setPlatformToggles((prev) => ({ ...prev, [key]: checked }))
+              setDeveloperToggles((prev) => ({ ...prev, [key]: checked }))
             }
-            onSave={() => console.log("save platform settings")}
+            onSave={() => console.log("save developer settings")}
           />
         )}
       </div>

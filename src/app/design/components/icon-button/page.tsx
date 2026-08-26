@@ -17,7 +17,7 @@ export default function IconButtonPage() {
         Square, icon-only button. Same 5 variants as Button (reuses its color
         CSS directly, so Primary/Secondary invert with the theme exactly like
         Button does) — just 3 square sizes instead of 4. Used for copy/delete
-        actions — Platform Integration&apos;s API keys list, Pixel
+        actions — Developer Surfaces&apos; API keys list, Pixel
         Tracking&apos;s install snippet.
       </p>
 

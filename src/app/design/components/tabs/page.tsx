@@ -6,7 +6,7 @@ import styles from "../demo.module.css";
 
 const items = [
   { value: "advertiser", label: "Advertiser" },
-  { value: "platform", label: "Platform" },
+  { value: "developer", label: "Developer" },
 ];
 
 const sizes = ["sm", "md", "lg"] as const;

@@ -9,8 +9,8 @@ export default function CopyFieldPage() {
       <h1 className={styles.title}>Copy Field</h1>
       <p className={styles.subtitle}>
         Read-only monospace value with a copy action (briefly shows a
-        checkmark), and an optional delete action. Used for Platform
-        Integration&apos;s API keys and Pixel Tracking&apos;s install
+        checkmark), and an optional delete action. Used for Developer
+        Surfaces&apos; API keys and Pixel Tracking&apos;s install
         snippet.
       </p>
 

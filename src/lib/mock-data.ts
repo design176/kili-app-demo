@@ -290,3 +290,4 @@ export const pageVisitsByGranularity: Record<"daily" | "weekly" | "monthly", Tre
   weekly: { xLabels: weeklyLabels, values: weeklyPageVisits },
   monthly: { xLabels: monthLabels, values: monthlyPageVisits },
 };
+
