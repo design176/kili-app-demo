@@ -34,6 +34,7 @@ const routeGroups = [
       { href: "/design", label: "Design home" },
       { href: "/design/ia", label: "IA" },
       { href: "/design/components", label: "Components" },
+      { href: "/design/emails", label: "Emails" },
       { href: "/design/changelog", label: "Changelog" },
     ],
   },

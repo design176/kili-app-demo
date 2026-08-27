@@ -1,0 +1,294 @@
+.page {
+  width: 100%;
+  min-width: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 32px 96px;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.back:hover {
+  color: var(--color-text-primary);
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.desc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  max-width: 640px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.preheaderText {
+  margin: 0;
+  padding: 8px 8px 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.fieldLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.tabsWrap {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.previewToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.previewWrap {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.previewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 10px 14px;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.previewFrame {
+  width: 100%;
+  height: 720px;
+  border: none;
+  background: #fafafa;
+  display: block;
+}
+
+.previewFrameInverted {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.codeRow {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.codeBlock {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-surface-1);
+}
+
+.codeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 10px 14px;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.codeHeaderLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.codeContent {
+  padding: 0;
+}
+
+.codeFooter {
+  padding: 8px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+}
+
+.jsonPre {
+  margin: 0;
+  padding: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-1);
+  overflow-x: auto;
+  white-space: pre;
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+.hbsPre {
+  margin: 0;
+  padding: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-1);
+  overflow-x: auto;
+  white-space: pre;
+  max-height: 640px;
+  overflow-y: auto;
+}
+
+/* Syntax token colors — shared by the JSON and Handlebars/HTML highlighters. */
+.tokKey {
+  color: var(--color-chart-blue);
+}
+
+.tokString {
+  color: var(--color-chart-positive);
+}
+
+.tokNumber {
+  color: var(--color-chart-amber);
+}
+
+.tokKeyword {
+  color: var(--color-chart-purple);
+}
+
+.tokPunct {
+  color: var(--color-text-subtle);
+}
+
+.tokComment {
+  color: var(--color-text-subtle);
+  font-style: italic;
+}
+
+.tokMustache {
+  color: var(--color-chart-pink);
+  font-weight: 600;
+}
+
+.tokTag {
+  color: var(--color-chart-blue);
+}
+
+.tokAttr {
+  color: var(--color-chart-purple);
+}
+
+.fileName {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.error {
+  padding: 12px 14px;
+  font-size: 12px;
+  color: var(--color-danger-text);
+  background: var(--color-danger-soft);
+  border-top: 1px solid var(--color-danger-border);
+}
+
+.notFound {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.notFoundTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.notFoundDesc {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 1200px) {
+  .previewFrame {
+    height: 560px;
+  }
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 24px 16px 96px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .previewFrame {
+    height: 480px;
+  }
+}

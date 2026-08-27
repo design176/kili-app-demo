@@ -31,6 +31,20 @@ export default function CopyFieldPage() {
           className={styles.stepperWidth}
         />
       </div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>Secondary copy button</div>
+        <p className={styles.sectionDesc}>
+          <code>copyVariant=&quot;secondary&quot;</code> — used by Emails&apos; detail page for the
+          Subject field, where the copy action should read as a bordered button instead of the
+          default ghost icon.
+        </p>
+        <CopyField
+          value="Sign in to Kili"
+          copyVariant="secondary"
+          className={styles.stepperWidth}
+        />
+      </div>
     </div>
   );
 }

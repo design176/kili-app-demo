@@ -240,10 +240,11 @@ export const catalog: ComponentEntry[] = [
     slug: "copy-field",
     name: "Copy Field",
     category: "Molecule",
-    desc: "Monospace read-only value + copy Icon Button (checkmark feedback) + optional delete, single or multiline.",
+    desc: "Monospace read-only value + copy Icon Button (checkmark feedback) + optional delete, single or multiline. Copy button defaults to ghost — copyVariant overrides its IconButton variant (e.g. \"secondary\").",
     usedIn: [
       "Developer Surfaces — API keys, snippet",
       "Pixel Tracking — install snippet",
+      "Emails detail — Subject field (secondary copy button)",
     ],
     status: "built",
   },

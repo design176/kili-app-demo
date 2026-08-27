@@ -17,6 +17,12 @@ const pages = [
     available: true,
   },
   {
+    href: "/design/emails",
+    label: "Emails",
+    desc: "Transactional email templates — Handlebars (.hbs) + JSON props, preview and download. Starts with magic-link login.",
+    available: true,
+  },
+  {
     href: "/design/changelog",
     label: "Changelog",
     desc: "What changed since the last push, newest first — updated on request.",

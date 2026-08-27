@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, Copy, TrashSimple } from "@phosphor-icons/react";
-import { IconButton } from "./IconButton";
+import { IconButton, type IconButtonProps } from "./IconButton";
 import styles from "./CopyField.module.css";
 
 export type CopyFieldProps = {
@@ -10,9 +10,11 @@ export type CopyFieldProps = {
   multiline?: boolean;
   onDelete?: () => void;
   className?: string;
+  /** Copy button's IconButton variant. Defaults to "ghost". */
+  copyVariant?: IconButtonProps["variant"];
 };
 
-export function CopyField({ value, multiline, onDelete, className }: CopyFieldProps) {
+export function CopyField({ value, multiline, onDelete, className, copyVariant = "ghost" }: CopyFieldProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -27,7 +29,7 @@ export function CopyField({ value, multiline, onDelete, className }: CopyFieldPr
         {value}
       </span>
       <div className={styles.actions}>
-        <IconButton variant="ghost" size="sm" label="Copy" onClick={handleCopy}>
+        <IconButton variant={copyVariant} size="sm" label="Copy" onClick={handleCopy}>
           {copied ? (
             <Check size={13} weight="bold" />
           ) : (
