@@ -262,11 +262,12 @@ export const catalog: ComponentEntry[] = [
     slug: "trend-chart",
     name: "Trend Chart",
     category: "Molecule",
-    desc: "Legend (only shown for 2+ series — a single line hides it), a Range Filter (Daily/Weekly/Monthly) plus secondary prev/next pan arrows (with hover Tooltips) that page through the underlying data, minimal or default (axes/gridlines + hatch-filled area) style.",
+    desc: "Legend (only shown for 2+ series — a single line hides it), a Range Filter (Daily/Weekly/Monthly) plus secondary prev/next pan arrows (with hover Tooltips) that page through the underlying data, minimal or default (axes/gridlines + hatch-filled area) style. Height scales with chart width by default (its SVG's intrinsic aspect ratio) — pass the optional `height` prop to fix it in px instead, e.g. to line up charts of different widths at the same height.",
     usedIn: [
       "Overview — Spend/Revenue-over-time chart",
       "Campaign Detail — Spend over time, Impressions, Conversions over time",
       "Advertiser Events Tracking — Conversions over time, Page visits over time",
+      "Developer Overview / Surface Detail — Revenue, Impressions, Clicks (fixed height so the side-by-side Impressions/Clicks charts match Revenue's)",
     ],
     status: "built",
   },
@@ -322,6 +323,14 @@ export const catalog: ComponentEntry[] = [
     category: "Molecule",
     desc: "Centered modal opened from the developer Settings Help button — grid-background top section with the support email in a copy-to-clipboard input, plus two secondary actions (Watch walkthrough, Report a bug).",
     usedIn: ["Developer Settings — Account info Help button"],
+    status: "built",
+  },
+  {
+    slug: "install-surface-modal",
+    name: "Install Surface Modal",
+    category: "Molecule",
+    desc: "Centered modal opened from an inactive Surface card's Install button — grid-background top section with the install command in a copy-to-clipboard input (same styling as the walkthrough's code step), title/description, and a hint to paste the command into a terminal.",
+    usedIn: ["Developer Surfaces — Install"],
     status: "built",
   },
   {

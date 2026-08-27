@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Plug, Coins, Eye, ChartLineUp } from "@phosphor-icons/react";
+import { Plug, Coins, Eye, CursorClick, ChartLineUp } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { Card } from "@/components/ui/Card";
 import { KPISmallStrip } from "@/components/ui/KPISmallStrip";
@@ -10,8 +10,13 @@ import { TrendChart } from "@/components/ui/TrendChart";
 import type { TrendGranularity } from "@/components/ui/RangeFilter";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDemoState } from "@/components/demo-state";
-import { mockSurfaces, spendByGranularity, impressionsTotalByGranularity } from "@/lib/mock-data";
-import { buildTrendData } from "@/lib/chart-data";
+import {
+  mockSurfaces,
+  spendByGranularity,
+  impressionsTotalByGranularity,
+  clicksTotalByGranularity,
+} from "@/lib/mock-data";
+import { buildTrendData, SIDE_BY_SIDE_CHART_HEIGHT } from "@/lib/chart-data";
 import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
 import styles from "./detail.module.css";
 
@@ -27,6 +32,7 @@ export default function SurfaceDetailPage() {
 
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
+  const [clicksGranularity, setClicksGranularity] = useState<TrendGranularity>("monthly");
 
   const revenueData = buildTrendData(spendByGranularity, {
     key: "main",
@@ -38,6 +44,12 @@ export default function SurfaceDetailPage() {
     key: "impressions",
     label: "Impressions",
     color: "var(--color-chart-blue)",
+  });
+
+  const clicksData = buildTrendData(clicksTotalByGranularity, {
+    key: "clicks",
+    label: "Clicks",
+    color: "var(--color-chart-purple)",
   });
 
   return (
@@ -63,6 +75,12 @@ export default function SurfaceDetailPage() {
               tooltip: "How many times an ad was actually shown on this surface.",
               label: "Impressions",
               value: isInactive ? "0" : formatCompactNumber(142900),
+            },
+            {
+              icon: <CursorClick size={14} weight="bold" />,
+              tooltip: "How many times an ad was clicked on this surface.",
+              label: "Clicks",
+              value: isInactive ? "0" : formatCompactNumber(3001),
             },
             {
               icon: <ChartLineUp size={14} weight="bold" />,
@@ -97,19 +115,35 @@ export default function SurfaceDetailPage() {
                 granularity={spendGranularity}
                 onGranularityChange={setSpendGranularity}
                 loading={forceLoadingStates}
+                height={SIDE_BY_SIDE_CHART_HEIGHT}
               />
             </Card>
-            <Card>
-              <TrendChart
-                title="Impressions"
-                chartStyle="default"
-                data={impressionsData}
-                valueFormatter={(v) => formatCompactNumber(v)}
-                granularity={impressionsGranularity}
-                onGranularityChange={setImpressionsGranularity}
-                loading={forceLoadingStates}
-              />
-            </Card>
+            <div className={styles.chartsRow}>
+              <Card className={styles.chartsRowItem}>
+                <TrendChart
+                  title="Impressions"
+                  chartStyle="default"
+                  data={impressionsData}
+                  valueFormatter={(v) => formatCompactNumber(v)}
+                  granularity={impressionsGranularity}
+                  onGranularityChange={setImpressionsGranularity}
+                  loading={forceLoadingStates}
+                  height={SIDE_BY_SIDE_CHART_HEIGHT}
+                />
+              </Card>
+              <Card className={styles.chartsRowItem}>
+                <TrendChart
+                  title="Clicks"
+                  chartStyle="default"
+                  data={clicksData}
+                  valueFormatter={(v) => formatCompactNumber(v)}
+                  granularity={clicksGranularity}
+                  onGranularityChange={setClicksGranularity}
+                  loading={forceLoadingStates}
+                  height={SIDE_BY_SIDE_CHART_HEIGHT}
+                />
+              </Card>
+            </div>
           </div>
         </div>
       )}

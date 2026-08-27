@@ -2,6 +2,9 @@ import type { TrendGranularity } from "@/components/ui/RangeFilter";
 import type { TrendDataset, TrendSeries } from "@/components/ui/TrendChart";
 import type { TrendGranularityData } from "./mock-data";
 
+/** Shared fixed chart height (px) for pages that lay out multiple TrendCharts of different widths side by side and need them to line up — see TrendChart's `height` prop. */
+export const SIDE_BY_SIDE_CHART_HEIGHT = 260;
+
 /**
  * Wraps one metric's per-granularity values in the `{ xLabels, series }` shape
  * TrendChart expects, so pages don't hand-roll it (and hand-cast it) each time.

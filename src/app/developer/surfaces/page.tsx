@@ -1,22 +1,27 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PlugsConnected } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { InstallSurfaceModal } from "@/components/ui/InstallSurfaceModal";
 import { mockSurfaces, type Surface } from "@/lib/mock-data";
 import styles from "./surfaces.module.css";
 
+const INSTALL_COMMAND = "npx -y @kili-ai/install";
+
 const SURFACE_ICONS: Record<Surface["icon"], ReactNode> = {
+  "claude-code": <Image src="/claude-code-icon.png" alt="" width={48} height={48} />,
   vscode: <Image src="/vscode-icon.png" alt="" width={48} height={48} />,
   terminal: <Image src="/terminal-icon.png" alt="" width={48} height={48} />,
 };
 
 export default function SurfacesPage() {
   const router = useRouter();
+  const [installSurface, setInstallSurface] = useState<Surface | null>(null);
 
   return (
     <DashboardShell
@@ -35,11 +40,11 @@ export default function SurfacesPage() {
               description={surface.description}
               status={surface.status}
               earned={surface.earned}
-              tourId={surface.id === "vscode" ? "tour-vscode-card" : undefined}
+              tourId={surface.id === "claude-code" ? "tour-claude-code-card" : undefined}
               onAction={() =>
                 surface.status === "active"
                   ? router.push(`/developer/surfaces/${surface.id}`)
-                  : console.log(`Install ${surface.name} surface`)
+                  : setInstallSurface(surface)
               }
             />
           ))}
@@ -56,6 +61,14 @@ export default function SurfacesPage() {
           />
         </div>
       </div>
+
+      <InstallSurfaceModal
+        open={installSurface !== null}
+        surfaceName={installSurface?.name ?? ""}
+        description={installSurface?.description ?? ""}
+        code={INSTALL_COMMAND}
+        onClose={() => setInstallSurface(null)}
+      />
     </DashboardShell>
   );
 }

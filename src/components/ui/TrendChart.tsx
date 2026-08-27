@@ -34,6 +34,8 @@ export type TrendChartProps = {
   valueFormatter?: (value: number) => string;
   loading?: boolean;
   className?: string;
+  /** Fixes the rendered chart height in px instead of it scaling with the chart's width (its default, aspect-ratio-based behavior) — use when charts of different widths need to line up at the same height. */
+  height?: number;
 };
 
 const WIDTH = 640;
@@ -74,6 +76,7 @@ export function TrendChart({
   valueFormatter,
   loading,
   className,
+  height,
 }: TrendChartProps) {
   const [hidden, setHidden] = useState<Set<string>>(new Set());
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
@@ -216,7 +219,7 @@ export function TrendChart({
             <span className={styles.title}>{title}</span>
           </div>
         </div>
-        <Skeleton variant="rect" height={HEIGHT} />
+        <Skeleton variant="rect" height={height ?? HEIGHT} />
       </div>
     );
   }
@@ -297,7 +300,12 @@ export function TrendChart({
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHoverIndex(null)}
         >
-          <svg className={styles.svg} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none">
+          <svg
+            className={styles.svg}
+            viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+            preserveAspectRatio="none"
+            style={height !== undefined ? { height: `${height}px` } : undefined}
+          >
             <defs>
               {visibleSeries.map((s) => (
                 <pattern

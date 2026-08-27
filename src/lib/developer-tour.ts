@@ -23,12 +23,12 @@ export const developerTourSteps: DeveloperTourStep[] = [
     description: "Surfaces are where Kili ads actually show up. Install one below to start earning.",
   },
   {
-    id: "vscode-surface",
+    id: "claude-code-surface",
     route: "/developer/surfaces",
-    anchorSelector: '[data-tour="tour-vscode-card"]',
+    anchorSelector: '[data-tour="tour-claude-code-card"]',
     placement: "right",
-    title: "VS Code Extension",
-    description: "Shows ads right inside your editor while you code. Install it by running this in your terminal:",
+    title: "Claude Code",
+    description: "Shows ads in Claude Code CLI in your terminal and VS Code. Install it by running this in your terminal:",
     code: "npx -y @kili-ai/install",
   },
   {

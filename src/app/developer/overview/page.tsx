@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plug, Coins, Eye, ChartLineUp } from "@phosphor-icons/react";
+import { Plug, Coins, Eye, CursorClick, ChartLineUp } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { Card } from "@/components/ui/Card";
 import { KPISmallStrip } from "@/components/ui/KPISmallStrip";
@@ -10,8 +10,8 @@ import { TrendChart } from "@/components/ui/TrendChart";
 import type { TrendGranularity } from "@/components/ui/RangeFilter";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDemoState } from "@/components/demo-state";
-import { spendByGranularity, impressionsTotalByGranularity } from "@/lib/mock-data";
-import { buildTrendData } from "@/lib/chart-data";
+import { spendByGranularity, impressionsTotalByGranularity, clicksTotalByGranularity } from "@/lib/mock-data";
+import { buildTrendData, SIDE_BY_SIDE_CHART_HEIGHT } from "@/lib/chart-data";
 import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
 import styles from "./overview.module.css";
 
@@ -20,6 +20,7 @@ export default function DeveloperOverviewPage() {
   const router = useRouter();
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
+  const [clicksGranularity, setClicksGranularity] = useState<TrendGranularity>("monthly");
   // The walkthrough needs real-looking KPIs/charts to point at, so a genuinely
   // empty new-user account still shows dummy data while the tour is active.
   const tourActive = developerTourStep >= 0;
@@ -36,6 +37,41 @@ export default function DeveloperOverviewPage() {
     label: "Impressions",
     color: "var(--color-chart-blue)",
   });
+
+  const clicksData = buildTrendData(clicksTotalByGranularity, {
+    key: "clicks",
+    label: "Clicks",
+    color: "var(--color-chart-purple)",
+  });
+
+  const impressionsAndClicksRow = (loading: boolean) => (
+    <div className={styles.chartsRow}>
+      <Card className={styles.chartsRowItem}>
+        <TrendChart
+          title="Impressions"
+          chartStyle="default"
+          data={impressionsData}
+          valueFormatter={(v) => formatCompactNumber(v)}
+          granularity={impressionsGranularity}
+          onGranularityChange={setImpressionsGranularity}
+          loading={loading}
+          height={SIDE_BY_SIDE_CHART_HEIGHT}
+        />
+      </Card>
+      <Card className={styles.chartsRowItem}>
+        <TrendChart
+          title="Clicks"
+          chartStyle="default"
+          data={clicksData}
+          valueFormatter={(v) => formatCompactNumber(v)}
+          granularity={clicksGranularity}
+          onGranularityChange={setClicksGranularity}
+          loading={loading}
+          height={SIDE_BY_SIDE_CHART_HEIGHT}
+        />
+      </Card>
+    </div>
+  );
 
   return (
     <DashboardShell
@@ -60,6 +96,12 @@ export default function DeveloperOverviewPage() {
               value: isEmpty ? "0" : formatCompactNumber(142900),
             },
             {
+              icon: <CursorClick size={14} weight="bold" />,
+              tooltip: "How many times an ad was clicked, across all surfaces.",
+              label: "Clicks",
+              value: isEmpty ? "0" : formatCompactNumber(3001),
+            },
+            {
               icon: <ChartLineUp size={14} weight="bold" />,
               tooltip: "Revenue per 1,000 impressions.",
               label: "eCPM",
@@ -81,19 +123,10 @@ export default function DeveloperOverviewPage() {
                 granularity={spendGranularity}
                 onGranularityChange={setSpendGranularity}
                 loading
+                height={SIDE_BY_SIDE_CHART_HEIGHT}
               />
             </Card>
-            <Card>
-              <TrendChart
-                title="Impressions"
-                chartStyle="default"
-                data={impressionsData}
-                valueFormatter={(v) => formatCompactNumber(v)}
-                granularity={impressionsGranularity}
-                onGranularityChange={setImpressionsGranularity}
-                loading
-              />
-            </Card>
+            {impressionsAndClicksRow(true)}
           </div>
         </div>
       ) : isEmpty ? (
@@ -122,18 +155,10 @@ export default function DeveloperOverviewPage() {
                 valueFormatter={(v) => formatCompactCurrency(v)}
                 granularity={spendGranularity}
                 onGranularityChange={setSpendGranularity}
+                height={SIDE_BY_SIDE_CHART_HEIGHT}
               />
             </Card>
-            <Card>
-              <TrendChart
-                title="Impressions"
-                chartStyle="default"
-                data={impressionsData}
-                valueFormatter={(v) => formatCompactNumber(v)}
-                granularity={impressionsGranularity}
-                onGranularityChange={setImpressionsGranularity}
-              />
-            </Card>
+            {impressionsAndClicksRow(false)}
           </div>
         </div>
       )}

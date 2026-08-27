@@ -25,3 +25,21 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.chartsRow {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.chartsRowItem {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1200px) {
+  .chartsRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

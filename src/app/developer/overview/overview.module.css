@@ -32,6 +32,17 @@
   flex-shrink: 0;
 }
 
+.chartsRow {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.chartsRowItem {
+  flex: 1;
+  min-width: 0;
+}
+
 @media (max-width: 1200px) {
   .lowerRow {
     flex-direction: column;
@@ -40,5 +51,10 @@
 
   .sideCol {
     max-width: none;
+  }
+
+  .chartsRow {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

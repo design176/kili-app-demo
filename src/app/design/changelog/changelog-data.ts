@@ -15,6 +15,43 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "27 August 26 — B",
+    changes: [
+      {
+        text: "New Claude Code surface, added first in Developer Surfaces' \"Kili Surfaces\" grid — inactive by default, real logo asset (public/claude-code-icon.png), description \"View ads in Claude Code CLI in your terminal and VS Code, and get paid for views.\" The developer walkthrough's second step (previously anchored to the VS Code card) now points at this card instead — id/anchor renamed vscode-surface/tour-vscode-card → claude-code-surface/tour-claude-code-card, copy updated to match.",
+        files: [
+          "src/lib/mock-data.ts",
+          "src/lib/developer-tour.ts",
+          "src/app/developer/surfaces/page.tsx",
+          "public/claude-code-icon.png",
+        ],
+      },
+      {
+        text: "New Install Surface Modal — opened from any inactive Surface card's \"Install\" button (replacing the old console.log stub): grid-background top section with the install command (npx -y @kili-ai/install) in a copy-to-clipboard input, matching the walkthrough's code-step styling; title (\"Install {surface}\"), a \"Paste this into your terminal to install.\" hint, and description. Closes via a secondary-styled X, Escape, or backdrop click — no footer action button.",
+        files: [
+          "src/components/ui/InstallSurfaceModal.tsx",
+          "src/components/ui/InstallSurfaceModal.module.css",
+          "src/app/design/components/install-surface-modal/page.tsx",
+          "src/app/developer/surfaces/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+      {
+        text: "Added a Clicks KPI + Trend Chart to Developer Overview and Surface Detail, laid out beside Impressions in a chartsRow (stacks ≤1200px); clicksTotalByGranularity mock data derived from impressions at ~2.1% CTR. TrendChart gained an optional height prop (px) to fix a chart's rendered height instead of it scaling with width — used here so the side-by-side Impressions/Clicks charts line up with the full-width Revenue chart; every other existing TrendChart call site is unaffected. Shared SIDE_BY_SIDE_CHART_HEIGHT constant (chart-data.ts) instead of a per-page duplicate.",
+        files: [
+          "src/app/developer/overview/page.tsx",
+          "src/app/developer/overview/overview.module.css",
+          "src/app/developer/surfaces/[id]/page.tsx",
+          "src/app/developer/surfaces/[id]/detail.module.css",
+          "src/components/ui/TrendChart.tsx",
+          "src/lib/mock-data.ts",
+          "src/lib/chart-data.ts",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+    ],
+  },
+  {
     date: "27 August 26",
     changes: [
       {

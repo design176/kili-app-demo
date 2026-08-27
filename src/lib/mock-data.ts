@@ -103,11 +103,18 @@ export type Surface = {
   name: string;
   description: string;
   status: "active" | "inactive";
-  icon: "vscode" | "terminal";
+  icon: "claude-code" | "vscode" | "terminal";
   earned?: number;
 };
 
 export const mockSurfaces: Surface[] = [
+  {
+    id: "claude-code",
+    name: "Claude Code",
+    description: "View ads in Claude Code CLI in your terminal and VS Code, and get paid for views.",
+    status: "inactive",
+    icon: "claude-code",
+  },
   {
     id: "vscode",
     name: "VS Code Extension",
@@ -294,6 +301,17 @@ export const impressionsTotalByGranularity: Record<"daily" | "weekly" | "monthly
   daily: { xLabels: dailyLabels, values: sumSeries(impressionsByGranularity.daily.series, dailyLabels.length) },
   weekly: { xLabels: weeklyLabels, values: sumSeries(impressionsByGranularity.weekly.series, weeklyLabels.length) },
   monthly: { xLabels: monthLabels, values: sumSeries(impressionsByGranularity.monthly.series, monthLabels.length) },
+};
+
+function scaleWithJitter(values: number[], factor: number, jitter: number, seed: number) {
+  return values.map((v, i) => Math.max(0, Math.round(v * factor + jitter * Math.sin(i / 1.7 + seed))));
+}
+
+/** Total clicks (derived from impressions at ~2.1% CTR), keyed by Range Filter granularity. */
+export const clicksTotalByGranularity: Record<"daily" | "weekly" | "monthly", TrendGranularityData> = {
+  daily: { xLabels: dailyLabels, values: scaleWithJitter(impressionsTotalByGranularity.daily.values, 0.021, 8, 3) },
+  weekly: { xLabels: weeklyLabels, values: scaleWithJitter(impressionsTotalByGranularity.weekly.values, 0.021, 25, 3) },
+  monthly: { xLabels: monthLabels, values: scaleWithJitter(impressionsTotalByGranularity.monthly.values, 0.021, 60, 3) },
 };
 
 const monthlyConversions = [22, 25, 20, 28, 30, 26, 31, 34, 29, 38, 35, 42];
