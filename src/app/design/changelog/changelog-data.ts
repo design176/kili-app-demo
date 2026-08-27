@@ -15,6 +15,65 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "27 August 26",
+    changes: [
+      {
+        text: "Developer walkthrough (6 steps, new users only): Tour Coachmark — spotlight hole + directional pointer (top/bottom/left/right), illustration or copyable code, title/description, dots progress, Close + Previous/Next (Finish on last). At ≤800px becomes a fixed bottom drawer. Anchors via data-tour (Surfaces nav, VS Code card, Overview nav, KPI strip, payout method, Settings Help). Background interaction is blocked (nav/button clicks and tooltips don't fire, focus stays trapped in the card). Only 2 triggers: (1) Login → Continue as Developer as a new user — automatically lands on the Surfaces page and triggers the walkthrough, (2) manual via Developer Settings → Help → Watch walkthrough (final step shows support@trykili.ai). While the tour is active, Developer Overview shows dummy Revenue/Impressions/eCPM + charts even for a new/empty account so the anchored KPI strip and charts have something to point at (otherwise EmptyState).",
+        files: [
+          "src/components/ui/TourCoachmark.tsx",
+          "src/components/ui/TourCoachmark.module.css",
+          "src/components/ui/TourIllustrations.tsx",
+          "src/lib/developer-tour.ts",
+          "src/app/developer/surfaces/page.tsx",
+          "src/app/developer/overview/page.tsx",
+          "src/app/developer/earnings/page.tsx",
+          "src/components/ui/SurfaceCard.tsx",
+          "src/components/ui/SettingsForm.tsx",
+          "src/app/login/page.tsx",
+          "src/app/developer/settings/page.tsx",
+          "src/components/ui/Tooltip.tsx",
+        ],
+      },
+      {
+        text: "Help Modal — centered modal opened from Developer Settings Help (Lifebuoy icon). Top grid-bg section with support@trykili.ai copy input (Copy/Check), below title/description + two secondary actions: Watch walkthrough and Report a bug. Has its own catalog demo page.",
+        files: [
+          "src/components/ui/HelpModal.tsx",
+          "src/components/ui/HelpModal.module.css",
+          "src/app/design/components/help-modal/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+      {
+        text: "KYC not complete — danger error state. Sidebar Nav footer shows a red statusAlert card (Bank icon, 'Account — KYC not complete', danger-border/soft/text tokens, same treatment as zero-balance, clickable → Earnings). Earnings → Payout method card swaps from 'Bank account ending in 8821' + Edit to 'Bank account not connected' + primary 'Complete KYC'.",
+        files: [
+          "src/components/ui/SidebarNav.tsx",
+          "src/components/ui/SidebarNav.module.css",
+          "src/components/dashboard-shell.tsx",
+          "src/app/developer/earnings/page.tsx",
+          "src/app/design/components/sidebar-nav/page.tsx",
+        ],
+      },
+      {
+        text: "Theme Mode Toggle — icon-only 3-way control (Sun Light / Moon Dark / Monitor Auto) built on Tabs track + IconButton, active = primary. Lives in Settings → Appearance (first section, above Divider). Catalog: new Theme Toggle + Tour Coachmark pages, Sidebar Nav and Settings Form entries updated (Sidebar Nav danger statusAlert; Settings Form — Appearance first, Divider, then Email (disabled/read-only, first) + Name/Company, optional Help on Developer).",
+        files: [
+          "src/components/ui/ThemeModeToggle.tsx",
+          "src/components/ui/SettingsForm.tsx",
+          "src/components/ui/SettingsForm.module.css",
+          "src/app/design/components/theme-mode-toggle/page.tsx",
+          "src/app/design/components/tour-coachmark/page.tsx",
+          "src/app/design/components/catalog.ts",
+          "src/app/design/components/demo.module.css",
+          "src/app/design/components/settings-form/page.tsx",
+          "src/app/design/components/sidebar-nav/page.tsx",
+        ],
+      },
+      {
+        text: "Login — mobile footer: at ≤480px footer switches to position: static with width: 100% + margin-top: 40px so ToS/Privacy links + theme toggle fill the card and keep space-between instead of shrinking/left-aligning.",
+        files: ["src/app/login/login.module.css"],
+      },
+    ],
+  },
+  {
     date: "26 August 26 — B",
     changes: [
       {

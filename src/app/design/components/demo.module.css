@@ -61,3 +61,38 @@
 .stepperWidth {
   max-width: 280px;
 }
+
+.previewFrame {
+  display: flex;
+  height: 520px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.previewSurface {
+  flex: 1;
+  background: var(--color-bg-subtle);
+}
+
+.surfaceCardWidth {
+  width: 290px;
+}
+
+.coachmarkPreview {
+  display: flex;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: 10px;
+  background: var(--color-bg-subtle);
+}
+
+.coachmarkAnchor {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--color-brand-border);
+  background: var(--color-brand-soft);
+}

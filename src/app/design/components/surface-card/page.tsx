@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import styles from "../demo.module.css";
 
@@ -10,25 +11,25 @@ export default function SurfaceCardPage() {
       <p className={styles.subtitle}>
         One integration surface as a card — icon, live status dot, name,
         description, and either an &quot;Install&quot; CTA (inactive) or
-        earnings + a &quot;View&quot; CTA (active). <code>icon</code> takes
-        either a real app icon (<code>{"<img />"}</code>) or an icon glyph.
+        earnings + a &quot;View&quot; CTA (active). <code>icon</code> accepts
+        an optimized app image or an icon glyph.
       </p>
 
       <div className={styles.section}>
         <div className={styles.sectionTitle}>Status variants</div>
         <div className={styles.row}>
-          <div style={{ width: 290 }}>
+          <div className={styles.surfaceCardWidth}>
             <SurfaceCard
-              icon={<img src="/vscode-icon.png" alt="" />}
+              icon={<Image src="/vscode-icon.png" alt="" width={48} height={48} />}
               name="VS Code Extension"
               description="View ads in your vs code while you code and pays you for views."
               status="inactive"
               onAction={() => {}}
             />
           </div>
-          <div style={{ width: 290 }}>
+          <div className={styles.surfaceCardWidth}>
             <SurfaceCard
-              icon={<img src="/vscode-icon.png" alt="" />}
+              icon={<Image src="/vscode-icon.png" alt="" width={48} height={48} />}
               name="VS Code Extension"
               description="View ads in your vs code while you code and pays you for views."
               status="active"
@@ -36,9 +37,9 @@ export default function SurfaceCardPage() {
               onAction={() => {}}
             />
           </div>
-          <div style={{ width: 290 }}>
+          <div className={styles.surfaceCardWidth}>
             <SurfaceCard
-              icon={<img src="/terminal-icon.png" alt="" />}
+              icon={<Image src="/terminal-icon.png" alt="" width={48} height={48} />}
               name="Terminal"
               description="View ads in your terminal while you work and get paid for views."
               status="inactive"

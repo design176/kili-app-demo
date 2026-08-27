@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
-import { CaretDown, Plus, SidebarSimple, SignOut, Wallet } from "@phosphor-icons/react";
+import { Bank, CaretDown, Plus, SidebarSimple, SignOut, Wallet } from "@phosphor-icons/react";
 import { Logo, LogoMark } from "./Logo";
 import { IconButton } from "./IconButton";
 import { Button } from "./Button";
@@ -15,6 +15,8 @@ export type SidebarNavItem = {
   key: string;
   label: string;
   icon: ReactNode;
+  /** Optional `data-tour` hook so a coachmark can anchor to this nav item. */
+  tourId?: string;
 };
 
 export type SidebarNavSection = {
@@ -42,6 +44,12 @@ export type SidebarNavProps = {
     onClick?: () => void;
     onAdd?: (amount: number) => void;
   };
+  /** Danger-styled status card (e.g. developer's "KYC not complete") — same visual treatment as a zero balance. */
+  statusAlert?: {
+    label: string;
+    value: string;
+    onClick?: () => void;
+  };
   className?: string;
 };
 
@@ -55,6 +63,7 @@ export function SidebarNav({
   onLogout,
   primaryAction,
   balance,
+  statusAlert,
   className,
 }: SidebarNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -118,6 +127,7 @@ export function SidebarNav({
                 <button
                   key={item.key}
                   type="button"
+                  data-tour={item.tourId}
                   className={`${styles.item} ${
                     item.key === activeKey ? styles.itemActive : ""
                   }`}
@@ -134,6 +144,32 @@ export function SidebarNav({
 
       <div className={styles.footer}>
         <Divider className={styles.divider} />
+
+        {statusAlert && !collapsed && (() => {
+          const cardClasses = `${styles.balanceCard} ${styles.balanceCardDanger} ${
+            statusAlert.onClick ? styles.balanceCardClickable : ""
+          }`;
+
+          const content = (
+            <>
+              <span className={styles.balanceIconBadge}>
+                <Bank size={14} weight="bold" />
+              </span>
+              <div className={styles.balanceText}>
+                <span className={styles.balanceLabel}>{statusAlert.label}</span>
+                <span className={styles.balanceValue}>{statusAlert.value}</span>
+              </div>
+            </>
+          );
+
+          return statusAlert.onClick ? (
+            <button type="button" className={cardClasses} onClick={statusAlert.onClick}>
+              {content}
+            </button>
+          ) : (
+            <div className={cardClasses}>{content}</div>
+          );
+        })()}
 
         {balance && !collapsed && (() => {
           const handleClick = balance.zero

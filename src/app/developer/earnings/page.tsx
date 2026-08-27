@@ -14,7 +14,7 @@ import { mockPayouts } from "@/lib/mock-data";
 import styles from "./earnings.module.css";
 
 export default function EarningsPage() {
-  const { forceLoadingStates } = useDemoState();
+  const { forceLoadingStates, kycComplete, completeKyc } = useDemoState();
   const [editingPayout, setEditingPayout] = useState(false);
   const [accountNumber, setAccountNumber] = useState("");
 
@@ -50,16 +50,22 @@ export default function EarningsPage() {
           )}
         </Card>
 
-        <Card className={styles.payoutCard}>
+        <Card className={styles.payoutCard} data-tour="tour-payout-method">
           <div className={styles.summaryLabel}>Payout method</div>
           <div className={styles.payoutRow}>
             <Bank size={20} weight="bold" />
-            <span>Bank account ending in 8821</span>
+            <span>{kycComplete ? "Bank account ending in 8821" : "Bank account not connected"}</span>
           </div>
-          <Button variant="secondary" size="sm" onClick={() => setEditingPayout((v) => !v)}>
-            Edit
-          </Button>
-          {editingPayout && (
+          {kycComplete ? (
+            <Button variant="secondary" size="sm" onClick={() => setEditingPayout((v) => !v)}>
+              Edit
+            </Button>
+          ) : (
+            <Button variant="primary" size="sm" onClick={completeKyc}>
+              Complete KYC
+            </Button>
+          )}
+          {kycComplete && editingPayout && (
             <div className={styles.editForm}>
               <FormField label="Account number">
                 <Input

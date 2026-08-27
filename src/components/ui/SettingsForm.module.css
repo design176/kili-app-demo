@@ -11,6 +11,13 @@
   gap: 14px;
 }
 
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
 .sectionTitle {
   font-family: var(--font-heading);
   font-size: 15px;

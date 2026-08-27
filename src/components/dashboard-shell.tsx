@@ -17,10 +17,8 @@ import { SidebarNav, type SidebarNavSection } from "@/components/ui/SidebarNav";
 import { TopBar } from "@/components/ui/TopBar";
 import { useDemoState } from "@/components/demo-state";
 import { formatCurrency } from "@/lib/format";
-import { openTallyForm } from "@/lib/tally";
+import { openBugReportForm } from "@/lib/tally";
 import styles from "./dashboard-shell.module.css";
-
-const BUG_REPORT_TALLY_FORM_ID = "ja8LLE";
 
 const advertiserSections: SidebarNavSection[] = [
   {
@@ -53,8 +51,18 @@ const developerSections: SidebarNavSection[] = [
     key: "workspace",
     label: "Workspace",
     items: [
-      { key: "overview", label: "Overview", icon: <House size={16} weight="bold" /> },
-      { key: "surfaces", label: "Surfaces", icon: <Stack size={16} weight="bold" /> },
+      {
+        key: "overview",
+        label: "Overview",
+        icon: <House size={16} weight="bold" />,
+        tourId: "nav-overview",
+      },
+      {
+        key: "surfaces",
+        label: "Surfaces",
+        icon: <Stack size={16} weight="bold" />,
+        tourId: "nav-surfaces",
+      },
     ],
   },
   {
@@ -109,12 +117,14 @@ export function DashboardShell({
   pageActions,
   children,
 }: DashboardShellProps) {
-  const { sidebarCollapsed, setSidebarCollapsed, balance, addBalance } = useDemoState();
+  const { sidebarCollapsed, setSidebarCollapsed, balance, addBalance, kycComplete, developerTourStep } =
+    useDemoState();
   const router = useRouter();
   const pathname = usePathname();
   const contentRef = useRef<HTMLDivElement>(null);
   const isAdvertiser = pathname.startsWith("/advertiser");
   const routes = isAdvertiser ? advertiserRoutes : developerRoutes;
+  const tourActive = developerTourStep >= 0 && !isAdvertiser;
 
   // On small screens the sidebar starts collapsed to a rail; expanding it
   // becomes an overlay drawer instead of pushing the page (handled in CSS).
@@ -147,11 +157,12 @@ export function DashboardShell({
   }, [sidebarCollapsed]);
 
   const handleSelect = (key: string) => {
+    // While the developer walkthrough is active, sidebar navigation is driven
+    // by the coachmark's Previous/Next — ignore direct nav clicks so the tour
+    // doesn't appear to close (route mismatch hides the coachmark).
+    if (tourActive) return;
     if (key === "bug") {
-      openTallyForm(BUG_REPORT_TALLY_FORM_ID, {
-        layout: "modal",
-        emoji: { text: "🦜", animation: "spin" },
-      });
+      openBugReportForm();
       return;
     }
     const href = routes[key];
@@ -187,6 +198,15 @@ export function DashboardShell({
                 zero: balance === 0,
                 onClick: () => router.push("/advertiser/billing"),
                 onAdd: addBalance,
+              }
+            : undefined
+        }
+        statusAlert={
+          !isAdvertiser && !kycComplete
+            ? {
+                label: "Account",
+                value: "KYC not complete",
+                onClick: () => router.push("/developer/earnings"),
               }
             : undefined
         }

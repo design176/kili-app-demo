@@ -1,0 +1,278 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: transparent;
+}
+
+.spotlight {
+  position: fixed;
+  z-index: 1001;
+  border-radius: 10px;
+  pointer-events: none;
+  box-shadow: 0 0 0 9999px var(--color-overlay-heavy);
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+
+.card {
+  position: fixed;
+  z-index: 1002;
+  width: 300px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Mobile: same content as .card, but pinned to the bottom of the viewport on
+   every step instead of following the (often far-flung) anchor, so Previous/
+   Next never jump around the screen between steps. */
+.drawer {
+  position: fixed;
+  z-index: 1002;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px;
+  padding-bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  border-radius: 16px 16px 0 0;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.pointer {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+}
+
+.pointerTop {
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--color-surface-2);
+}
+
+.pointerBottom {
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--color-surface-2);
+}
+
+.pointerLeft {
+  left: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: var(--color-surface-2);
+}
+
+.pointerRight {
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--color-surface-2);
+}
+
+.pointerBorder {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 9px solid transparent;
+}
+
+.pointerBorderTop {
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--color-border);
+}
+
+.pointerBorderBottom {
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--color-border);
+}
+
+.pointerBorderLeft {
+  left: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: var(--color-border);
+}
+
+.pointerBorderRight {
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--color-border);
+}
+
+.close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+}
+
+.illustration,
+.codeMedia {
+  position: relative;
+  width: calc(100% + 24px);
+  margin: -12px -12px 0;
+  height: 120px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--color-bg-muted);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-border) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 40%, transparent) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.illustrationArt {
+  height: 76px;
+  width: auto;
+}
+
+.lineGraphArt {
+  width: 100%;
+  height: 100%;
+}
+
+.stripeCard {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  right: 0;
+  bottom: -24px;
+  border-radius: 16px 0 0 0;
+  background: #635bff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 20px 20px;
+}
+
+.stripeLogo {
+  width: 48px;
+  height: auto;
+}
+
+.stripeCardNumber {
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.kpiIcons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kpiIconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: var(--color-brand-active);
+  border: 1.5px solid var(--color-brand);
+  color: var(--color-on-brand);
+}
+
+.codeMedia {
+  padding: 0 20px;
+}
+
+.codeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.codeInput {
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+}
+
+.codeText {
+  display: block;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--color-brand-text);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+
+.dotActive {
+  background: var(--color-text-primary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

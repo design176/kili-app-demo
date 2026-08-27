@@ -3,6 +3,8 @@
 import { useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X } from "@phosphor-icons/react";
+import { useDemoStateOptional } from "@/components/demo-state";
+import { usePathname } from "next/navigation";
 import styles from "./Tooltip.module.css";
 
 export function Tooltip({
@@ -20,11 +22,20 @@ export function Tooltip({
   const triggerRef = useRef<HTMLSpanElement>(null);
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const pathname = usePathname();
+  const demoState = useDemoStateOptional();
+  // Suppress hover tooltips while the developer walkthrough is active — the
+  // overlay's backdrop already blocks pointer events, but focus/keyboard can
+  // still reach triggers and the backdrop sits below the tooltip bubble's own
+  // z-index, so we gate showing on the tour state as well. Only suppress on
+  // developer routes where the tour actually renders.
+  const tourActive = !!demoState && demoState.developerTourStep >= 0 && pathname.startsWith("/developer");
 
   const isTouchDevice = () =>
     typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
   const show = () => {
+    if (tourActive) return;
     if (isTouchDevice()) return;
     const rect = triggerRef.current?.getBoundingClientRect();
     if (!rect) return;

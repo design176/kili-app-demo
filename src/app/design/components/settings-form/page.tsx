@@ -19,9 +19,14 @@ export default function SettingsFormPage() {
     <div className={styles.page}>
       <h1 className={styles.title}>Settings Form</h1>
       <p className={styles.subtitle}>
-        Account info Form Fields, assembled. Same shape on both workspaces —
-        the <code>workspace</code> prop is kept for future per-workspace
-        sections.
+        An &quot;Appearance&quot; section (Theme Mode Toggle — Light/Dark/Auto)
+        always comes first, divided from Account info below it. Email is
+        always the first field and is disabled/read-only; Name and Company
+        stay editable. Same shape on both workspaces — the{" "}
+        <code>workspace</code> prop is kept for future per-workspace
+        sections. Passing <code>onHelpClick</code> (developer workspace)
+        renders a right-aligned &quot;Help&quot; button next to &quot;Account
+        info&quot; to replay the developer walkthrough.
       </p>
 
       <div className={styles.section}>
@@ -44,6 +49,7 @@ export default function SettingsFormPage() {
             account={developerAcc}
             onAccountChange={setDeveloperAcc}
             onSave={() => console.log("save developer settings")}
+            onHelpClick={() => console.log("replay walkthrough")}
           />
         )}
       </div>

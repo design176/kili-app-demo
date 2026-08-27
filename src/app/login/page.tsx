@@ -18,6 +18,8 @@ import { Divider } from '@/components/ui/Divider';
 import { IconButton } from '@/components/ui/IconButton';
 import { DotSwirl } from '@/components/ui/DotSwirl';
 import { CardCarousel } from '@/components/ui/CardCarousel';
+import { useDemoState } from '@/components/demo-state';
+import { developerTourSteps } from '@/lib/developer-tour';
 import { useMounted } from '@/lib/use-mounted';
 import styles from './login.module.css';
 
@@ -51,12 +53,18 @@ export default function LoginPage() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const mounted = useMounted();
+  const { startDeveloperTour } = useDemoState();
   const [step, setStep] = useState<Step>('workspace');
   const [workspace, setWorkspace] = useState<Workspace>('advertiser');
   const [email, setEmail] = useState('');
   const isDark = theme === 'dark';
 
   const goToOverview = (workspace: Workspace) => {
+    if (workspace === 'developer') {
+      startDeveloperTour();
+      router.push(developerTourSteps[0].route);
+      return;
+    }
     router.push(`/${workspace}/overview`);
   };
 

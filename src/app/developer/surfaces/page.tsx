@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { PlugsConnected } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
@@ -10,8 +11,8 @@ import { mockSurfaces, type Surface } from "@/lib/mock-data";
 import styles from "./surfaces.module.css";
 
 const SURFACE_ICONS: Record<Surface["icon"], ReactNode> = {
-  vscode: <img src="/vscode-icon.png" alt="" />,
-  terminal: <img src="/terminal-icon.png" alt="" />,
+  vscode: <Image src="/vscode-icon.png" alt="" width={48} height={48} />,
+  terminal: <Image src="/terminal-icon.png" alt="" width={48} height={48} />,
 };
 
 export default function SurfacesPage() {
@@ -34,6 +35,7 @@ export default function SurfacesPage() {
               description={surface.description}
               status={surface.status}
               earned={surface.earned}
+              tourId={surface.id === "vscode" ? "tour-vscode-card" : undefined}
               onAction={() =>
                 surface.status === "active"
                   ? router.push(`/developer/surfaces/${surface.id}`)

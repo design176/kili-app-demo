@@ -4,7 +4,10 @@ import { useState } from "react";
 import {
   House,
   Megaphone,
-  ChartLineUp,
+  Target,
+  Plug,
+  Stack,
+  Wallet,
   CreditCard,
   Gear,
   Bug,
@@ -12,14 +15,15 @@ import {
 import { SidebarNav, type SidebarNavSection } from "@/components/ui/SidebarNav";
 import styles from "../demo.module.css";
 
-const sections: SidebarNavSection[] = [
+const advertiserSections: SidebarNavSection[] = [
   {
     key: "workspace",
     label: "Workspace",
     items: [
       { key: "overview", label: "Overview", icon: <House size={16} weight="bold" /> },
+      { key: "events", label: "Events Tracking", icon: <Target size={16} weight="bold" /> },
       { key: "campaigns", label: "Campaigns", icon: <Megaphone size={16} weight="bold" /> },
-      { key: "pixel", label: "Pixel Tracking", icon: <ChartLineUp size={16} weight="bold" /> },
+      { key: "pixel", label: "Pixel Setup", icon: <Plug size={16} weight="bold" /> },
     ],
   },
   {
@@ -27,6 +31,30 @@ const sections: SidebarNavSection[] = [
     label: "Account",
     items: [
       { key: "billing", label: "Billing", icon: <CreditCard size={16} weight="bold" /> },
+      { key: "settings", label: "Settings", icon: <Gear size={16} weight="bold" /> },
+    ],
+  },
+  {
+    key: "other",
+    label: "Other",
+    items: [{ key: "bug", label: "Bug report", icon: <Bug size={16} weight="bold" /> }],
+  },
+];
+
+const developerSections: SidebarNavSection[] = [
+  {
+    key: "workspace",
+    label: "Workspace",
+    items: [
+      { key: "overview", label: "Overview", icon: <House size={16} weight="bold" /> },
+      { key: "surfaces", label: "Surfaces", icon: <Stack size={16} weight="bold" /> },
+    ],
+  },
+  {
+    key: "account",
+    label: "Account",
+    items: [
+      { key: "earnings", label: "Earnings", icon: <Wallet size={16} weight="bold" /> },
       { key: "settings", label: "Settings", icon: <Gear size={16} weight="bold" /> },
     ],
   },
@@ -52,21 +80,16 @@ export default function SidebarNavPage() {
         balance card (advertiser only), an optional primary action (e.g. New
         Campaign), and the account menu (avatar, name, Log out) — moved here
         from Top Bar. Collapses to an icon-only rail using the compact
-        LogoMark; no tooltips on collapsed nav items.
+        LogoMark; no tooltips on collapsed nav items. <code>statusAlert</code>{" "}
+        renders a second, always-danger-styled card above the balance card
+        (e.g. developer&apos;s &quot;Account — KYC not complete&quot;) using
+        the same visual treatment as a zero balance.
       </p>
 
       <div className={styles.section}>
-        <div
-          style={{
-            height: 520,
-            border: "1px solid var(--color-border)",
-            borderRadius: 10,
-            overflow: "hidden",
-            display: "flex",
-          }}
-        >
+        <div className={styles.previewFrame}>
           <SidebarNav
-            sections={sections}
+            sections={advertiserSections}
             activeKey={active}
             onSelect={setActive}
             collapsed={collapsed}
@@ -76,7 +99,24 @@ export default function SidebarNavPage() {
             primaryAction={{ label: "New Campaign", onClick: () => {} }}
             balance={{ label: "Balance", value: "$1,860.40" }}
           />
-          <div style={{ flex: 1, background: "var(--color-bg-subtle)" }} />
+          <div className={styles.previewSurface} />
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>Status alert (developer)</div>
+        <div className={styles.previewFrame}>
+          <SidebarNav
+            sections={developerSections}
+            activeKey={active}
+            onSelect={setActive}
+            collapsed={false}
+            onCollapsedChange={() => {}}
+            accountName="Sam Rivera"
+            onLogout={() => {}}
+            statusAlert={{ label: "Account", value: "KYC not complete" }}
+          />
+          <div className={styles.previewSurface} />
         </div>
       </div>
     </div>

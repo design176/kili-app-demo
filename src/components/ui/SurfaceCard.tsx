@@ -13,6 +13,8 @@ export type SurfaceCardProps = {
   earned?: number;
   onAction?: () => void;
   className?: string;
+  /** Optional `data-tour` hook so a coachmark can anchor to this card. */
+  tourId?: string;
 };
 
 export function SurfaceCard({
@@ -23,11 +25,12 @@ export function SurfaceCard({
   earned,
   onAction,
   className,
+  tourId,
 }: SurfaceCardProps) {
   const isActive = status === "active";
 
   return (
-    <Card className={`${styles.card} ${className ?? ""}`}>
+    <Card data-tour={tourId} className={`${styles.card} ${className ?? ""}`}>
       <div className={styles.head}>
         <span className={styles.icon}>{icon}</span>
         <span className={`${styles.status} ${isActive ? styles.statusActive : ""}`}>

@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { mockBalance } from "@/lib/mock-data";
+import { developerTourSteps } from "@/lib/developer-tour";
 
 export type ApiKeyEntry = {
   id: string;
@@ -19,6 +20,8 @@ export type ApiKeyEntry = {
 const BALANCE_STORAGE_KEY = "kili-demo-balance";
 const API_KEYS_STORAGE_KEY = "kili-demo-api-keys";
 const PIXEL_KEYS_STORAGE_KEY = "kili-demo-pixel-keys";
+const TOUR_STEP_STORAGE_KEY = "kili-demo-developer-tour-step";
+const KYC_COMPLETE_STORAGE_KEY = "kili-demo-kyc-complete";
 
 function generateKeyValue() {
   return `kili_live_${Math.random().toString(36).slice(2, 18)}`;
@@ -61,6 +64,15 @@ type DemoState = {
   addPixelKey: () => ApiKeyEntry;
   removePixelKey: (id: string) => void;
   clearPixelKeys: () => void;
+  /** -1 = no walkthrough active, otherwise an index into `developerTourSteps`. */
+  developerTourStep: number;
+  startDeveloperTour: () => void;
+  advanceDeveloperTour: () => void;
+  retreatDeveloperTour: () => void;
+  closeDeveloperTour: () => void;
+  /** Developer's payout-method KYC status — false shows the sidebar's red "KYC not complete" alert. */
+  kycComplete: boolean;
+  completeKyc: () => void;
 };
 
 const DemoStateContext = createContext<DemoState | null>(null);
@@ -76,10 +88,14 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [balanceOverride, setBalanceOverride] = useState<number | null>(null);
   const [apiKeysOverride, setApiKeysOverride] = useState<ApiKeyEntry[] | null>(null);
   const [pixelKeysOverride, setPixelKeysOverride] = useState<ApiKeyEntry[] | null>(null);
+  const [tourStepOverride, setTourStepOverride] = useState<number | null>(null);
+  const [kycCompleteOverride, setKycCompleteOverride] = useState<boolean | null>(null);
 
   const storedBalanceRaw = useStoredRaw(BALANCE_STORAGE_KEY);
   const storedApiKeysRaw = useStoredRaw(API_KEYS_STORAGE_KEY);
   const storedPixelKeysRaw = useStoredRaw(PIXEL_KEYS_STORAGE_KEY);
+  const storedTourStepRaw = useStoredRaw(TOUR_STEP_STORAGE_KEY);
+  const storedKycCompleteRaw = useStoredRaw(KYC_COMPLETE_STORAGE_KEY);
 
   const storedBalance = useMemo(
     () => (storedBalanceRaw !== null ? Number(storedBalanceRaw) : mockBalance),
@@ -101,10 +117,19 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
       return [];
     }
   }, [storedPixelKeysRaw]);
+  const storedTourStep = useMemo(
+    () => (storedTourStepRaw !== null ? Number(storedTourStepRaw) : -1),
+    [storedTourStepRaw]
+  );
+  // Defaults to complete (no error) unless explicitly set — only a fresh
+  // "new user" reset marks it incomplete, so the error is new-user-only.
+  const storedKycComplete = storedKycCompleteRaw !== null ? storedKycCompleteRaw === "true" : true;
 
   const balance = balanceOverride ?? storedBalance;
   const apiKeys = apiKeysOverride ?? storedApiKeys;
   const pixelKeys = pixelKeysOverride ?? storedPixelKeys;
+  const developerTourStep = tourStepOverride ?? storedTourStep;
+  const kycComplete = kycCompleteOverride ?? storedKycComplete;
 
   const persistBalance = (value: number) => {
     setBalanceOverride(value);
@@ -121,13 +146,34 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(PIXEL_KEYS_STORAGE_KEY, JSON.stringify(keys));
   };
 
-  // Toggling into "new user" simulates a fresh signup — balance and keys reset.
+  const persistTourStep = (value: number) => {
+    setTourStepOverride(value);
+    window.localStorage.setItem(TOUR_STEP_STORAGE_KEY, String(value));
+  };
+
+  const persistKycComplete = (value: boolean) => {
+    setKycCompleteOverride(value);
+    window.localStorage.setItem(KYC_COMPLETE_STORAGE_KEY, String(value));
+  };
+
+  // Toggling into "new user" simulates a fresh signup — balance and keys
+  // reset. The developer walkthrough itself is only started explicitly (from
+  // login, or the Settings help modal), not automatically by this toggle —
+  // but turning the toggle back off restores the normal (non-error) account
+  // state: balance and KYC back to complete, and any walkthrough left
+  // running from a previous session closed, since these all persist in
+  // localStorage independently of this toggle and would otherwise linger.
   const setIsNewUser = (value: boolean) => {
     setIsNewUserState(value);
     if (value) {
       persistBalance(0);
       persistApiKeys([]);
       persistPixelKeys([]);
+      persistKycComplete(false);
+    } else {
+      persistBalance(mockBalance);
+      persistKycComplete(true);
+      persistTourStep(-1);
     }
   };
 
@@ -170,6 +216,27 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
 
   const clearPixelKeys = () => persistPixelKeys([]);
 
+  const startDeveloperTour = () => persistTourStep(0);
+
+  const advanceDeveloperTour = () => {
+    const step = developerTourSteps[developerTourStep];
+    if (!step) return;
+    if (step.isLast) {
+      persistTourStep(-1);
+      return;
+    }
+    persistTourStep(developerTourStep + 1);
+  };
+
+  const retreatDeveloperTour = () => {
+    if (developerTourStep <= 0) return;
+    persistTourStep(developerTourStep - 1);
+  };
+
+  const closeDeveloperTour = () => persistTourStep(-1);
+
+  const completeKyc = () => persistKycComplete(true);
+
   return (
     <DemoStateContext.Provider
       value={{
@@ -192,6 +259,13 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         addPixelKey,
         removePixelKey,
         clearPixelKeys,
+        developerTourStep,
+        startDeveloperTour,
+        advanceDeveloperTour,
+        retreatDeveloperTour,
+        closeDeveloperTour,
+        kycComplete,
+        completeKyc,
       }}
     >
       {children}
@@ -203,4 +277,8 @@ export function useDemoState() {
   const ctx = useContext(DemoStateContext);
   if (!ctx) throw new Error("useDemoState must be used within DemoStateProvider");
   return ctx;
+}
+
+export function useDemoStateOptional() {
+  return useContext(DemoStateContext);
 }

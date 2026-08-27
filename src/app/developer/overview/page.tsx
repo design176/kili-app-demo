@@ -16,11 +16,14 @@ import { formatCompactCurrency, formatCompactNumber } from "@/lib/format";
 import styles from "./overview.module.css";
 
 export default function DeveloperOverviewPage() {
-  const { isNewUser, forceEmptyStates, forceLoadingStates } = useDemoState();
+  const { isNewUser, forceEmptyStates, forceLoadingStates, developerTourStep } = useDemoState();
   const router = useRouter();
   const [spendGranularity, setSpendGranularity] = useState<TrendGranularity>("monthly");
   const [impressionsGranularity, setImpressionsGranularity] = useState<TrendGranularity>("monthly");
-  const isEmpty = forceEmptyStates || isNewUser;
+  // The walkthrough needs real-looking KPIs/charts to point at, so a genuinely
+  // empty new-user account still shows dummy data while the tour is active.
+  const tourActive = developerTourStep >= 0;
+  const isEmpty = (forceEmptyStates || isNewUser) && !tourActive;
 
   const revenueData = buildTrendData(spendByGranularity, {
     key: "main",
@@ -40,7 +43,7 @@ export default function DeveloperOverviewPage() {
       pageTitle="Overview"
       pageDescription="Revenue and impressions across your placements."
     >
-      <div>
+      <div data-tour="tour-kpi-strip">
         <KPISmallStrip
           loading={forceLoadingStates}
           items={[
