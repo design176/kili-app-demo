@@ -35,6 +35,14 @@ export const changelogEntries: ChangelogEntry[] = [
         ],
       },
       {
+        text: "Developer walkthrough — route-change flicker fixed + motion move effects on desktop: provider keeps portal mounted across route changes (prevRect fallback, startTransition-atomic navigation) instead of unmounting on stale pathname; desktop spotlight and card now animate via motion spring (spotlight stiffness 380/damping 32, card stiffness 420/damping 34), pointer and title/description cross-fade per step (AnimatePresence 0.22s); mobile drawer stays static with dimmed spotlight while measuring; reduced-motion respected; will-change on spotlight/card.",
+        files: [
+          "src/components/developer-tour-provider.tsx",
+          "src/components/ui/TourCoachmark.tsx",
+          "src/components/ui/TourCoachmark.module.css",
+        ],
+      },
+      {
         text: "Help Modal — centered modal opened from Developer Settings Help (Lifebuoy icon). Top grid-bg section with support@trykili.ai copy input (Copy/Check), below title/description + two secondary actions: Watch walkthrough and Report a bug. Has its own catalog demo page.",
         files: [
           "src/components/ui/HelpModal.tsx",

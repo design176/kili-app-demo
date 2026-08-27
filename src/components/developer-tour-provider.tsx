@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+  type ReactNode,
+} from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useDemoState } from "@/components/demo-state";
 import { developerTourSteps } from "@/lib/developer-tour";
@@ -18,6 +26,7 @@ export function useDeveloperTour() {
 export function DeveloperTourProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [, startTransition] = useTransition();
   const {
     developerTourStep,
     startDeveloperTour,
@@ -29,11 +38,23 @@ export function DeveloperTourProvider({ children }: { children: ReactNode }) {
 
   const step = developerTourSteps[developerTourStep];
   const onRoute = !!step && step.route === pathname;
+  const tourActive = developerTourStep >= 0 && !!step;
 
   const [anchor, setAnchor] = useState<{ stepId: string; rect: DOMRect } | null>(null);
+  const prevRectRef = useRef<DOMRect | null>(null);
+
+  // Keep last rect to tween from when navigating between routes.
+  useEffect(() => {
+    if (anchor?.rect) prevRectRef.current = anchor.rect;
+  }, [anchor]);
 
   useEffect(() => {
-    if (!onRoute || !step) return;
+    if (!step) {
+      setAnchor(null);
+      return;
+    }
+    // Don't clear anchor when off-route — keep prevRect for cross-route motion.
+    if (!onRoute) return;
 
     let cancelled = false;
     let attempts = 0;
@@ -79,26 +100,40 @@ export function DeveloperTourProvider({ children }: { children: ReactNode }) {
   };
 
   const handleNext = () => {
-    goToStep(developerTourStep + 1);
-    advanceDeveloperTour();
+    const nextIndex = developerTourStep + 1;
+    const target = developerTourSteps[nextIndex];
+    startTransition(() => {
+      advanceDeveloperTour();
+      if (target && target.route !== pathname) router.push(target.route);
+    });
   };
 
   const handlePrevious = () => {
-    goToStep(developerTourStep - 1);
-    retreatDeveloperTour();
+    const prevIndex = developerTourStep - 1;
+    const target = developerTourSteps[prevIndex];
+    startTransition(() => {
+      retreatDeveloperTour();
+      if (target && target.route !== pathname) router.push(target.route);
+    });
   };
 
   const replayTour = () => {
-    goToStep(0);
-    startDeveloperTour();
+    const target = developerTourSteps[0];
+    startTransition(() => {
+      startDeveloperTour();
+      if (target && target.route !== pathname) router.push(target.route);
+    });
   };
+
+  const isMeasuring = tourActive && (!anchor || anchor.stepId !== step.id);
+  const renderRect = anchor?.rect ?? prevRectRef.current;
 
   return (
     <DeveloperTourContext.Provider value={{ replayTour }}>
       {children}
-      {onRoute && step && anchor?.stepId === step.id && (
+      {tourActive && renderRect && (
         <TourCoachmark
-          anchorRect={anchor.rect}
+          anchorRect={renderRect}
           placement={step.placement}
           title={step.title}
           description={step.description}
@@ -107,6 +142,7 @@ export function DeveloperTourProvider({ children }: { children: ReactNode }) {
           stepIndex={developerTourStep}
           stepCount={developerTourSteps.length}
           isLast={!!step.isLast}
+          isOnRoute={onRoute && !isMeasuring}
           onNext={handleNext}
           onPrevious={handlePrevious}
           onClose={closeDeveloperTour}

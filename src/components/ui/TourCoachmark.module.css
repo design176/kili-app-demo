@@ -11,7 +11,9 @@
   border-radius: 10px;
   pointer-events: none;
   box-shadow: 0 0 0 9999px var(--color-overlay-heavy);
-  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease;
+  /* Motion drives top/left/width/height via spring on desktop; keep will-change for compositing.
+     Mobile drawer spotlight stays CSS-instant — motion handles desktop only. */
+  will-change: top, left, width, height, opacity;
 }
 
 .card {
@@ -26,6 +28,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  will-change: top, left, transform, opacity;
 }
 
 /* Mobile: same content as .card, but pinned to the bottom of the viewport on

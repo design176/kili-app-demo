@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Check, Copy, X } from "@phosphor-icons/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "./Button";
 import { IconButton } from "./IconButton";
 import { HexagonsIllustration, LineGraphIllustration, KpiIconsIllustration, StripeCardIllustration } from "./TourIllustrations";
@@ -20,6 +21,7 @@ export type TourCoachmarkProps = {
   stepIndex: number;
   stepCount: number;
   isLast: boolean;
+  isOnRoute?: boolean;
   onNext: () => void;
   onPrevious: () => void;
   onClose: () => void;
@@ -94,6 +96,7 @@ export function TourCoachmark({
   stepIndex,
   stepCount,
   isLast,
+  isOnRoute = true,
   onNext,
   onPrevious,
   onClose,
@@ -102,6 +105,7 @@ export function TourCoachmark({
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMobile = useIsMobile();
   const dialogRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -130,7 +134,7 @@ export function TourCoachmark({
   }, [onClose]);
 
   useEffect(() => {
-    // Move focus into the dialog when it opens so keyboard navigation stays trapped.
+    // Move focus into the dialog when it opens / step changes — defer until after motion.
     const frame = requestAnimationFrame(() => {
       const focusable = dialogRef.current?.querySelector<HTMLElement>(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
@@ -138,7 +142,7 @@ export function TourCoachmark({
       focusable?.focus();
     });
     return () => cancelAnimationFrame(frame);
-  }, [anchorRect, placement]);
+  }, [anchorRect, placement, stepIndex, isOnRoute]);
 
   useEffect(
     () => () => {
@@ -163,6 +167,13 @@ export function TourCoachmark({
 
   const { pointerOffsetY, ...cardStyle } = getCardStyle(anchorRect, placement);
   const pointerStyle = pointerOffsetY !== 0 ? { top: `calc(50% + ${pointerOffsetY}px)` } : undefined;
+
+  const spotlightSpring = shouldReduceMotion
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 380, damping: 32, mass: 0.7 };
+  const cardSpring = shouldReduceMotion
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 420, damping: 34, mass: 0.7 };
 
   const content = (
     <>
@@ -202,8 +213,22 @@ export function TourCoachmark({
         )}
       </div>
 
-      <h3 id={TITLE_ID} className={styles.title}>{title}</h3>
-      <p id={DESCRIPTION_ID} className={styles.description}>{description}</p>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={stepIndex}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.22, ease: "easeOut" }}
+        >
+          <h3 id={TITLE_ID} className={styles.title}>
+            {title}
+          </h3>
+          <p id={DESCRIPTION_ID} className={styles.description}>
+            {description}
+          </p>
+        </motion.div>
+      </AnimatePresence>
 
       <div className={styles.footer}>
         <div
@@ -233,6 +258,14 @@ export function TourCoachmark({
     </>
   );
 
+  const spotlightAnimate = {
+    top: anchorRect.top - SPOTLIGHT_PADDING,
+    left: anchorRect.left - SPOTLIGHT_PADDING,
+    width: anchorRect.width + SPOTLIGHT_PADDING * 2,
+    height: anchorRect.height + SPOTLIGHT_PADDING * 2,
+    opacity: isOnRoute ? 1 : 0.25,
+  };
+
   return createPortal(
     <>
       {/* Blocks hover/click on underlying page content so sidebar nav clicks,
@@ -251,47 +284,77 @@ export function TourCoachmark({
           e.stopPropagation();
         }}
       />
-      <div
-        className={styles.spotlight}
-        style={{
-          top: anchorRect.top - SPOTLIGHT_PADDING,
-          left: anchorRect.left - SPOTLIGHT_PADDING,
-          width: anchorRect.width + SPOTLIGHT_PADDING * 2,
-          height: anchorRect.height + SPOTLIGHT_PADDING * 2,
-        }}
-      />
 
       {isMobile ? (
-        <div
-          ref={dialogRef}
-          className={styles.drawer}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={TITLE_ID}
-          aria-describedby={DESCRIPTION_ID}
-        >
-          {content}
-        </div>
+        <>
+          <div
+            className={styles.spotlight}
+            style={{
+              top: anchorRect.top - SPOTLIGHT_PADDING,
+              left: anchorRect.left - SPOTLIGHT_PADDING,
+              width: anchorRect.width + SPOTLIGHT_PADDING * 2,
+              height: anchorRect.height + SPOTLIGHT_PADDING * 2,
+              opacity: isOnRoute ? 1 : 0.25,
+            }}
+          />
+          <div
+            ref={dialogRef}
+            className={styles.drawer}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={TITLE_ID}
+            aria-describedby={DESCRIPTION_ID}
+            style={{ opacity: isOnRoute ? 1 : 0, pointerEvents: isOnRoute ? "auto" : "none" }}
+          >
+            {content}
+          </div>
+        </>
       ) : (
-        <div
-          ref={dialogRef}
-          className={styles.card}
-          style={cardStyle}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={TITLE_ID}
-          aria-describedby={DESCRIPTION_ID}
-        >
-          <span
-            className={`${styles.pointerBorder} ${PLACEMENT_CLASS[placement].outer}`}
-            style={pointerStyle}
+        <>
+          <motion.div
+            className={styles.spotlight}
+            initial={false}
+            animate={spotlightAnimate}
+            transition={spotlightSpring}
+            style={{ willChange: "top, left, width, height, opacity" }}
           />
-          <span
-            className={`${styles.pointer} ${PLACEMENT_CLASS[placement].inner}`}
-            style={pointerStyle}
-          />
-          {content}
-        </div>
+          <motion.div
+            ref={dialogRef}
+            className={styles.card}
+            initial={false}
+            animate={{
+              top: cardStyle.top,
+              left: cardStyle.left,
+              opacity: isOnRoute ? 1 : 0,
+            }}
+            transition={cardSpring}
+            style={{
+              transform: cardStyle.transform,
+              willChange: "top, left, opacity, transform",
+              pointerEvents: isOnRoute ? "auto" : "none",
+            }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={TITLE_ID}
+            aria-describedby={DESCRIPTION_ID}
+          >
+            <motion.span
+              className={`${styles.pointerBorder} ${PLACEMENT_CLASS[placement].outer}`}
+              initial={false}
+              animate={{ top: pointerStyle?.top ?? "50%" }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
+              style={pointerStyle ? { willChange: "top" } : undefined}
+            />
+            <motion.span
+              className={`${styles.pointer} ${PLACEMENT_CLASS[placement].inner}`}
+              initial={false}
+              animate={{ top: pointerStyle?.top ?? "50%" }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
+              style={pointerStyle ? { willChange: "top" } : undefined}
+            />
+            {content}
+          </motion.div>
+        </>
       )}
     </>,
     document.body
