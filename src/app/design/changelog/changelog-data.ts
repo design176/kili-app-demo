@@ -49,6 +49,10 @@ export const changelogEntries: ChangelogEntry[] = [
           "src/app/design/components/catalog.ts",
         ],
       },
+      {
+        text: "Fixed KPI Strip tiles not filling the row on Advertiser Events Tracking — its @media(max-width:1380px) rule hardcoded 3 grid columns regardless of tile count, so a 2-tile strip (Page visits/Conversions) got squeezed into 2 of 3 equal columns with an empty phantom third column instead of splitting 50/50. Column count at each breakpoint now caps at min(breakpoint's max, tile count).",
+        files: ["src/components/ui/KPIStrip.module.css"],
+      },
     ],
   },
   {

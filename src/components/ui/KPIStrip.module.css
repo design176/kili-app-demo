@@ -4,15 +4,18 @@
   gap: 12px;
 }
 
+/* Cap at the breakpoint's column count, but never above the strip's own tile
+   count — otherwise a strip with fewer tiles than the cap (e.g. 2) gets
+   padded with an empty grid column instead of its tiles filling the row. */
 @media (max-width: 1380px) {
   .strip {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(min(3, var(--kpi-columns, 3)), 1fr);
   }
 }
 
 @media (max-width: 760px) {
   .strip {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(min(2, var(--kpi-columns, 3)), 1fr);
   }
 }
 
