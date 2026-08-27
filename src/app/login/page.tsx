@@ -53,7 +53,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const mounted = useMounted();
-  const { startDeveloperTour } = useDemoState();
+  const { isNewUser, startDeveloperTour, closeDeveloperTour } = useDemoState();
   const [step, setStep] = useState<Step>('workspace');
   const [workspace, setWorkspace] = useState<Workspace>('advertiser');
   const [email, setEmail] = useState('');
@@ -61,8 +61,13 @@ export default function LoginPage() {
 
   const goToOverview = (workspace: Workspace) => {
     if (workspace === 'developer') {
-      startDeveloperTour();
-      router.push(developerTourSteps[0].route);
+      if (isNewUser) {
+        startDeveloperTour();
+        router.push(developerTourSteps[0].route);
+        return;
+      }
+      closeDeveloperTour();
+      router.push('/developer/overview');
       return;
     }
     router.push(`/${workspace}/overview`);
