@@ -11,7 +11,10 @@ export default function CreateCampaignWizardPage() {
         The full 3-step flow: Ad content → Budget &amp; time duration →
         Final review. Stepper up top, Back/Next/Launch at the bottom —
         Launch uses Accent since it&apos;s the campaign&apos;s primary
-        conversion moment.
+        conversion moment. Step 1&apos;s Company logo reads the account-level
+        logo set on the advertiser Settings page (demo state, not part of the
+        campaign draft) — empty state prompts to set one up, set state shows
+        a circular preview with an edit badge linking back to Settings.
       </p>
 
       <div className={styles.section}>

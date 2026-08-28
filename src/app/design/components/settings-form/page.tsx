@@ -14,6 +14,7 @@ export default function SettingsFormPage() {
   const [workspace, setWorkspace] = useState<(typeof workspaces)[number]>("advertiser");
   const [advertiserAcc, setAdvertiserAcc] = useState(advertiserAccount);
   const [developerAcc, setDeveloperAcc] = useState(developerAccount);
+  const [companyLogoUrl, setCompanyLogoUrl] = useState<string | null>(null);
 
   return (
     <div className={styles.page}>
@@ -21,12 +22,16 @@ export default function SettingsFormPage() {
       <p className={styles.subtitle}>
         An &quot;Appearance&quot; section (Theme Mode Toggle — Light/Dark/Auto)
         always comes first, divided from Account info below it. Email is
-        always the first field and is disabled/read-only; Name and Company
-        stay editable. Same shape on both workspaces — the{" "}
-        <code>workspace</code> prop is kept for future per-workspace
-        sections. Passing <code>onHelpClick</code> (developer workspace)
-        renders a right-aligned &quot;Help&quot; button next to &quot;Account
-        info&quot; to replay the developer walkthrough.
+        disabled/read-only; Name and Company stay editable. Same shape on
+        both workspaces — the <code>workspace</code> prop is kept for future
+        per-workspace sections. Passing <code>onHelpClick</code> (developer
+        workspace) renders a right-aligned &quot;Help&quot; button next to
+        &quot;Account info&quot; to replay the developer walkthrough.
+        Advertiser-only: a &quot;Company logo URL&quot; field is the first
+        field in Account info, with a circular preview (or dashed empty
+        placeholder) next to the input and its helper text below the input —
+        this is the same URL shown in Create Campaign step 1 and the sidebar
+        avatar, backed by demo state (<code>companyLogoUrl</code>).
       </p>
 
       <div className={styles.section}>
@@ -41,6 +46,8 @@ export default function SettingsFormPage() {
             workspace="advertiser"
             account={advertiserAcc}
             onAccountChange={setAdvertiserAcc}
+            companyLogoUrl={companyLogoUrl}
+            onCompanyLogoUrlChange={setCompanyLogoUrl}
             onSave={() => console.log("save advertiser settings")}
           />
         ) : (

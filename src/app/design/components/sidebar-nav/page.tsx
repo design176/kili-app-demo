@@ -83,7 +83,9 @@ export default function SidebarNavPage() {
         LogoMark; no tooltips on collapsed nav items. <code>statusAlert</code>{" "}
         renders a second, always-danger-styled card above the balance card
         (e.g. developer&apos;s &quot;Account — KYC not complete&quot;) using
-        the same visual treatment as a zero balance.
+        the same visual treatment as a zero balance. <code>avatarUrl</code>{" "}
+        swaps the initial-letter avatar for an image (advertiser workspace
+        uses the account&apos;s company logo, when set, from demo state).
       </p>
 
       <div className={styles.section}>
@@ -95,6 +97,25 @@ export default function SidebarNavPage() {
             collapsed={collapsed}
             onCollapsedChange={setCollapsed}
             accountName="Sam Rivera"
+            onLogout={() => {}}
+            primaryAction={{ label: "New Campaign", onClick: () => {} }}
+            balance={{ label: "Balance", value: "$1,860.40" }}
+          />
+          <div className={styles.previewSurface} />
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>With avatar image</div>
+        <div className={styles.previewFrame}>
+          <SidebarNav
+            sections={advertiserSections}
+            activeKey={active}
+            onSelect={setActive}
+            collapsed={false}
+            onCollapsedChange={() => {}}
+            accountName="Sam Rivera"
+            avatarUrl="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png"
             onLogout={() => {}}
             primaryAction={{ label: "New Campaign", onClick: () => {} }}
             balance={{ label: "Balance", value: "$1,860.40" }}

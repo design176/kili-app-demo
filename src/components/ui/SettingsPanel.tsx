@@ -53,6 +53,9 @@ export function SettingsPanel() {
     resetBalance,
     clearApiKeys,
     clearPixelKeys,
+    lowPayout,
+    setLowPayout,
+    clearCompanyLogoUrl,
   } = useDemoState();
   const mounted = useMounted();
   const [open, setOpen] = useState(false);
@@ -135,6 +138,15 @@ export function SettingsPanel() {
                     other toggles above.
                   </p>
 
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Low payout (&lt;$20)</span>
+                    <Switch checked={lowPayout} onCheckedChange={setLowPayout} />
+                  </div>
+                  <p className={styles.rowHint}>
+                    Forces the developer Earnings page&apos;s next-payout
+                    amount below the $20 minimum.
+                  </p>
+
                   <div className={styles.divider} />
 
                   <div className={styles.row}>
@@ -155,6 +167,13 @@ export function SettingsPanel() {
                     <span className={styles.rowLabel}>Pixel keys</span>
                     <button type="button" className={styles.resetButton} onClick={clearPixelKeys}>
                       Clear all
+                    </button>
+                  </div>
+
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Company logo</span>
+                    <button type="button" className={styles.resetButton} onClick={clearCompanyLogoUrl}>
+                      Clear
                     </button>
                   </div>
                 </>

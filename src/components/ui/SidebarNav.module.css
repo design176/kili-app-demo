@@ -280,6 +280,14 @@ button.balanceIconBadge:hover {
   flex-shrink: 0;
 }
 
+.avatarImage {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .accountName {
   font-family: var(--font-body);
   font-size: 13px;

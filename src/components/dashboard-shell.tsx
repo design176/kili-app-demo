@@ -117,8 +117,15 @@ export function DashboardShell({
   pageActions,
   children,
 }: DashboardShellProps) {
-  const { sidebarCollapsed, setSidebarCollapsed, balance, addBalance, kycComplete, developerTourStep } =
-    useDemoState();
+  const {
+    sidebarCollapsed,
+    setSidebarCollapsed,
+    balance,
+    addBalance,
+    kycComplete,
+    developerTourStep,
+    companyLogoUrl,
+  } = useDemoState();
   const router = useRouter();
   const pathname = usePathname();
   const contentRef = useRef<HTMLDivElement>(null);
@@ -184,6 +191,7 @@ export function DashboardShell({
         collapsed={sidebarCollapsed}
         onCollapsedChange={setSidebarCollapsed}
         accountName="Sam Rivera"
+        avatarUrl={isAdvertiser ? companyLogoUrl : undefined}
         onLogout={() => router.push("/login")}
         primaryAction={
           isAdvertiser

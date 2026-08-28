@@ -14,13 +14,16 @@ import { mockPayouts } from "@/lib/mock-data";
 import styles from "./earnings.module.css";
 
 export default function EarningsPage() {
-  const { forceLoadingStates, kycComplete, completeKyc } = useDemoState();
+  const { forceLoadingStates, kycComplete, completeKyc, lowPayout } = useDemoState();
   const [editingPayout, setEditingPayout] = useState(false);
   const [accountNumber, setAccountNumber] = useState("");
 
-  const nextPayout = [...mockPayouts]
+  const scheduledPayout = [...mockPayouts]
     .filter((p) => p.status === "Scheduled")
     .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+  const nextPayout = scheduledPayout && lowPayout
+    ? { ...scheduledPayout, amount: 15 }
+    : scheduledPayout;
 
   return (
     <DashboardShell
@@ -30,7 +33,10 @@ export default function EarningsPage() {
     >
       <div className={styles.topRow}>
         <Card className={styles.summaryCard}>
-          <div className={styles.summaryLabel}>Next payout</div>
+          <div className={styles.summaryHeader}>
+            <div className={styles.summaryLabel}>Next payout</div>
+            <div className={styles.summaryRefreshNote}>Payout refreshes every couple of hours</div>
+          </div>
           {forceLoadingStates ? (
             <>
               <Skeleton variant="text" width={100} height={28} />
@@ -41,11 +47,23 @@ export default function EarningsPage() {
               <div className={styles.summaryValue}>
                 {nextPayout ? `$${nextPayout.amount.toLocaleString()}` : "—"}
               </div>
-              <div className={styles.summarySub}>
-                {nextPayout
-                  ? `Scheduled for ${nextPayout.date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}`
-                  : "No payout scheduled yet."}
-              </div>
+              {nextPayout ? (
+                <div className={styles.payoutActionRow}>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    disabled={nextPayout.amount < 20}
+                    onClick={() => console.log("Requested payout", nextPayout.amount)}
+                  >
+                    Request payout
+                  </Button>
+                  {nextPayout.amount < 20 && (
+                    <span className={styles.minPayoutNote}>Min payout value $20</span>
+                  )}
+                </div>
+              ) : (
+                <div className={styles.summarySub}>No payout scheduled yet.</div>
+              )}
             </>
           )}
         </Card>

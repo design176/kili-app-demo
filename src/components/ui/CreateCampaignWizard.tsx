@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { PencilSimple } from "@phosphor-icons/react";
 import { Stepper } from "./Stepper";
 import { FormField } from "./FormField";
 import { Input } from "./Input";
 import { Textarea } from "./Textarea";
 import { DatePicker, type DateRange } from "./DatePicker";
 import { Button } from "./Button";
+import { useDemoState } from "@/components/demo-state";
 import styles from "./CreateCampaignWizard.module.css";
 
 export type CampaignDraft = {
@@ -58,6 +61,7 @@ export function CreateCampaignWizard({
   onCancel,
   onAddBalance,
 }: CreateCampaignWizardProps) {
+  const { companyLogoUrl } = useDemoState();
   const [step, setStep] = useState(1);
   const [draft, setDraft] = useState<CampaignDraft>({ ...emptyDraft, ...initialDraft });
   const [attemptedNext, setAttemptedNext] = useState(false);
@@ -105,6 +109,28 @@ export function CreateCampaignWizard({
 
       {step === 1 && (
         <div className={styles.form}>
+          <FormField label="Company logo">
+            {companyLogoUrl ? (
+              <div className={styles.logoWrap}>
+                <img src={companyLogoUrl} alt="Company logo" className={styles.logoPreview} />
+                <Link href="/advertiser/settings" className={styles.logoEditBadge} aria-label="Edit company logo in Settings">
+                  <PencilSimple size={12} weight="bold" />
+                </Link>
+              </div>
+            ) : (
+              <div className={styles.logoStatusRow}>
+                <span className={styles.logoPlaceholder} />
+                <div className={styles.logoStatus}>
+                  <span className={styles.logoStatusText}>Company logo not set</span>
+                  <Link href="/advertiser/settings">
+                    <Button variant="secondary" size="sm">
+                      Set up in Settings
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </FormField>
           <FormField
             label="Campaign title"
             required
@@ -204,6 +230,12 @@ export function CreateCampaignWizard({
 
       {step === 3 && (
         <div className={styles.summary}>
+          {companyLogoUrl && (
+            <div className={styles.summaryRow}>
+              <span className={styles.summaryLabel}>Company logo</span>
+              <img src={companyLogoUrl} alt="Company logo" className={styles.summaryLogo} />
+            </div>
+          )}
           <div className={styles.summaryRow}>
             <span className={styles.summaryLabel}>Campaign title</span>
             <span className={styles.summaryValue}>{draft.title || "—"}</span>

@@ -32,6 +32,8 @@ export type SidebarNavProps = {
   collapsed: boolean;
   onCollapsedChange: (collapsed: boolean) => void;
   accountName: string;
+  /** Replaces the initial-letter avatar with this image when set (e.g. advertiser's company logo). */
+  avatarUrl?: string | null;
   onLogout?: () => void;
   primaryAction?: {
     label: string;
@@ -60,6 +62,7 @@ export function SidebarNav({
   collapsed,
   onCollapsedChange,
   accountName,
+  avatarUrl,
   onLogout,
   primaryAction,
   balance,
@@ -240,7 +243,11 @@ export function SidebarNav({
           className={styles.accountTrigger}
           onClick={toggleMenu}
         >
-          <span className={styles.avatar}>{initial}</span>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="" className={styles.avatarImage} />
+          ) : (
+            <span className={styles.avatar}>{initial}</span>
+          )}
           {!collapsed && (
             <>
               <span className={styles.accountName}>{accountName}</span>

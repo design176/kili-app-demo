@@ -18,6 +18,9 @@ type SettingsFormProps = {
   onSave?: () => void;
   /** Renders a help icon next to "Account info" — used to replay the developer walkthrough. */
   onHelpClick?: () => void;
+  /** Advertiser-only: company logo URL shown in Create Campaign. */
+  companyLogoUrl?: string | null;
+  onCompanyLogoUrlChange?: (url: string) => void;
 } & (
   | { workspace: "advertiser" }
   | { workspace: "developer" }
@@ -28,6 +31,9 @@ export function SettingsForm({
   onAccountChange,
   onSave,
   onHelpClick,
+  companyLogoUrl,
+  onCompanyLogoUrlChange,
+  workspace,
 }: SettingsFormProps) {
   return (
     <div className={styles.form}>
@@ -55,6 +61,25 @@ export function SettingsForm({
             </Button>
           )}
         </div>
+        {workspace === "advertiser" && (
+          <FormField label="Company logo URL">
+            <div className={styles.logoRow}>
+              {companyLogoUrl ? (
+                <img src={companyLogoUrl} alt="Company logo" className={styles.logoPreview} />
+              ) : (
+                <span className={styles.logoPlaceholder} />
+              )}
+              <div className={styles.logoInputCol}>
+                <Input
+                  placeholder="https://example.com/logo.png"
+                  value={companyLogoUrl ?? ""}
+                  onChange={(e) => onCompanyLogoUrlChange?.(e.target.value)}
+                />
+                <span className={styles.logoHelper}>Shown alongside your ad content in Create Campaign.</span>
+              </div>
+            </div>
+          </FormField>
+        )}
         <FormField label="Email">
           <Input type="email" value={account.email} disabled />
         </FormField>

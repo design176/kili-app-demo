@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { SettingsForm, type AccountInfo } from "@/components/ui/SettingsForm";
+import { useDemoState } from "@/components/demo-state";
 
 export default function AdvertiserSettingsPage() {
   const [account, setAccount] = useState<AccountInfo>({
@@ -10,6 +11,18 @@ export default function AdvertiserSettingsPage() {
     email: "sam@acme.com",
     company: "Acme Inc.",
   });
+  const { companyLogoUrl, setCompanyLogoUrl } = useDemoState();
+  const [logoUrlDraft, setLogoUrlDraft] = useState(companyLogoUrl ?? "");
+
+  useEffect(() => {
+    setLogoUrlDraft(companyLogoUrl ?? "");
+  }, [companyLogoUrl]);
+
+  const handleSave = () => {
+    console.log("Settings saved", account);
+    if (logoUrlDraft.trim() !== "") setCompanyLogoUrl(logoUrlDraft.trim());
+  };
+
   return (
     <DashboardShell
       activeKey="settings"
@@ -21,7 +34,9 @@ export default function AdvertiserSettingsPage() {
           workspace="advertiser"
           account={account}
           onAccountChange={setAccount}
-          onSave={() => console.log("Settings saved", account)}
+          companyLogoUrl={logoUrlDraft}
+          onCompanyLogoUrlChange={setLogoUrlDraft}
+          onSave={handleSave}
         />
       </div>
     </DashboardShell>

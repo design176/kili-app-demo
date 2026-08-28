@@ -17,7 +17,8 @@ export default function SettingsPanelPage() {
           <li><strong>New user</strong> — simulates a fresh signup: resets balance to $0 and clears all API keys. Doesn&apos;t navigate anywhere on its own — since auth is dummy (any 6-digit code works), visit Login yourself (Routes tab) to see the empty-onboarding path this flag drives.</li>
           <li><strong>Empty states</strong> — forces every page/component&apos;s empty state, independent of New user.</li>
           <li><strong>Loading states</strong> — forces every page&apos;s loading skeleton, independent of the other toggles.</li>
-          <li><strong>Balance / API keys resets</strong> — two standalone actions (&quot;Reset to $0&quot;, &quot;Clear all&quot;) that wipe each independently of the New user flag, for when you just want one reset without the other.</li>
+          <li><strong>Low payout (&lt;$20)</strong> — forces the developer Earnings page&apos;s next-payout amount to $15, so the &quot;Min payout value $20&quot; note and disabled Request payout button are reachable without waiting on real data.</li>
+          <li><strong>Balance / API keys / Pixel keys / Company logo resets</strong> — standalone actions (&quot;Reset to $0&quot;, &quot;Clear all&quot;, &quot;Clear&quot;) that wipe each independently of the New user flag, for when you just want one reset without the other.</li>
         </ul>
       </div>
 

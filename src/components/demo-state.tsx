@@ -22,6 +22,7 @@ const API_KEYS_STORAGE_KEY = "kili-demo-api-keys";
 const PIXEL_KEYS_STORAGE_KEY = "kili-demo-pixel-keys";
 const TOUR_STEP_STORAGE_KEY = "kili-demo-developer-tour-step";
 const KYC_COMPLETE_STORAGE_KEY = "kili-demo-kyc-complete";
+const COMPANY_LOGO_URL_STORAGE_KEY = "kili-demo-company-logo-url";
 
 function generateKeyValue() {
   return `kili_live_${Math.random().toString(36).slice(2, 18)}`;
@@ -73,6 +74,13 @@ type DemoState = {
   /** Developer's payout-method KYC status — false shows the sidebar's red "KYC not complete" alert. */
   kycComplete: boolean;
   completeKyc: () => void;
+  /** Forces the developer Earnings page's next-payout amount below the $20 minimum. */
+  lowPayout: boolean;
+  setLowPayout: (value: boolean) => void;
+  /** Advertiser's company logo URL, set from Settings — null shows "Company logo not set" in Create Campaign. */
+  companyLogoUrl: string | null;
+  setCompanyLogoUrl: (url: string) => void;
+  clearCompanyLogoUrl: () => void;
 };
 
 const DemoStateContext = createContext<DemoState | null>(null);
@@ -82,6 +90,7 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [forceEmptyStates, setForceEmptyStates] = useState(false);
   const [forceLoadingStates, setForceLoadingStates] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [lowPayout, setLowPayout] = useState(false);
 
   // Overrides win once set (i.e. after any write this session); until then,
   // the value read from localStorage on the client is used.
@@ -90,12 +99,18 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [pixelKeysOverride, setPixelKeysOverride] = useState<ApiKeyEntry[] | null>(null);
   const [tourStepOverride, setTourStepOverride] = useState<number | null>(null);
   const [kycCompleteOverride, setKycCompleteOverride] = useState<boolean | null>(null);
+  // Two-state override: `undefined` = not yet written this session (fall back
+  // to localStorage), `null` = explicitly cleared, string = explicitly set.
+  const [companyLogoUrlOverride, setCompanyLogoUrlOverride] = useState<string | null | undefined>(
+    undefined
+  );
 
   const storedBalanceRaw = useStoredRaw(BALANCE_STORAGE_KEY);
   const storedApiKeysRaw = useStoredRaw(API_KEYS_STORAGE_KEY);
   const storedPixelKeysRaw = useStoredRaw(PIXEL_KEYS_STORAGE_KEY);
   const storedTourStepRaw = useStoredRaw(TOUR_STEP_STORAGE_KEY);
   const storedKycCompleteRaw = useStoredRaw(KYC_COMPLETE_STORAGE_KEY);
+  const storedCompanyLogoUrlRaw = useStoredRaw(COMPANY_LOGO_URL_STORAGE_KEY);
 
   const storedBalance = useMemo(
     () => (storedBalanceRaw !== null ? Number(storedBalanceRaw) : mockBalance),
@@ -130,6 +145,8 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const pixelKeys = pixelKeysOverride ?? storedPixelKeys;
   const developerTourStep = tourStepOverride ?? storedTourStep;
   const kycComplete = kycCompleteOverride ?? storedKycComplete;
+  const companyLogoUrl =
+    companyLogoUrlOverride !== undefined ? companyLogoUrlOverride : storedCompanyLogoUrlRaw;
 
   const persistBalance = (value: number) => {
     setBalanceOverride(value);
@@ -156,6 +173,16 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(KYC_COMPLETE_STORAGE_KEY, String(value));
   };
 
+  const setCompanyLogoUrl = (url: string) => {
+    setCompanyLogoUrlOverride(url);
+    window.localStorage.setItem(COMPANY_LOGO_URL_STORAGE_KEY, url);
+  };
+
+  const clearCompanyLogoUrl = () => {
+    setCompanyLogoUrlOverride(null);
+    window.localStorage.removeItem(COMPANY_LOGO_URL_STORAGE_KEY);
+  };
+
   // Toggling into "new user" simulates a fresh signup — balance and keys
   // reset. The developer walkthrough itself is only started explicitly (from
   // login, or the Settings help modal), not automatically by this toggle —
@@ -170,6 +197,7 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
       persistApiKeys([]);
       persistPixelKeys([]);
       persistKycComplete(false);
+      clearCompanyLogoUrl();
     } else {
       persistBalance(mockBalance);
       persistKycComplete(true);
@@ -266,6 +294,11 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         closeDeveloperTour,
         kycComplete,
         completeKyc,
+        lowPayout,
+        setLowPayout,
+        companyLogoUrl,
+        setCompanyLogoUrl,
+        clearCompanyLogoUrl,
       }}
     >
       {children}

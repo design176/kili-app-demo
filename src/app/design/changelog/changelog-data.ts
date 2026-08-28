@@ -15,6 +15,40 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "28 August 26",
+    changes: [
+      {
+        text: "Developer Earnings: \"Scheduled for {date}\" next-payout sub-text replaced with a \"Request payout\" primary button (disabled below the $X minimum, with an inline \"Min payout value $X\" note shown only then — currently hardcoded to $20 in page.tsx); added a top-right \"Payout refreshes every couple of hours\" note on the card. New Settings Panel \"Low payout (<$X)\" switch forces the next-payout amount to $15 for testing the disabled/min-value states.",
+        files: [
+          "src/app/developer/earnings/page.tsx",
+          "src/app/developer/earnings/earnings.module.css",
+          "src/components/demo-state.tsx",
+          "src/components/ui/SettingsPanel.tsx",
+        ],
+      },
+      {
+        text: "Added an account-level Company logo, set as a URL on the advertiser Settings page (new first field in Account info — circular preview or dashed empty placeholder, helper text under the input) and persisted to demo state/localStorage, clearable from the Settings Panel FAB. Shown in Create Campaign step 1 (\"Company logo not set\" + \"Set up in Settings\" button when empty; a circular preview with a pencil-edit badge linking back to Settings when set — also included in the step 3 review) and as the advertiser sidebar's account-menu avatar image (replacing the initial-letter avatar) via SidebarNav's new avatarUrl prop.",
+        files: [
+          "src/components/demo-state.tsx",
+          "src/components/ui/SettingsForm.tsx",
+          "src/components/ui/SettingsForm.module.css",
+          "src/app/advertiser/settings/page.tsx",
+          "src/components/ui/CreateCampaignWizard.tsx",
+          "src/components/ui/CreateCampaignWizard.module.css",
+          "src/components/ui/SidebarNav.tsx",
+          "src/components/ui/SidebarNav.module.css",
+          "src/components/dashboard-shell.tsx",
+          "src/components/ui/SettingsPanel.tsx",
+          "src/app/design/components/create-campaign-wizard/page.tsx",
+          "src/app/design/components/settings-form/page.tsx",
+          "src/app/design/components/sidebar-nav/page.tsx",
+          "src/app/design/components/settings-panel/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+    ],
+  },
+  {
     date: "27 August 26 — B",
     changes: [
       {
