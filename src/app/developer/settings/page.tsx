@@ -42,6 +42,9 @@ export default function DeveloperSettingsPage() {
           setHelpOpen(false);
           openBugReportForm();
         }}
+        onJoinDiscord={() => {
+          window.open("https://discord.gg/ud22UbERd", "_blank", "noopener,noreferrer");
+        }}
       />
     </DashboardShell>
   );

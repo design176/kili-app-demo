@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, Copy, X } from "@phosphor-icons/react";
+import { Check, Copy, DiscordLogo, X } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "./Button";
 import { IconButton } from "./IconButton";
@@ -25,6 +25,7 @@ export type TourCoachmarkProps = {
   onNext: () => void;
   onPrevious: () => void;
   onClose: () => void;
+  onJoinDiscord?: () => void;
 };
 
 const PLACEMENT_CLASS: Record<TourPlacement, { outer: string; inner: string }> = {
@@ -100,6 +101,7 @@ export function TourCoachmark({
   onNext,
   onPrevious,
   onClose,
+  onJoinDiscord,
 }: TourCoachmarkProps) {
   const [copied, setCopied] = useState(false);
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -177,7 +179,13 @@ export function TourCoachmark({
 
   const content = (
     <>
-      <div className={code ? styles.codeMedia : styles.illustration}>
+      <div
+        className={
+          code
+            ? `${styles.codeMedia} ${isLast ? styles.codeMediaWithAction : ""}`
+            : styles.illustration
+        }
+      >
         <IconButton
           variant="secondary"
           size="sm"
@@ -189,19 +197,32 @@ export function TourCoachmark({
         </IconButton>
 
         {code ? (
-          <div className={styles.codeRow}>
-            <div className={styles.codeInput}>
-              <code className={styles.codeText}>{code}</code>
+          <>
+            <div className={styles.codeRow}>
+              <div className={styles.codeInput}>
+                <code className={styles.codeText}>{code}</code>
+              </div>
+              <IconButton
+                variant="accent"
+                size="md"
+                label={copied ? "Command copied" : "Copy command"}
+                onClick={handleCopy}
+              >
+                {copied ? <Check size={14} weight="bold" /> : <Copy size={14} weight="bold" />}
+              </IconButton>
             </div>
-            <IconButton
-              variant="accent"
-              size="md"
-              label={copied ? "Command copied" : "Copy command"}
-              onClick={handleCopy}
-            >
-              {copied ? <Check size={14} weight="bold" /> : <Copy size={14} weight="bold" />}
-            </IconButton>
-          </div>
+            {isLast ? (
+              <Button
+                variant="primary"
+                size="md"
+                className={styles.discordButton}
+                onClick={onJoinDiscord}
+              >
+                <DiscordLogo size={16} weight="fill" />
+                Join Discord
+              </Button>
+            ) : null}
+          </>
         ) : illustration === "overview" ? (
           <LineGraphIllustration className={styles.lineGraphArt} />
         ) : illustration === "kpi" ? (

@@ -146,6 +146,9 @@ export function DeveloperTourProvider({ children }: { children: ReactNode }) {
           onNext={handleNext}
           onPrevious={handlePrevious}
           onClose={closeDeveloperTour}
+          onJoinDiscord={() => {
+            window.open("https://discord.gg/ud22UbERd", "_blank", "noopener,noreferrer");
+          }}
         />
       )}
     </DeveloperTourContext.Provider>

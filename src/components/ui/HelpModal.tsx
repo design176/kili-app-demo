@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Check, Copy, X } from "@phosphor-icons/react";
+import { Check, Copy, DiscordLogo, X } from "@phosphor-icons/react";
 import { Button } from "./Button";
 import { IconButton } from "./IconButton";
 import styles from "./HelpModal.module.css";
@@ -16,9 +16,16 @@ export type HelpModalProps = {
   onClose: () => void;
   onWatchWalkthrough: () => void;
   onReportBug: () => void;
+  onJoinDiscord: () => void;
 };
 
-export function HelpModal({ open, onClose, onWatchWalkthrough, onReportBug }: HelpModalProps) {
+export function HelpModal({
+  open,
+  onClose,
+  onWatchWalkthrough,
+  onReportBug,
+  onJoinDiscord,
+}: HelpModalProps) {
   const [copied, setCopied] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -97,6 +104,15 @@ export function HelpModal({ open, onClose, onWatchWalkthrough, onReportBug }: He
               {copied ? <Check size={14} weight="bold" /> : <Copy size={14} weight="bold" />}
             </IconButton>
           </div>
+          <Button
+            variant="primary"
+            size="md"
+            className={styles.discordButton}
+            onClick={onJoinDiscord}
+          >
+            <DiscordLogo size={16} weight="fill" />
+            Join Discord
+          </Button>
         </div>
 
         <div className={styles.body}>

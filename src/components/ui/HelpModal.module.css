@@ -28,11 +28,10 @@
 }
 
 .gridArea {
-  height: 100px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
+  display: grid;
   justify-content: center;
+  gap: 10px;
+  padding: 20px;
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-bg-muted);
   background-image:
@@ -84,6 +83,14 @@
   line-height: 1.6;
   color: var(--color-text-muted);
   margin-bottom: 16px;
+}
+
+.discordButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .actions {

@@ -13,9 +13,9 @@ export default function HelpModalPage() {
       <h1 className={styles.title}>Help Modal</h1>
       <p className={styles.subtitle}>
         Opened from the developer Settings &quot;Help&quot; button — a grid-background
-        top section shows the support email in a copy-to-clipboard input, and
-        below it two secondary actions let the user replay the walkthrough or
-        report a bug.
+        top section shows the support email in a copy-to-clipboard input with a
+        Join Discord action below it, and below that two secondary actions let
+        the user replay the walkthrough or report a bug.
       </p>
 
       <div className={styles.section}>
@@ -30,6 +30,7 @@ export default function HelpModalPage() {
         onClose={() => setOpen(false)}
         onWatchWalkthrough={() => setOpen(false)}
         onReportBug={() => setOpen(false)}
+        onJoinDiscord={() => setOpen(false)}
       />
     </div>
   );

@@ -15,6 +15,23 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "31 August 26",
+    changes: [
+      {
+        text: "Added a primary \"Join Discord\" button (links to https://discord.gg/ud22UbERd) to both the developer Settings \"Need help?\" modal and the final step of the developer walkthrough — placed inside the grid-background box directly under the support-email copy field, sized to match that field+copy-button row's width (single-column CSS grid, not fixed width). New required onJoinDiscord prop on HelpModal, new optional onJoinDiscord prop on TourCoachmark.",
+        files: [
+          "src/components/ui/HelpModal.tsx",
+          "src/components/ui/HelpModal.module.css",
+          "src/components/ui/TourCoachmark.tsx",
+          "src/components/ui/TourCoachmark.module.css",
+          "src/components/developer-tour-provider.tsx",
+          "src/app/developer/settings/page.tsx",
+          "src/app/design/components/help-modal/page.tsx",
+        ],
+      },
+    ],
+  },
+  {
     date: "28 August 26",
     changes: [
       {

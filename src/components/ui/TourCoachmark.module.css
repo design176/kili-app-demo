@@ -208,12 +208,28 @@
   padding: 0 20px;
 }
 
+.codeMediaWithAction {
+  display: grid;
+  justify-content: center;
+  gap: 10px;
+  height: auto;
+  padding: 16px 20px;
+}
+
 .codeRow {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   max-width: 100%;
+}
+
+.discordButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .codeInput {
