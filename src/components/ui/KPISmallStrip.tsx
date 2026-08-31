@@ -10,6 +10,8 @@ export type KPISmallItem = {
   tooltip?: string;
   value: string;
   label: string;
+  /** Spans the full row width in the tablet/mobile grid layout instead of sharing a column. */
+  fullWidth?: boolean;
 };
 
 export type KPISmallStripProps = {
@@ -32,7 +34,7 @@ export function KPISmallStrip({ items, loading, orientation = "row", className }
         return (
           <Fragment key={item.label}>
             {i > 0 && <div className={styles.divider} />}
-            <div className={styles.item}>
+            <div className={`${styles.item} ${item.fullWidth ? styles.itemFullWidth : ""}`}>
               <div className={styles.head}>
                 {loading ? (
                   <Skeleton variant="text" width={56} height={20} />

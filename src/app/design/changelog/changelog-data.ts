@@ -15,6 +15,37 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "31 August 26 — B",
+    changes: [
+      {
+        text: "Advertiser Overview KPI strip: removed the Conversions tile.",
+        files: ["src/app/advertiser/overview/page.tsx"],
+      },
+      {
+        text: "Advertiser sidebar: reordered Workspace section so Campaigns is second (after Overview, before Events Tracking/Pixel Setup).",
+        files: ["src/components/dashboard-shell.tsx"],
+      },
+      {
+        text: "Events Tracking now shows a permanent \"Coming soon\" EmptyState instead of its KPI/chart/feed content. Pixel Setup was removed from the advertiser sidebar/routes entirely and its original page archived (unrouted) to src/_archive/ rather than deleted, in case it's restored later.",
+        files: [
+          "src/app/advertiser/events-tracking/page.tsx",
+          "src/components/dashboard-shell.tsx",
+          "src/_archive/advertiser/pixel-tracking/page.tsx",
+          "src/_archive/advertiser/pixel-tracking/pixel-tracking.module.css",
+        ],
+      },
+      {
+        text: "KPISmallStrip: new optional per-item fullWidth prop that spans both columns of the tablet/mobile 2-column grid (800px breakpoint only). Used to move the mobile-only Balance tile on Overview to the end of the KPI list and make it span the full row instead of sharing a column.",
+        files: [
+          "src/components/ui/KPISmallStrip.tsx",
+          "src/components/ui/KPISmallStrip.module.css",
+          "src/app/advertiser/overview/page.tsx",
+          "src/app/design/components/kpi-small-strip/page.tsx",
+        ],
+      },
+    ],
+  },
+  {
     date: "31 August 26",
     changes: [
       {

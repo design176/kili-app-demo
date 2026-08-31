@@ -9,7 +9,6 @@ import {
   CreditCard,
   Gear,
   Bug,
-  Plug,
   Stack,
   Wallet,
 } from "@phosphor-icons/react";
@@ -26,9 +25,8 @@ const advertiserSections: SidebarNavSection[] = [
     label: "Workspace",
     items: [
       { key: "overview", label: "Overview", icon: <House size={16} weight="bold" /> },
-      { key: "events", label: "Events Tracking", icon: <Target size={16} weight="bold" /> },
       { key: "campaigns", label: "Campaigns", icon: <Megaphone size={16} weight="bold" /> },
-      { key: "pixel", label: "Pixel Setup", icon: <Plug size={16} weight="bold" /> },
+      { key: "events", label: "Events Tracking", icon: <Target size={16} weight="bold" /> },
     ],
   },
   {
@@ -83,7 +81,6 @@ const developerSections: SidebarNavSection[] = [
 const advertiserRoutes: Record<string, string> = {
   overview: "/advertiser/overview",
   campaigns: "/advertiser/campaigns",
-  pixel: "/advertiser/pixel-tracking",
   events: "/advertiser/events-tracking",
   billing: "/advertiser/billing",
   settings: "/advertiser/settings",

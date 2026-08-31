@@ -55,6 +55,26 @@ export default function KPISmallStripPage() {
       </div>
 
       <div className={styles.section}>
+        <div className={styles.sectionTitle}>fullWidth item (tablet/mobile grid only)</div>
+        <p className={styles.subtitle}>
+          Below 1200px the strip becomes a 2-column grid of bordered cards.
+          Mark an item <code>fullWidth</code> to span both columns at the
+          800px mobile breakpoint — e.g. a trailing &quot;Balance&quot; tile
+          that only appears once the layout has collapsed to mobile. No
+          effect above 1200px, where the strip is a single row.
+        </p>
+        <KPISmallStrip
+          loading={loading}
+          items={[
+            { icon: <Eye size={14} weight="bold" />, tooltip: "How many times the ad was shown.", value: formatCompactNumber(182400), label: "Impressions" },
+            { icon: <Eye size={14} weight="bold" />, tooltip: "How many times the ad was shown.", value: formatCompactNumber(182400), label: "Clicks" },
+            { icon: <Eye size={14} weight="bold" />, tooltip: "How many times the ad was shown.", value: formatCompactNumber(182400), label: "CTR" },
+            { icon: <Eye size={14} weight="bold" />, tooltip: "Your current account balance.", value: "$1,860.40", label: "Balance", fullWidth: true },
+          ]}
+        />
+      </div>
+
+      <div className={styles.section}>
         <div className={styles.sectionTitle}>Column orientation</div>
         <div style={{ maxWidth: 220 }}>
           <KPISmallStrip

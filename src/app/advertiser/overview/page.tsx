@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { Megaphone, CurrencyDollar, Eye, Cursor, Target, Percent, Wallet, Coins, ChartBar, HandCoins } from "@phosphor-icons/react";
+import { Megaphone, CurrencyDollar, Eye, Cursor, Percent, Wallet, Coins, ChartBar, HandCoins } from "@phosphor-icons/react";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { Card } from "@/components/ui/Card";
 import { KPISmallStrip } from "@/components/ui/KPISmallStrip";
@@ -13,7 +13,7 @@ import type { TrendGranularity } from "@/components/ui/RangeFilter";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useDemoState } from "@/components/demo-state";
 import { useIsMobile } from "@/lib/use-mobile";
-import { spendByGranularity, impressionsTotalByGranularity, mockActivityEvents, mockConversions, mockCPA } from "@/lib/mock-data";
+import { spendByGranularity, impressionsTotalByGranularity, mockActivityEvents, mockCPA } from "@/lib/mock-data";
 import { buildTrendData } from "@/lib/chart-data";
 import { formatCompactCurrency, formatCompactNumber, formatCurrency } from "@/lib/format";
 import styles from "./overview.module.css";
@@ -83,6 +83,12 @@ export default function AdvertiserOverviewPage() {
       label: "Clicks",
       value: isEmpty ? "0" : formatCompactNumber(3102),
     },
+    {
+      icon: <Percent size={14} weight="bold" />,
+      tooltip: "Percentage of impressions that turned into clicks.",
+      label: "CTR",
+      value: isEmpty ? "—" : "1.7%",
+    },
     ...(isMobile
       ? [
           {
@@ -90,21 +96,10 @@ export default function AdvertiserOverviewPage() {
             tooltip: "Your current account balance.",
             label: "Balance",
             value: isEmpty ? "$0" : formatCurrency(balance),
+            fullWidth: true,
           },
         ]
       : []),
-    {
-      icon: <Target size={14} weight="bold" />,
-      tooltip: "Visits that reached your defined conversion URL.",
-      label: "Conversions",
-      value: isEmpty ? "0" : mockConversions,
-    },
-    {
-      icon: <Percent size={14} weight="bold" />,
-      tooltip: "Percentage of impressions that turned into clicks.",
-      label: "CTR",
-      value: isEmpty ? "—" : "1.7%",
-    },
   ];
 
   return (

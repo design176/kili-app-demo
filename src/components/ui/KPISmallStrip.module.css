@@ -90,3 +90,9 @@
     background: var(--color-surface-2);
   }
 }
+
+@media (max-width: 800px) {
+  .strip:not(.column) .itemFullWidth {
+    grid-column: 1 / -1;
+  }
+}
