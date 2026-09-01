@@ -82,7 +82,7 @@ export default function SidebarNavPage() {
         from Top Bar. Collapses to an icon-only rail using the compact
         LogoMark; no tooltips on collapsed nav items. <code>statusAlert</code>{" "}
         renders a second, always-danger-styled card above the balance card
-        (e.g. developer&apos;s &quot;Account — KYC not complete&quot;) using
+        (e.g. developer&apos;s &quot;Payout method — Not set&quot;) using
         the same visual treatment as a zero balance. <code>avatarUrl</code>{" "}
         swaps the initial-letter avatar for an image (advertiser workspace
         uses the account&apos;s company logo, when set, from demo state).
@@ -135,7 +135,7 @@ export default function SidebarNavPage() {
             onCollapsedChange={() => {}}
             accountName="Sam Rivera"
             onLogout={() => {}}
-            statusAlert={{ label: "Account", value: "KYC not complete" }}
+            statusAlert={{ label: "Payout method", value: "Not set" }}
           />
           <div className={styles.previewSurface} />
         </div>

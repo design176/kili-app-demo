@@ -1,0 +1,72 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--color-overlay);
+  z-index: 1001;
+}
+
+.card {
+  width: 100%;
+  max-width: 360px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.illustration {
+  position: relative;
+  width: calc(100% + 40px);
+  margin: -20px -20px 16px;
+  height: 120px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--color-bg-muted);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-border) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 40%, transparent) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.currentField {
+  margin-bottom: 12px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}

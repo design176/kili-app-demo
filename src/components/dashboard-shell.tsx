@@ -119,7 +119,7 @@ export function DashboardShell({
     setSidebarCollapsed,
     balance,
     addBalance,
-    kycComplete,
+    walletAddress,
     developerTourStep,
     companyLogoUrl,
   } = useDemoState();
@@ -189,7 +189,10 @@ export function DashboardShell({
         onCollapsedChange={setSidebarCollapsed}
         accountName="Sam Rivera"
         avatarUrl={isAdvertiser ? companyLogoUrl : undefined}
-        onLogout={() => router.push("/login")}
+        onLogout={() => {
+          if (tourActive) return;
+          router.push("/login");
+        }}
         primaryAction={
           isAdvertiser
             ? { label: "New Campaign", onClick: () => router.push("/advertiser/campaigns/new") }
@@ -207,11 +210,14 @@ export function DashboardShell({
             : undefined
         }
         statusAlert={
-          !isAdvertiser && !kycComplete
+          !isAdvertiser && !walletAddress
             ? {
-                label: "Account",
-                value: "KYC not complete",
-                onClick: () => router.push("/developer/earnings"),
+                label: "Payout method",
+                value: "Not set",
+                onClick: () => {
+                  if (tourActive) return;
+                  router.push("/developer/earnings");
+                },
               }
             : undefined
         }

@@ -6,7 +6,7 @@ import { Check, Copy, DiscordLogo, X } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "./Button";
 import { IconButton } from "./IconButton";
-import { HexagonsIllustration, LineGraphIllustration, KpiIconsIllustration, StripeCardIllustration } from "./TourIllustrations";
+import { HexagonsIllustration, LineGraphIllustration, KpiIconsIllustration, WalletIllustration } from "./TourIllustrations";
 import { useIsMobile } from "@/lib/use-mobile";
 import type { TourPlacement, DeveloperTourStep } from "@/lib/developer-tour";
 import styles from "./TourCoachmark.module.css";
@@ -227,8 +227,8 @@ export function TourCoachmark({
           <LineGraphIllustration className={styles.lineGraphArt} />
         ) : illustration === "kpi" ? (
           <KpiIconsIllustration />
-        ) : illustration === "stripe" ? (
-          <StripeCardIllustration />
+        ) : illustration === "wallet" ? (
+          <WalletIllustration />
         ) : (
           <HexagonsIllustration className={styles.illustrationArt} />
         )}

@@ -15,6 +15,51 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "2 September 26",
+    changes: [
+      {
+        text: "Developer payout method is now a real, persisted EVM wallet address instead of the old fake \"Complete KYC\"/bank-account flow. Earnings' Payout method card shows the saved wallet (truncated) with a \"Change address\" button, or \"EVM wallet not set\" with a \"Setup\" button when none is saved — both open a new Wallet Address Modal (wallet-themed illustration matching the walkthrough, a read-only \"Current address\" field when changing an existing one, and Cancel/Save) to actually set it.",
+        files: [
+          "src/lib/mock-data.ts",
+          "src/components/demo-state.tsx",
+          "src/app/developer/earnings/page.tsx",
+          "src/app/developer/earnings/earnings.module.css",
+          "src/components/ui/WalletAddressModal.tsx",
+          "src/components/ui/WalletAddressModal.module.css",
+          "src/app/design/components/wallet-address-modal/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+      {
+        text: "\"Next payout\" is now automatic every 15 days: the card shows the payout date up top and \"Sent automatically every 15 days\" below the amount, or, in red, \"Payout method not set\" (date hidden) when no wallet is saved — the manual \"Request payout\" button and $20-minimum are gone, along with the Settings Panel toggle that tested it.",
+        files: [
+          "src/app/developer/earnings/page.tsx",
+          "src/app/developer/earnings/earnings.module.css",
+          "src/components/ui/SettingsPanel.tsx",
+        ],
+      },
+      {
+        text: "Sidebar's red account alert now reads \"Payout method — Not set\" (was \"KYC not complete\") and uses a Money icon instead of Bank — and, along with Log out, no longer breaks the developer walkthrough if clicked mid-tour.",
+        files: [
+          "src/components/dashboard-shell.tsx",
+          "src/components/ui/SidebarNav.tsx",
+          "src/app/design/components/sidebar-nav/page.tsx",
+          "src/app/design/components/catalog.ts",
+        ],
+      },
+      {
+        text: "The developer walkthrough's payout step and its illustration now reference the EVM wallet instead of Stripe.",
+        files: [
+          "src/lib/developer-tour.ts",
+          "src/components/ui/TourIllustrations.tsx",
+          "src/components/ui/TourCoachmark.tsx",
+          "src/components/ui/TourCoachmark.module.css",
+          "src/app/design/components/tour-coachmark/page.tsx",
+        ],
+      },
+    ],
+  },
+  {
     date: "31 August 26 — B",
     changes: [
       {

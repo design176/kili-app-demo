@@ -5,6 +5,9 @@ import type { ActivityEvent } from "@/components/ui/ActivityFeed";
 /** Starting balance for a demo account — `demo-state` seeds `balance` from this. */
 export const mockBalance = 1860.4;
 
+/** Synthetic demo wallet address — `demo-state` seeds `walletAddress` from this for a returning user. */
+export const mockWalletAddress = "0x8f3Cc1B2b6d1A4e9F0C7d5B2A1E9F0C7d5B2A1E9";
+
 export const mockCampaigns: Campaign[] = [
   {
     id: "camp_1",

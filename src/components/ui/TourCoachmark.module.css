@@ -160,26 +160,32 @@
   height: 100%;
 }
 
-.stripeCard {
+.walletCard {
   position: absolute;
   top: 20px;
   left: 24px;
   right: 0;
   bottom: -24px;
   border-radius: 16px 0 0 0;
-  background: #635bff;
+  background: var(--color-brand);
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 16px 20px 20px;
 }
 
-.stripeLogo {
-  width: 48px;
-  height: auto;
+.walletIconBox {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
-.stripeCardNumber {
+.walletAddress {
   font-family: ui-monospace, monospace;
   font-size: 13px;
   letter-spacing: 1.5px;

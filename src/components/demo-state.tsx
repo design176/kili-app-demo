@@ -8,7 +8,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { mockBalance } from "@/lib/mock-data";
+import { mockBalance, mockWalletAddress } from "@/lib/mock-data";
 import { developerTourSteps } from "@/lib/developer-tour";
 
 export type ApiKeyEntry = {
@@ -21,8 +21,8 @@ const BALANCE_STORAGE_KEY = "kili-demo-balance";
 const API_KEYS_STORAGE_KEY = "kili-demo-api-keys";
 const PIXEL_KEYS_STORAGE_KEY = "kili-demo-pixel-keys";
 const TOUR_STEP_STORAGE_KEY = "kili-demo-developer-tour-step";
-const KYC_COMPLETE_STORAGE_KEY = "kili-demo-kyc-complete";
 const COMPANY_LOGO_URL_STORAGE_KEY = "kili-demo-company-logo-url";
+const WALLET_ADDRESS_STORAGE_KEY = "kili-demo-wallet-address";
 
 function generateKeyValue() {
   return `kili_live_${Math.random().toString(36).slice(2, 18)}`;
@@ -71,12 +71,10 @@ type DemoState = {
   advanceDeveloperTour: () => void;
   retreatDeveloperTour: () => void;
   closeDeveloperTour: () => void;
-  /** Developer's payout-method KYC status — false shows the sidebar's red "KYC not complete" alert. */
-  kycComplete: boolean;
-  completeKyc: () => void;
-  /** Forces the developer Earnings page's next-payout amount below the $20 minimum. */
-  lowPayout: boolean;
-  setLowPayout: (value: boolean) => void;
+  /** Developer's configured payout method — null shows the sidebar's red "Payout method not set" alert. */
+  walletAddress: string | null;
+  setWalletAddress: (address: string) => void;
+  clearWalletAddress: () => void;
   /** Advertiser's company logo URL, set from Settings — null shows "Company logo not set" in Create Campaign. */
   companyLogoUrl: string | null;
   setCompanyLogoUrl: (url: string) => void;
@@ -90,7 +88,6 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [forceEmptyStates, setForceEmptyStates] = useState(false);
   const [forceLoadingStates, setForceLoadingStates] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [lowPayout, setLowPayout] = useState(false);
 
   // Overrides win once set (i.e. after any write this session); until then,
   // the value read from localStorage on the client is used.
@@ -98,10 +95,12 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [apiKeysOverride, setApiKeysOverride] = useState<ApiKeyEntry[] | null>(null);
   const [pixelKeysOverride, setPixelKeysOverride] = useState<ApiKeyEntry[] | null>(null);
   const [tourStepOverride, setTourStepOverride] = useState<number | null>(null);
-  const [kycCompleteOverride, setKycCompleteOverride] = useState<boolean | null>(null);
   // Two-state override: `undefined` = not yet written this session (fall back
   // to localStorage), `null` = explicitly cleared, string = explicitly set.
   const [companyLogoUrlOverride, setCompanyLogoUrlOverride] = useState<string | null | undefined>(
+    undefined
+  );
+  const [walletAddressOverride, setWalletAddressOverride] = useState<string | null | undefined>(
     undefined
   );
 
@@ -109,8 +108,8 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const storedApiKeysRaw = useStoredRaw(API_KEYS_STORAGE_KEY);
   const storedPixelKeysRaw = useStoredRaw(PIXEL_KEYS_STORAGE_KEY);
   const storedTourStepRaw = useStoredRaw(TOUR_STEP_STORAGE_KEY);
-  const storedKycCompleteRaw = useStoredRaw(KYC_COMPLETE_STORAGE_KEY);
   const storedCompanyLogoUrlRaw = useStoredRaw(COMPANY_LOGO_URL_STORAGE_KEY);
+  const storedWalletAddressRaw = useStoredRaw(WALLET_ADDRESS_STORAGE_KEY);
 
   const storedBalance = useMemo(
     () => (storedBalanceRaw !== null ? Number(storedBalanceRaw) : mockBalance),
@@ -136,17 +135,17 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     () => (storedTourStepRaw !== null ? Number(storedTourStepRaw) : -1),
     [storedTourStepRaw]
   );
-  // Defaults to complete (no error) unless explicitly set — only a fresh
-  // "new user" reset marks it incomplete, so the error is new-user-only.
-  const storedKycComplete = storedKycCompleteRaw !== null ? storedKycCompleteRaw === "true" : true;
+  // Defaults to a demo address (no error) unless explicitly set — only a fresh
+  // "new user" reset clears it, so the "payout method not set" alert is new-user-only.
+  const storedWalletAddress = storedWalletAddressRaw !== null ? storedWalletAddressRaw : mockWalletAddress;
 
   const balance = balanceOverride ?? storedBalance;
   const apiKeys = apiKeysOverride ?? storedApiKeys;
   const pixelKeys = pixelKeysOverride ?? storedPixelKeys;
   const developerTourStep = tourStepOverride ?? storedTourStep;
-  const kycComplete = kycCompleteOverride ?? storedKycComplete;
   const companyLogoUrl =
     companyLogoUrlOverride !== undefined ? companyLogoUrlOverride : storedCompanyLogoUrlRaw;
+  const walletAddress = walletAddressOverride !== undefined ? walletAddressOverride : storedWalletAddress;
 
   const persistBalance = (value: number) => {
     setBalanceOverride(value);
@@ -168,9 +167,13 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(TOUR_STEP_STORAGE_KEY, String(value));
   };
 
-  const persistKycComplete = (value: boolean) => {
-    setKycCompleteOverride(value);
-    window.localStorage.setItem(KYC_COMPLETE_STORAGE_KEY, String(value));
+  const persistWalletAddress = (value: string | null) => {
+    setWalletAddressOverride(value);
+    if (value === null) {
+      window.localStorage.removeItem(WALLET_ADDRESS_STORAGE_KEY);
+    } else {
+      window.localStorage.setItem(WALLET_ADDRESS_STORAGE_KEY, value);
+    }
   };
 
   const setCompanyLogoUrl = (url: string) => {
@@ -183,24 +186,25 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     window.localStorage.removeItem(COMPANY_LOGO_URL_STORAGE_KEY);
   };
 
-  // Toggling into "new user" simulates a fresh signup — balance and keys
-  // reset. The developer walkthrough itself is only started explicitly (from
-  // login, or the Settings help modal), not automatically by this toggle —
-  // but turning the toggle back off restores the normal (non-error) account
-  // state: balance and KYC back to complete, and any walkthrough left
-  // running from a previous session closed, since these all persist in
-  // localStorage independently of this toggle and would otherwise linger.
+  // Toggling into "new user" simulates a fresh signup — balance, keys, and
+  // wallet address reset. The developer walkthrough itself is only started
+  // explicitly (from login, or the Settings help modal), not automatically by
+  // this toggle — but turning the toggle back off restores the normal
+  // (non-error) account state: balance and wallet address back to their demo
+  // defaults, and any walkthrough left running from a previous session
+  // closed, since these all persist in localStorage independently of this
+  // toggle and would otherwise linger.
   const setIsNewUser = (value: boolean) => {
     setIsNewUserState(value);
     if (value) {
       persistBalance(0);
       persistApiKeys([]);
       persistPixelKeys([]);
-      persistKycComplete(false);
+      persistWalletAddress(null);
       clearCompanyLogoUrl();
     } else {
       persistBalance(mockBalance);
-      persistKycComplete(true);
+      persistWalletAddress(mockWalletAddress);
       persistTourStep(-1);
     }
   };
@@ -263,7 +267,9 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
 
   const closeDeveloperTour = () => persistTourStep(-1);
 
-  const completeKyc = () => persistKycComplete(true);
+  const setWalletAddress = (address: string) => persistWalletAddress(address);
+
+  const clearWalletAddress = () => persistWalletAddress(null);
 
   return (
     <DemoStateContext.Provider
@@ -292,10 +298,9 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         advanceDeveloperTour,
         retreatDeveloperTour,
         closeDeveloperTour,
-        kycComplete,
-        completeKyc,
-        lowPayout,
-        setLowPayout,
+        walletAddress,
+        setWalletAddress,
+        clearWalletAddress,
         companyLogoUrl,
         setCompanyLogoUrl,
         clearCompanyLogoUrl,

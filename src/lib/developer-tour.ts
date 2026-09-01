@@ -9,7 +9,7 @@ export type DeveloperTourStep = {
   description: string;
   code?: string;
   /** Which inline illustration to render (ignored when `code` is set). Defaults to the hexagons artwork. */
-  illustration?: "hexagons" | "overview" | "kpi" | "stripe";
+  illustration?: "hexagons" | "overview" | "kpi" | "wallet";
   isLast?: boolean;
 };
 
@@ -55,8 +55,8 @@ export const developerTourSteps: DeveloperTourStep[] = [
     anchorSelector: '[data-tour="tour-payout-method"]',
     placement: "bottom",
     title: "Payout method",
-    description: "Connect a Stripe account to get paid out automatically — or skip this for now and set it up later.",
-    illustration: "stripe",
+    description: "Add your EVM wallet address to get paid out automatically — or skip this for now and set it up later.",
+    illustration: "wallet",
   },
   {
     id: "settings-help",

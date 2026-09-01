@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
-import { Bank, CaretDown, Plus, SidebarSimple, SignOut, Wallet } from "@phosphor-icons/react";
+import { CaretDown, Money, Plus, SidebarSimple, SignOut, Wallet } from "@phosphor-icons/react";
 import { Logo, LogoMark } from "./Logo";
 import { IconButton } from "./IconButton";
 import { Button } from "./Button";
@@ -46,7 +46,7 @@ export type SidebarNavProps = {
     onClick?: () => void;
     onAdd?: (amount: number) => void;
   };
-  /** Danger-styled status card (e.g. developer's "KYC not complete") — same visual treatment as a zero balance. */
+  /** Danger-styled status card (e.g. developer's "Payout method not set") — same visual treatment as a zero balance. */
   statusAlert?: {
     label: string;
     value: string;
@@ -156,7 +156,7 @@ export function SidebarNav({
           const content = (
             <>
               <span className={styles.balanceIconBadge}>
-                <Bank size={14} weight="bold" />
+                <Money size={14} weight="bold" />
               </span>
               <div className={styles.balanceText}>
                 <span className={styles.balanceLabel}>{statusAlert.label}</span>

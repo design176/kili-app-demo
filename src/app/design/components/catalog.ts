@@ -319,6 +319,14 @@ export const catalog: ComponentEntry[] = [
     status: "built",
   },
   {
+    slug: "wallet-address-modal",
+    name: "Wallet Address Modal",
+    category: "Molecule",
+    desc: "Centered modal for setting/changing the developer's EVM payout wallet address — single required field, Cancel + Save.",
+    usedIn: ["Developer Earnings — Payout method card (Setup / Change address)"],
+    status: "built",
+  },
+  {
     slug: "help-modal",
     name: "Help Modal",
     category: "Molecule",
@@ -370,7 +378,7 @@ export const catalog: ComponentEntry[] = [
     slug: "sidebar-nav",
     name: "Sidebar Nav",
     category: "Organism",
-    desc: "App shell's left navigation — grouped sections with dotted dividers, green-line active item, collapsible to an icon-only rail. Footer holds an optional danger-styled statusAlert card (developer's \"KYC not complete\"), an optional balance card (advertiser only), primary action, and account menu. Account menu avatar shows an initial letter by default, or an avatarUrl image (advertiser's company logo) when set.",
+    desc: "App shell's left navigation — grouped sections with dotted dividers, green-line active item, collapsible to an icon-only rail. Footer holds an optional danger-styled statusAlert card (developer's \"Payout method — Not set\"), an optional balance card (advertiser only), primary action, and account menu. Account menu avatar shows an initial letter by default, or an avatarUrl image (advertiser's company logo) when set.",
     usedIn: ["Whole app shell"],
     status: "built",
   },
