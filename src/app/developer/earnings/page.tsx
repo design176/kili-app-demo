@@ -76,7 +76,7 @@ export default function EarningsPage() {
                 {!walletAddress
                   ? "Payout method not set"
                   : scheduledPayout
-                    ? "Sent automatically every 15 days"
+                    ? "Paid out automatically every 15 days, minimum payout $15"
                     : "No payout scheduled yet."}
               </div>
             </>

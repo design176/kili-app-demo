@@ -31,7 +31,7 @@ export const changelogEntries: ChangelogEntry[] = [
         ],
       },
       {
-        text: "\"Next payout\" is now automatic every 15 days: the card shows the payout date up top and \"Sent automatically every 15 days\" below the amount, or, in red, \"Payout method not set\" (date hidden) when no wallet is saved — the manual \"Request payout\" button and $20-minimum are gone, along with the Settings Panel toggle that tested it.",
+        text: "\"Next payout\" is now automatic every 15 days: the card shows the payout date up top and \"Paid out automatically every 15 days, minimum payout $15\" below the amount, or, in red, \"Payout method not set\" (date hidden) when no wallet is saved — the manual \"Request payout\" button and $20-minimum are gone, along with the Settings Panel toggle that tested it.",
         files: [
           "src/app/developer/earnings/page.tsx",
           "src/app/developer/earnings/earnings.module.css",
