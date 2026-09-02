@@ -15,6 +15,36 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "2 September 26 — B",
+    changes: [
+      {
+        text: "Developer Earnings' \"Next payout\" card is a manual, testable flow again (undoing the same-day automatic-every-15-days rework below), with these states: default (next scheduled amount, now 28px, + \"Request payout\"), under the $x minimum (button disabled + \"Min payout value $x\" note — the \"Low payout (<$x)\" pink-FAB toggle forces this), no wallet saved (red \"Payout method not set\" in place of the button), and nothing scheduled (\"No payout scheduled yet.\").",
+        files: ["src/app/developer/earnings/page.tsx", "src/app/developer/earnings/earnings.module.css"],
+      },
+      {
+        text: "Clicking \"Request payout\" now animates through \"Paying out\" (amount opacity-pulses 0.5–0.7, button shows a spinning icon + \"Processing…\", 1s) into a result state.",
+        files: ["src/app/developer/earnings/page.tsx", "src/app/developer/earnings/earnings.module.css"],
+      },
+      {
+        text: "Result is \"Paid successfully\" (amount + Close / kili-green \"View transaction\" — placeholder, goes nowhere) by default, or \"Payout failed\" (amount in red, explanation, single Close button) if the pink-FAB \"Trigger transaction errors\" toggle is on.",
+        files: [
+          "src/app/developer/earnings/page.tsx",
+          "src/app/developer/earnings/earnings.module.css",
+          "src/components/demo-state.tsx",
+          "src/components/ui/SettingsPanel.tsx",
+        ],
+      },
+      {
+        text: "Close always returns the card to its default state.",
+        files: ["src/app/developer/earnings/page.tsx"],
+      },
+      {
+        text: "The scheduled payout no longer shows as its own row in Payout history — only the \"Pending\" row added on request does, flipping to Paid/Failed in sync with the card.",
+        files: ["src/app/developer/earnings/page.tsx", "src/components/ui/HistoryTable.tsx"],
+      },
+    ],
+  },
+  {
     date: "2 September 26",
     changes: [
       {

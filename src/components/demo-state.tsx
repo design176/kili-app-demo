@@ -75,6 +75,12 @@ type DemoState = {
   walletAddress: string | null;
   setWalletAddress: (address: string) => void;
   clearWalletAddress: () => void;
+  /** Forces the developer Earnings page's next-payout amount below the $20 minimum. */
+  lowPayout: boolean;
+  setLowPayout: (value: boolean) => void;
+  /** Forces the developer Earnings page's payout-request animation to end in a failure state. */
+  triggerTransactionErrors: boolean;
+  setTriggerTransactionErrors: (value: boolean) => void;
   /** Advertiser's company logo URL, set from Settings — null shows "Company logo not set" in Create Campaign. */
   companyLogoUrl: string | null;
   setCompanyLogoUrl: (url: string) => void;
@@ -88,6 +94,8 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [forceEmptyStates, setForceEmptyStates] = useState(false);
   const [forceLoadingStates, setForceLoadingStates] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [lowPayout, setLowPayout] = useState(false);
+  const [triggerTransactionErrors, setTriggerTransactionErrors] = useState(false);
 
   // Overrides win once set (i.e. after any write this session); until then,
   // the value read from localStorage on the client is used.
@@ -301,6 +309,10 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         walletAddress,
         setWalletAddress,
         clearWalletAddress,
+        lowPayout,
+        setLowPayout,
+        triggerTransactionErrors,
+        setTriggerTransactionErrors,
         companyLogoUrl,
         setCompanyLogoUrl,
         clearCompanyLogoUrl,

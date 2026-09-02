@@ -39,12 +39,54 @@
 
 .summaryValue {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   color: var(--color-text-primary);
 }
 
 .summarySub {
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+}
+
+.payoutActionRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes payoutBlink {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.blinkingValue {
+  animation: payoutBlink 1.4s ease-in-out infinite;
+}
+
+.errorValue {
+  color: var(--color-danger-text);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinnerIcon {
+  animation: spin 0.8s linear infinite;
+}
+
+.minPayoutNote {
   font-size: 12px;
   color: var(--color-text-tertiary);
 }

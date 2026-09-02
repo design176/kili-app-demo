@@ -6,7 +6,7 @@ import { Table, type TableColumn } from "./Table";
 import { Badge } from "./Badge";
 import { EmptyState } from "./EmptyState";
 
-export type PayoutStatus = "Paid" | "Scheduled" | "Failed";
+export type PayoutStatus = "Paid" | "Scheduled" | "Pending" | "Failed";
 export type InvoiceStatus = "Paid" | "Refunded" | "Failed";
 
 export type HistoryEntry<Status extends string> = {
@@ -16,9 +16,10 @@ export type HistoryEntry<Status extends string> = {
   status: Status;
 };
 
-const payoutTone: Record<PayoutStatus, "success" | "info" | "danger"> = {
+const payoutTone: Record<PayoutStatus, "success" | "info" | "warning" | "danger"> = {
   Paid: "success",
   Scheduled: "info",
+  Pending: "warning",
   Failed: "danger",
 };
 

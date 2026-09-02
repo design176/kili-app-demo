@@ -55,6 +55,10 @@ export function SettingsPanel() {
     clearPixelKeys,
     clearCompanyLogoUrl,
     clearWalletAddress,
+    lowPayout,
+    setLowPayout,
+    triggerTransactionErrors,
+    setTriggerTransactionErrors,
   } = useDemoState();
   const mounted = useMounted();
   const [open, setOpen] = useState(false);
@@ -135,6 +139,27 @@ export function SettingsPanel() {
                   <p className={styles.rowHint}>
                     Forces every page&apos;s loading skeleton, independent of the
                     other toggles above.
+                  </p>
+
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Low payout (&lt;$20)</span>
+                    <Switch checked={lowPayout} onCheckedChange={setLowPayout} />
+                  </div>
+                  <p className={styles.rowHint}>
+                    Forces the developer Earnings page&apos;s next-payout
+                    amount below the $20 minimum.
+                  </p>
+
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Trigger transaction errors</span>
+                    <Switch
+                      checked={triggerTransactionErrors}
+                      onCheckedChange={setTriggerTransactionErrors}
+                    />
+                  </div>
+                  <p className={styles.rowHint}>
+                    Makes the developer Earnings page&apos;s payout-request
+                    animation end in a failure state instead of succeeding.
                   </p>
 
                   <div className={styles.divider} />
