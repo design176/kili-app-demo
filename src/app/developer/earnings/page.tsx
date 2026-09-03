@@ -170,14 +170,12 @@ export default function EarningsPage() {
     >
       <div className={styles.topRow}>
         <div className={`${styles.payoutColumn} ${styles.balanceColumn}`}>
-          <div className={styles.cardHeadingRow}>
-            <div className={styles.cardHeading}>Payout balance</div>
+          <div className={styles.cardHeading}>Payout balance</div>
+          <Card className={styles.summaryCard}>
+            {heading && <div className={styles.summaryLabel}>{heading}</div>}
             {!payoutRequest && (
               <span className={styles.summaryRefreshNote}>Refreshes every couple of hours</span>
             )}
-          </div>
-          <Card className={styles.summaryCard}>
-            {heading && <div className={styles.summaryLabel}>{heading}</div>}
             {forceLoadingStates ? (
               <>
                 <Skeleton variant="text" width={100} height={28} />

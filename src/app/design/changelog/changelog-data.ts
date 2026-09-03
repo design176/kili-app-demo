@@ -18,11 +18,11 @@ export const changelogEntries: ChangelogEntry[] = [
     date: "3 September 26",
     changes: [
       {
-        text: "Developer Earnings' Payout method card is now two boxes — Wallet and Stripe (bank account) — each showing its own icon, truncated value or \"not set\"/\"not connected\" state, and a Setup/Change/Connect/Edit button. A radio in each box lets you pick the active method, but only appears once *both* are connected; with only one connected it's shown alone as the sole (unmuted) option, and with neither connected both show muted with no radio.",
+        text: "Developer Earnings' Preferred payout card now lists Wallet and Stripe (bank account) as two rows, each showing its own icon, truncated value or \"not set\"/\"not connected\" state, and a Setup/Change/Connect/Edit button. A radio on each row lets you pick the active method, but only appears once *both* are connected; with only one connected it's shown alone as the sole (unmuted) option, and with neither connected both show muted with no radio.",
         files: ["src/app/developer/earnings/page.tsx", "src/app/developer/earnings/earnings.module.css", "src/components/demo-state.tsx"],
       },
       {
-        text: "Selecting the other method (radio, or clicking anywhere in its box except the button) now opens a new Switch Payout Method confirmation modal — \"Switch to EVM wallet?\"/\"Switch to Stripe?\", a note that both require a $X minimum balance, a bullet comparison (Stripe: automatic every 15 days vs. EVM wallet: instant single click), close (X), Cancel/Switch. The active method only changes on \"Switch\".",
+        text: "Selecting the other method (radio, or clicking anywhere in its row except the button) now opens a new Switch Payout Method confirmation modal — \"Switch to EVM wallet?\"/\"Switch to Stripe?\", a note that both require a $X minimum balance, a bullet comparison (Stripe: automatic every 15 days vs. EVM wallet: instant single click), close (X), Cancel/Switch. The active method only changes on \"Switch\".",
         files: ["src/components/ui/SwitchPayoutMethodModal.tsx", "src/components/ui/SwitchPayoutMethodModal.module.css", "src/app/developer/earnings/page.tsx", "src/app/design/components/switch-payout-method-modal/page.tsx", "src/app/design/components/catalog.ts"],
       },
       {
@@ -38,16 +38,16 @@ export const changelogEntries: ChangelogEntry[] = [
         files: ["src/components/dashboard-shell.tsx", "src/components/demo-state.tsx"],
       },
       {
-        text: "Layout: the two top cards are now \"Payout balance\" (35% width) and \"Preferred payout\" (remaining width), each with its own heading directly above it instead of one shared title; \"Refreshes every couple of hours\" moved next to the \"Payout balance\" heading (muted color) instead of inside the card. Wallet/Stripe boxes sit side-by-side (stacked on tablet/mobile) with a square icon badge each, dashed border + no fill when unselected, solid border + surface fill when selected. On mobile (≤800px) each box collapses to one row: radio, then label, then the button pinned right.",
+        text: "Layout: the two top cards — \"Payout balance\" and \"Preferred payout\" — are equal width, each with its own heading directly above it. Preferred payout is a single card listing Wallet then Stripe as two stacked rows (divider between), each row: radio (only shown once *both* are connected) + square icon badge + truncated value/\"not set\"/\"not connected\" + Setup/Change/Connect/Edit button pinned right. Selection is shown only by the radio — the selected row has no distinct background; a clickable row gets a hover highlight. This single-row-per-method layout is the same at every width.",
         files: ["src/app/developer/earnings/page.tsx", "src/app/developer/earnings/earnings.module.css"],
       },
       {
-        text: "Wallet addresses now truncate to first-3/last-3 (e.g. 0x8…1E9) instead of first-6/last-4.",
-        files: ["src/app/developer/earnings/page.tsx"],
+        text: "Payout balance's amount is 48px, filling the card's empty space; \"Refreshes every couple of hours\" sits inside the card, directly above the amount.",
+        files: ["src/app/developer/earnings/page.tsx", "src/app/developer/earnings/earnings.module.css"],
       },
       {
-        text: "Fixed a real bug: the Payout method card's outer container losing its padding/border/background could lose that override to Card.module.css's default padding depending on which CSS chunk Fast Refresh injected last. Fixed by raising the override's selector specificity so it always wins regardless of load order.",
-        files: ["src/app/developer/earnings/earnings.module.css"],
+        text: "Wallet addresses truncate to first-3/last-3 (e.g. 0x8…1E9).",
+        files: ["src/app/developer/earnings/page.tsx"],
       },
       {
         text: "Developer walkthrough's \"Payout method\" step now mentions both options (\"Add either an EVM wallet or a Stripe-linked bank account to get paid out automatically\") and its illustration shows a black Stripe card (white icon box, light shadow, shifted right) stacked in front of the (now content-less) green wallet card. Its spotlight halo padding is set to 0 since the card it points at has no padding/border of its own.",
