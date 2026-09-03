@@ -9,7 +9,9 @@ export type DeveloperTourStep = {
   description: string;
   code?: string;
   /** Which inline illustration to render (ignored when `code` is set). Defaults to the hexagons artwork. */
-  illustration?: "hexagons" | "overview" | "kpi" | "wallet";
+  illustration?: "hexagons" | "overview" | "kpi" | "payout-method";
+  /** Overrides the default 8px halo the spotlight adds around the anchor — use a smaller value for an anchor that's already borderless/padding-free. */
+  spotlightPadding?: number;
   isLast?: boolean;
 };
 
@@ -55,8 +57,9 @@ export const developerTourSteps: DeveloperTourStep[] = [
     anchorSelector: '[data-tour="tour-payout-method"]',
     placement: "bottom",
     title: "Payout method",
-    description: "Add your EVM wallet address to get paid out automatically — or skip this for now and set it up later.",
-    illustration: "wallet",
+    description: "Add either an EVM wallet or a Stripe-linked bank account to get paid out automatically.",
+    illustration: "payout-method",
+    spotlightPadding: 0,
   },
   {
     id: "settings-help",

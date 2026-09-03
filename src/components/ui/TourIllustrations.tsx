@@ -1,4 +1,4 @@
-import { Coins, Eye, ChartLineUp, Wallet } from "@phosphor-icons/react";
+import { Coins, Eye, ChartLineUp, Wallet, Bank } from "@phosphor-icons/react";
 import styles from "./TourCoachmark.module.css";
 
 export function KpiIconsIllustration() {
@@ -25,6 +25,21 @@ export function WalletIllustration() {
       </div>
       <div className={styles.walletAddress}>0x71C7…8976</div>
     </div>
+  );
+}
+
+/** Wallet card (empty, peeking out) stacked behind the Stripe card — the developer tour's "Payout method" step illustration, showing both payout options. */
+export function PayoutMethodIllustration() {
+  return (
+    <>
+      <div className={styles.walletCard} />
+      <div className={styles.stripeCard}>
+        <div className={styles.walletIconBox}>
+          <Bank size={22} weight="bold" />
+        </div>
+        <div className={styles.walletAddress}>•••• 4821</div>
+      </div>
+    </>
   );
 }
 

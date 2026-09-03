@@ -3,10 +3,45 @@
   gap: 16px;
 }
 
+.payoutColumn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.balanceColumn {
+  flex: 0 1 35%;
+}
+
+.preferredColumn {
+  flex: 1 1 0%;
+}
+
 @media (max-width: 1200px) {
   .topRow {
     flex-direction: column;
   }
+
+  .balanceColumn,
+  .preferredColumn {
+    flex: 1 1 auto;
+  }
+}
+
+.cardHeading {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.cardHeadingRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .summaryCard,
@@ -18,12 +53,13 @@
   align-items: flex-start;
 }
 
-.summaryHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 8px;
+/* Doubled selector to reliably beat Card.module.css's `.card` base rule —
+   a single-class override's precedence otherwise depends on stylesheet
+   load order, which Fast Refresh can shuffle. */
+.payoutCard.payoutCard {
+  padding: 0;
+  border: none;
+  background: transparent;
 }
 
 .summaryLabel {
@@ -34,7 +70,7 @@
 
 .summaryRefreshNote {
   font-size: 11px;
-  color: var(--color-text-tertiary);
+  color: var(--color-text-muted);
 }
 
 .summaryValue {
@@ -105,9 +141,116 @@
   color: var(--color-text-primary);
 }
 
+.methodIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-3);
+  color: inherit;
+}
+
+.methodsRow {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
 @media (max-width: 1200px) {
   .payoutRow {
     font-size: 14px;
+  }
+
+  .methodsRow {
+    flex-direction: column;
+  }
+}
+
+.methodSection {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px dashed var(--color-border);
+  background: none;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+
+.methodSection[data-selected="true"] {
+  border-style: solid;
+  background: var(--color-surface-1);
+}
+
+.methodSection[data-clickable="true"] {
+  cursor: pointer;
+}
+
+.methodSection[data-clickable="true"]:hover {
+  background: var(--color-surface-2);
+}
+
+.methodSection[data-clickable="true"][data-selected="true"]:hover {
+  background: var(--color-surface-4);
+}
+
+.methodSection[data-selected="false"] .payoutRow {
+  color: var(--color-text-muted);
+}
+
+.methodSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Mobile: collapse the two-row layout (icon/label + radio, button below)
+   into a single row — radio on the left, label in the middle, button
+   pinned to the right — instead of stacking. */
+@media (max-width: 800px) {
+  .methodSection {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .methodSectionHeader {
+    display: contents;
+  }
+
+  .payoutRow {
+    order: 2;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .payoutRow span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .methodRadio {
+    order: 1;
+  }
+
+  .methodSection > button {
+    order: 3;
+    flex-shrink: 0;
   }
 }
 

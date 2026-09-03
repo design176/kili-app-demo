@@ -120,6 +120,8 @@ export function DashboardShell({
     balance,
     addBalance,
     walletAddress,
+    stripeAccountNumber,
+    effectivePayoutMethod,
     developerTourStep,
     companyLogoUrl,
   } = useDemoState();
@@ -210,7 +212,9 @@ export function DashboardShell({
             : undefined
         }
         statusAlert={
-          !isAdvertiser && !walletAddress
+          !isAdvertiser &&
+          ((effectivePayoutMethod === "wallet" && !walletAddress) ||
+            (effectivePayoutMethod === "stripe" && !stripeAccountNumber))
             ? {
                 label: "Payout method",
                 value: "Not set",

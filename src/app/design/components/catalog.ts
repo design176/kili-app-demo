@@ -111,7 +111,10 @@ export const catalog: ComponentEntry[] = [
     name: "Radio",
     category: "Atom",
     desc: "Single-select circular control with a label. Default/hover/focus/checked states.",
-    usedIn: ["Range Filter — Daily/Weekly/Monthly options"],
+    usedIn: [
+      "Range Filter — Daily/Weekly/Monthly options",
+      "Developer Earnings — Payout method selector",
+    ],
     status: "built",
   },
   {
@@ -324,6 +327,14 @@ export const catalog: ComponentEntry[] = [
     category: "Molecule",
     desc: "Centered modal for setting/changing the developer's EVM payout wallet address — single required field, Cancel + Save.",
     usedIn: ["Developer Earnings — Payout method card (Setup / Change address)"],
+    status: "built",
+  },
+  {
+    slug: "switch-payout-method-modal",
+    name: "Switch Payout Method Modal",
+    category: "Molecule",
+    desc: "Confirmation modal shown before switching the active payout method — compares Stripe (automatic, every 15 days) vs. EVM wallet (instant, single click), Cancel + Switch.",
+    usedIn: ["Developer Earnings — Payout method card (selecting the other method)"],
     status: "built",
   },
   {

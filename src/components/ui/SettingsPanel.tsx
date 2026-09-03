@@ -55,6 +55,7 @@ export function SettingsPanel() {
     clearPixelKeys,
     clearCompanyLogoUrl,
     clearWalletAddress,
+    clearStripeAccountNumber,
     lowPayout,
     setLowPayout,
     triggerTransactionErrors,
@@ -195,6 +196,17 @@ export function SettingsPanel() {
                   <div className={styles.row}>
                     <span className={styles.rowLabel}>Wallet address</span>
                     <button type="button" className={styles.resetButton} onClick={clearWalletAddress}>
+                      Clear
+                    </button>
+                  </div>
+
+                  <div className={styles.row}>
+                    <span className={styles.rowLabel}>Bank account</span>
+                    <button
+                      type="button"
+                      className={styles.resetButton}
+                      onClick={clearStripeAccountNumber}
+                    >
                       Clear
                     </button>
                   </div>

@@ -39,8 +39,8 @@ const DEMOS = [
   {
     label: "payout",
     title: "Payout method",
-    description: "Wallet illustration used on the Earnings screen.",
-    illustration: "wallet",
+    description: "Wallet + Stripe card illustration used on the Earnings screen.",
+    illustration: "payout-method",
     placement: "bottom",
   },
   {

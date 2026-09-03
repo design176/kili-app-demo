@@ -8,7 +8,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { mockBalance, mockWalletAddress } from "@/lib/mock-data";
+import { mockBalance, mockWalletAddress, mockStripeAccountNumber } from "@/lib/mock-data";
 import { developerTourSteps } from "@/lib/developer-tour";
 
 export type ApiKeyEntry = {
@@ -17,12 +17,16 @@ export type ApiKeyEntry = {
   value: string;
 };
 
+export type PayoutMethod = "wallet" | "stripe";
+
 const BALANCE_STORAGE_KEY = "kili-demo-balance";
 const API_KEYS_STORAGE_KEY = "kili-demo-api-keys";
 const PIXEL_KEYS_STORAGE_KEY = "kili-demo-pixel-keys";
 const TOUR_STEP_STORAGE_KEY = "kili-demo-developer-tour-step";
 const COMPANY_LOGO_URL_STORAGE_KEY = "kili-demo-company-logo-url";
 const WALLET_ADDRESS_STORAGE_KEY = "kili-demo-wallet-address";
+const STRIPE_ACCOUNT_STORAGE_KEY = "kili-demo-stripe-account";
+const PAYOUT_METHOD_STORAGE_KEY = "kili-demo-payout-method";
 
 function generateKeyValue() {
   return `kili_live_${Math.random().toString(36).slice(2, 18)}`;
@@ -71,10 +75,19 @@ type DemoState = {
   advanceDeveloperTour: () => void;
   retreatDeveloperTour: () => void;
   closeDeveloperTour: () => void;
-  /** Developer's configured payout method — null shows the sidebar's red "Payout method not set" alert. */
+  /** Developer's configured wallet payout method — null shows the sidebar's red "Payout method not set" alert when `payoutMethod` is "wallet". */
   walletAddress: string | null;
   setWalletAddress: (address: string) => void;
   clearWalletAddress: () => void;
+  /** Developer's configured Stripe-linked bank account — null shows the sidebar's red "Payout method not set" alert when `payoutMethod` is "stripe". */
+  stripeAccountNumber: string | null;
+  setStripeAccountNumber: (accountNumber: string) => void;
+  clearStripeAccountNumber: () => void;
+  /** Which payout method the developer has chosen — only meaningful (and only shown as a choice) when both methods are connected. */
+  payoutMethod: PayoutMethod;
+  setPayoutMethod: (method: PayoutMethod) => void;
+  /** The payout method actually in effect: forced to whichever single method is connected if only one is, otherwise `payoutMethod`. Use this (not `payoutMethod`) to gate the Next payout card and sidebar alert. */
+  effectivePayoutMethod: PayoutMethod;
   /** Forces the developer Earnings page's next-payout amount below the $20 minimum. */
   lowPayout: boolean;
   setLowPayout: (value: boolean) => void;
@@ -111,6 +124,10 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const [walletAddressOverride, setWalletAddressOverride] = useState<string | null | undefined>(
     undefined
   );
+  const [stripeAccountOverride, setStripeAccountOverride] = useState<string | null | undefined>(
+    undefined
+  );
+  const [payoutMethodOverride, setPayoutMethodOverride] = useState<PayoutMethod | null>(null);
 
   const storedBalanceRaw = useStoredRaw(BALANCE_STORAGE_KEY);
   const storedApiKeysRaw = useStoredRaw(API_KEYS_STORAGE_KEY);
@@ -118,6 +135,8 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const storedTourStepRaw = useStoredRaw(TOUR_STEP_STORAGE_KEY);
   const storedCompanyLogoUrlRaw = useStoredRaw(COMPANY_LOGO_URL_STORAGE_KEY);
   const storedWalletAddressRaw = useStoredRaw(WALLET_ADDRESS_STORAGE_KEY);
+  const storedStripeAccountRaw = useStoredRaw(STRIPE_ACCOUNT_STORAGE_KEY);
+  const storedPayoutMethodRaw = useStoredRaw(PAYOUT_METHOD_STORAGE_KEY);
 
   const storedBalance = useMemo(
     () => (storedBalanceRaw !== null ? Number(storedBalanceRaw) : mockBalance),
@@ -146,6 +165,13 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   // Defaults to a demo address (no error) unless explicitly set — only a fresh
   // "new user" reset clears it, so the "payout method not set" alert is new-user-only.
   const storedWalletAddress = storedWalletAddressRaw !== null ? storedWalletAddressRaw : mockWalletAddress;
+  // Same pattern as the wallet address — pre-seeded for a returning user.
+  const storedStripeAccount =
+    storedStripeAccountRaw !== null ? storedStripeAccountRaw : mockStripeAccountNumber;
+  const storedPayoutMethod: PayoutMethod =
+    storedPayoutMethodRaw === "wallet" || storedPayoutMethodRaw === "stripe"
+      ? storedPayoutMethodRaw
+      : "wallet";
 
   const balance = balanceOverride ?? storedBalance;
   const apiKeys = apiKeysOverride ?? storedApiKeys;
@@ -154,6 +180,19 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
   const companyLogoUrl =
     companyLogoUrlOverride !== undefined ? companyLogoUrlOverride : storedCompanyLogoUrlRaw;
   const walletAddress = walletAddressOverride !== undefined ? walletAddressOverride : storedWalletAddress;
+  const stripeAccountNumber =
+    stripeAccountOverride !== undefined ? stripeAccountOverride : storedStripeAccount;
+  const payoutMethod = payoutMethodOverride ?? storedPayoutMethod;
+  // When only one of the two methods is connected, it's the only usable
+  // option regardless of the stored preference — forces the Earnings page
+  // and sidebar alert to agree on which method is actually active.
+  const onlyWalletConnected = !!walletAddress && !stripeAccountNumber;
+  const onlyStripeConnected = !!stripeAccountNumber && !walletAddress;
+  const effectivePayoutMethod: PayoutMethod = onlyWalletConnected
+    ? "wallet"
+    : onlyStripeConnected
+      ? "stripe"
+      : payoutMethod;
 
   const persistBalance = (value: number) => {
     setBalanceOverride(value);
@@ -184,6 +223,20 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const persistStripeAccountNumber = (value: string | null) => {
+    setStripeAccountOverride(value);
+    if (value === null) {
+      window.localStorage.removeItem(STRIPE_ACCOUNT_STORAGE_KEY);
+    } else {
+      window.localStorage.setItem(STRIPE_ACCOUNT_STORAGE_KEY, value);
+    }
+  };
+
+  const persistPayoutMethod = (value: PayoutMethod) => {
+    setPayoutMethodOverride(value);
+    window.localStorage.setItem(PAYOUT_METHOD_STORAGE_KEY, value);
+  };
+
   const setCompanyLogoUrl = (url: string) => {
     setCompanyLogoUrlOverride(url);
     window.localStorage.setItem(COMPANY_LOGO_URL_STORAGE_KEY, url);
@@ -209,10 +262,14 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
       persistApiKeys([]);
       persistPixelKeys([]);
       persistWalletAddress(null);
+      persistStripeAccountNumber(null);
+      persistPayoutMethod("wallet");
       clearCompanyLogoUrl();
     } else {
       persistBalance(mockBalance);
       persistWalletAddress(mockWalletAddress);
+      persistStripeAccountNumber(mockStripeAccountNumber);
+      persistPayoutMethod("wallet");
       persistTourStep(-1);
     }
   };
@@ -279,6 +336,12 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
 
   const clearWalletAddress = () => persistWalletAddress(null);
 
+  const setStripeAccountNumber = (accountNumber: string) => persistStripeAccountNumber(accountNumber);
+
+  const clearStripeAccountNumber = () => persistStripeAccountNumber(null);
+
+  const setPayoutMethod = (method: PayoutMethod) => persistPayoutMethod(method);
+
   return (
     <DemoStateContext.Provider
       value={{
@@ -309,6 +372,12 @@ export function DemoStateProvider({ children }: { children: ReactNode }) {
         walletAddress,
         setWalletAddress,
         clearWalletAddress,
+        stripeAccountNumber,
+        setStripeAccountNumber,
+        clearStripeAccountNumber,
+        payoutMethod,
+        setPayoutMethod,
+        effectivePayoutMethod,
         lowPayout,
         setLowPayout,
         triggerTransactionErrors,

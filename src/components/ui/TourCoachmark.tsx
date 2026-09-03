@@ -6,7 +6,7 @@ import { Check, Copy, DiscordLogo, X } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "./Button";
 import { IconButton } from "./IconButton";
-import { HexagonsIllustration, LineGraphIllustration, KpiIconsIllustration, WalletIllustration } from "./TourIllustrations";
+import { HexagonsIllustration, LineGraphIllustration, KpiIconsIllustration, PayoutMethodIllustration } from "./TourIllustrations";
 import { useIsMobile } from "@/lib/use-mobile";
 import type { TourPlacement, DeveloperTourStep } from "@/lib/developer-tour";
 import styles from "./TourCoachmark.module.css";
@@ -18,6 +18,8 @@ export type TourCoachmarkProps = {
   description: string;
   code?: string;
   illustration?: DeveloperTourStep["illustration"];
+  /** Overrides the default halo padding around the anchor rect — use a smaller value for anchors that already sit flush (no padding of their own). */
+  spotlightPadding?: number;
   stepIndex: number;
   stepCount: number;
   isLast: boolean;
@@ -83,7 +85,7 @@ function getCardStyle(anchorRect: DOMRect, placement: TourPlacement) {
   }
 }
 
-const SPOTLIGHT_PADDING = 8;
+const DEFAULT_SPOTLIGHT_PADDING = 8;
 const TITLE_ID = "developer-tour-title";
 const DESCRIPTION_ID = "developer-tour-description";
 
@@ -94,6 +96,7 @@ export function TourCoachmark({
   description,
   code,
   illustration = "hexagons",
+  spotlightPadding = DEFAULT_SPOTLIGHT_PADDING,
   stepIndex,
   stepCount,
   isLast,
@@ -227,8 +230,8 @@ export function TourCoachmark({
           <LineGraphIllustration className={styles.lineGraphArt} />
         ) : illustration === "kpi" ? (
           <KpiIconsIllustration />
-        ) : illustration === "wallet" ? (
-          <WalletIllustration />
+        ) : illustration === "payout-method" ? (
+          <PayoutMethodIllustration />
         ) : (
           <HexagonsIllustration className={styles.illustrationArt} />
         )}
@@ -280,10 +283,10 @@ export function TourCoachmark({
   );
 
   const spotlightAnimate = {
-    top: anchorRect.top - SPOTLIGHT_PADDING,
-    left: anchorRect.left - SPOTLIGHT_PADDING,
-    width: anchorRect.width + SPOTLIGHT_PADDING * 2,
-    height: anchorRect.height + SPOTLIGHT_PADDING * 2,
+    top: anchorRect.top - spotlightPadding,
+    left: anchorRect.left - spotlightPadding,
+    width: anchorRect.width + spotlightPadding * 2,
+    height: anchorRect.height + spotlightPadding * 2,
     opacity: isOnRoute ? 1 : 0.25,
   };
 
@@ -311,10 +314,10 @@ export function TourCoachmark({
           <div
             className={styles.spotlight}
             style={{
-              top: anchorRect.top - SPOTLIGHT_PADDING,
-              left: anchorRect.left - SPOTLIGHT_PADDING,
-              width: anchorRect.width + SPOTLIGHT_PADDING * 2,
-              height: anchorRect.height + SPOTLIGHT_PADDING * 2,
+              top: anchorRect.top - spotlightPadding,
+              left: anchorRect.left - spotlightPadding,
+              width: anchorRect.width + spotlightPadding * 2,
+              height: anchorRect.height + spotlightPadding * 2,
               opacity: isOnRoute ? 1 : 0.25,
             }}
           />

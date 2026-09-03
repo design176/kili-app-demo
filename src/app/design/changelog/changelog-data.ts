@@ -15,6 +15,47 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "3 September 26",
+    changes: [
+      {
+        text: "Developer Earnings' Payout method card is now two boxes — Wallet and Stripe (bank account) — each showing its own icon, truncated value or \"not set\"/\"not connected\" state, and a Setup/Change/Connect/Edit button. A radio in each box lets you pick the active method, but only appears once *both* are connected; with only one connected it's shown alone as the sole (unmuted) option, and with neither connected both show muted with no radio.",
+        files: ["src/app/developer/earnings/page.tsx", "src/app/developer/earnings/earnings.module.css", "src/components/demo-state.tsx"],
+      },
+      {
+        text: "Selecting the other method (radio, or clicking anywhere in its box except the button) now opens a new Switch Payout Method confirmation modal — \"Switch to EVM wallet?\"/\"Switch to Stripe?\", a note that both require a $X minimum balance, a bullet comparison (Stripe: automatic every 15 days vs. EVM wallet: instant single click), close (X), Cancel/Switch. The active method only changes on \"Switch\".",
+        files: ["src/components/ui/SwitchPayoutMethodModal.tsx", "src/components/ui/SwitchPayoutMethodModal.module.css", "src/app/developer/earnings/page.tsx", "src/app/design/components/switch-payout-method-modal/page.tsx", "src/app/design/components/catalog.ts"],
+      },
+      {
+        text: "Stripe has no setup modal in this prototype: \"Connect Stripe\" instantly assigns a demo masked account number (•••• 4821, pre-seeded for a returning user like the wallet is), \"Edit\" is a no-op — in production both would redirect to Stripe's own hosted onboarding/account-management flow instead. The earlier Stripe Account Modal was removed as unused.",
+        files: ["src/app/developer/earnings/page.tsx", "src/lib/mock-data.ts", "src/components/demo-state.tsx"],
+      },
+      {
+        text: "When Stripe is the active method, the Next payout card's action area is replaced by static text (\"Payouts every 15 days. $X minimum.\") instead of a button — no request/processing/success/failure states apply, since there's nothing to click. Wallet mode's manual Request payout flow is unchanged.",
+        files: ["src/app/developer/earnings/page.tsx"],
+      },
+      {
+        text: "The sidebar's red \"Payout method not set\" alert now checks whichever method is actually active (forced to the sole connected one when only one is), instead of always checking the wallet address.",
+        files: ["src/components/dashboard-shell.tsx", "src/components/demo-state.tsx"],
+      },
+      {
+        text: "Layout: the two top cards are now \"Payout balance\" (35% width) and \"Preferred payout\" (remaining width), each with its own heading directly above it instead of one shared title; \"Refreshes every couple of hours\" moved next to the \"Payout balance\" heading (muted color) instead of inside the card. Wallet/Stripe boxes sit side-by-side (stacked on tablet/mobile) with a square icon badge each, dashed border + no fill when unselected, solid border + surface fill when selected. On mobile (≤800px) each box collapses to one row: radio, then label, then the button pinned right.",
+        files: ["src/app/developer/earnings/page.tsx", "src/app/developer/earnings/earnings.module.css"],
+      },
+      {
+        text: "Wallet addresses now truncate to first-3/last-3 (e.g. 0x8…1E9) instead of first-6/last-4.",
+        files: ["src/app/developer/earnings/page.tsx"],
+      },
+      {
+        text: "Fixed a real bug: the Payout method card's outer container losing its padding/border/background could lose that override to Card.module.css's default padding depending on which CSS chunk Fast Refresh injected last. Fixed by raising the override's selector specificity so it always wins regardless of load order.",
+        files: ["src/app/developer/earnings/earnings.module.css"],
+      },
+      {
+        text: "Developer walkthrough's \"Payout method\" step now mentions both options (\"Add either an EVM wallet or a Stripe-linked bank account to get paid out automatically\") and its illustration shows a black Stripe card (white icon box, light shadow, shifted right) stacked in front of the (now content-less) green wallet card. Its spotlight halo padding is set to 0 since the card it points at has no padding/border of its own.",
+        files: ["src/lib/developer-tour.ts", "src/components/ui/TourCoachmark.tsx", "src/components/ui/TourCoachmark.module.css", "src/components/ui/TourIllustrations.tsx", "src/components/developer-tour-provider.tsx", "src/app/design/components/tour-coachmark/page.tsx"],
+      },
+    ],
+  },
+  {
     date: "2 September 26 — B",
     changes: [
       {

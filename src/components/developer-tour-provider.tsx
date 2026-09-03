@@ -139,6 +139,7 @@ export function DeveloperTourProvider({ children }: { children: ReactNode }) {
           description={step.description}
           code={step.code}
           illustration={step.illustration}
+          spotlightPadding={step.spotlightPadding}
           stepIndex={developerTourStep}
           stepCount={developerTourSteps.length}
           isLast={!!step.isLast}
