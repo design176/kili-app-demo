@@ -15,6 +15,19 @@ export type ChangelogEntry = {
 // enough for another AI agent to know what changed and which files to open.
 export const changelogEntries: ChangelogEntry[] = [
   {
+    date: "4 September 26",
+    changes: [
+      {
+        text: "Login's email/Google step now titles itself \"Continue as Advertiser\"/\"Continue as Developer\" (matching the selected tab) instead of a generic \"Welcome\" — the initial workspace-picker step keeps \"Welcome\".",
+        files: ["src/app/login/page.tsx"],
+      },
+      {
+        text: "Login title font size reduced from 32px to 28px, affecting all three step titles (\"Welcome\", \"Continue as Advertiser\"/\"Continue as Developer\", \"Check your inbox\").",
+        files: ["src/app/login/login.module.css"],
+      },
+    ],
+  },
+  {
     date: "3 September 26",
     changes: [
       {

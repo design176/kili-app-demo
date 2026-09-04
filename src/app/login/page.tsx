@@ -31,6 +31,11 @@ const WORKSPACE_SUBTITLE: Record<Workspace, string> = {
   developer: 'Sign in to monetize your AI product.',
 };
 
+const WORKSPACE_TITLE: Record<Workspace, string> = {
+  advertiser: 'Continue as Advertiser',
+  developer: 'Continue as Developer',
+};
+
 const CAROUSEL_ITEMS = [
   {
     title: 'Match',
@@ -147,7 +152,7 @@ export default function LoginPage() {
 
             {step === 'email' && (
               <>
-                <div className={styles.title}>Welcome</div>
+                <div className={styles.title}>{WORKSPACE_TITLE[workspace]}</div>
                 <div className={styles.subtitle}>
                   {WORKSPACE_SUBTITLE[workspace]}
                 </div>
